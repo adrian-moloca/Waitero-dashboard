@@ -1,0 +1,16 @@
+import React from "react";
+import { Paper, Box } from "@material-ui/core";
+
+const MenuCard = ({title}) => {
+
+    return (
+        <Paper style={ { height: 170, width: 170, borderRadius: 5, cursor: 'pointer', backgroundColor: '#00000099', display: 'flex', justifyContent: 'center' } }>
+            <Box display={'flex'} justifyContent={'center'} alignItems={'center'}
+                width={'80%'} height={'100%'} fontSize={22} color={'white'} textAlign={'center'}>
+                {title}
+            </Box>
+        </Paper>
+    );
+}
+
+export default MenuCard;

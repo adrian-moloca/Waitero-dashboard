@@ -1,7 +1,6 @@
 import React from 'react';
 import { Container, Box } from '@material-ui/core';
 import { withStyles } from '@material-ui/styles';
-import CarroLogo from '../../../assets/images/logoCarro.png';
 
 const MyContainer = withStyles({
     
@@ -11,7 +10,7 @@ const MyContainer = withStyles({
         flexDirection:'column',
         alignContent: 'center',
         alignItems: 'center',
-        backgroundColor:'#00b4d8',
+        backgroundColor:'rgba(255, 90, 95, 1)',
         //minHeight:'100vh',
         height: '100%',
         width: '100%',
@@ -28,15 +27,16 @@ const MyContainer = withStyles({
 const SideMenuContainer = (props) =>{
     return(
         <MyContainer>
-            <Box maxWidth='100%'  padding={5} display='flex' justifyContent='center'>
-                <img src={CarroLogo}/>
+            <Box maxWidth='100%' paddingTop={15} display='flex' justifyContent='center'
+                fontSize={50} color={'white' }>
+                WAITERO
             </Box>
             <Box width='100%' display='flex' alignSelf='center'>
                 {props.children}
             </Box>
-            <Box position='absolute' bottom={0} width='100%' height='5%' borderTop={2} paddingTop={1} color='white' 
-                textAlign='center' fontStyle='italic' fontWeight={500}>
-                2021 CARRO TRANSPORT
+            <Box position='absolute' bottom={0} width='50%' height='5%' borderTop={2} paddingTop={1} color='white' 
+                textAlign='center' fontWeight={500}>
+                2022 WAITERO
             </Box>
         </MyContainer>
     );

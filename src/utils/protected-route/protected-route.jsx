@@ -1,15 +1,22 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import SideMenu from '../../components/side-menu/side-menu';
+import SideMenuPrivate from '../../components/side-menu/side-menu-private';
+import SideMenuPublic from '../../components/side-menu/side-menu-public';
 import Header from '../../components/header/header';
 
 function ProtectedRoute({ component: Component, loggedIn, ...restOfProps }) {
-    const[currentPage, setCurrentPage] = useState(window.location.pathname.substr(1));
+    const[currentPage, setCurrentPage] = useState(window.location.pathname.replace('/', ''));
+
+    const isWaiteroManager = false;
+
+    useEffect(() => {
+        setCurrentPage(window.location.pathname.replace('/', ''))
+    }, [window.location.pathname])
 
     return (
     <React.Fragment>
         <Header/>
-        <SideMenu currentPage={currentPage} onChangePage={()=> setCurrentPage(window.location.pathname.substr(1))}/>
+        {isWaiteroManager ? <SideMenuPrivate currentPage={currentPage}/> : <SideMenuPublic currentPage={currentPage}/>}
         <Route
             {...restOfProps}
             render={(props) =>

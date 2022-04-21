@@ -4,7 +4,7 @@ import { Checkbox} from '@material-ui/core';
 
 const CarroCheckbox = withStyles({
     checked: {
-        color: '#00b4d8',
+        color: 'rgba(255, 90, 95, 1)',
     },
 })((props)=><Checkbox color="default" {...props}/>);
 

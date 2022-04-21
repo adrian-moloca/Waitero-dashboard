@@ -1,6 +1,6 @@
 import React from 'react';
 import {Grid, Box} from '@material-ui/core';
-import GeneralStatisticsBox from '../../../components/box/general-statistics-box/general-statistics-box';
+import GeneralStatisticsBox from '../../../../components/box/general-statistics-box/general-statistics-box';
 import { WithStyles } from '@material-ui/core';
 import { withStyles } from '@material-ui/styles';
 

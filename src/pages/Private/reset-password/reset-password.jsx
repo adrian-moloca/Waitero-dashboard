@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import {Box, Grid, FormControlLabel} from '@material-ui/core';
-import LoginContainer from '../../components/container/login-page/login-page-container';
-import LoginBox from '../../components/box/login-page/primary-box-login-page';
-import WaiteroTextField from '../../components/text-field/waitero-text-field';
-import PrimaryButton from '../../components/buttons/primaryButton/primaryButton';
-import SecondaryButton from '../../components/buttons/secondaryButton/secondaryButton';
-import CarroCheckbox from '../../components/checkbox/carro-checkbox';
+import LoginContainer from '../../../components/container/login-page/login-page-container';
+import LoginBox from '../../../components/box/login-page/primary-box-login-page';
+import WaiteroTextField from '../../../components/text-field/waitero-text-field';
+import PrimaryButton from '../../../components/buttons/primaryButton/primaryButton';
+import SecondaryButton from '../../../components/buttons/secondaryButton/secondaryButton';
+import CarroCheckbox from '../../../components/checkbox/carro-checkbox';
 import { Link } from 'react-router-dom';
 
 const ResetPassword = () => { 

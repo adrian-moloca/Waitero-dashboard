@@ -3,7 +3,7 @@ import { useHistory, withRouter } from 'react-router-dom';
 import {Box, Grid, FormControlLabel} from '@material-ui/core';
 import LoginContainer from '../../../components/container/login-page/login-page-container';
 import LoginBox from '../../../components/box/login-page/primary-box-login-page';
-import CarroTextField from '../../../components/text-field/carro-text-field';
+import WaiteroTextField from '../../../components/text-field/waitero-text-field';
 import PrimaryButton from '../../../components/buttons/primaryButton/primaryButton';
 import SecondaryButton from '../../../components/buttons/secondaryButton/secondaryButton';
 import { Link } from 'react-router-dom';
@@ -30,7 +30,7 @@ const ForgotPassword = () => {
           { !emailSent ? (
             <Grid container xl={7} lg={7} md={7} spacing={4}>
                 <Grid container item xl={12}>
-                  <CarroTextField value = {Email} onChange = {(e)=> setEmail(e.target.value)} 
+                  <WaiteroTextField value = {Email} onChange = {(e)=> setEmail(e.target.value)} 
                                   label='Email' variant='outlined' fullWidth/>
                 </Grid>
                 <Grid container item xl={6} lg={6} md={6} justifyContent='flex-end' alignItems='center'>

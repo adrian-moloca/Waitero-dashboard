@@ -2,12 +2,12 @@ import React from "react";
 import { Box } from "@material-ui/core";
 import PageContainer from "../../components/container/page-container/page-container.jsx";
 import PrimaryButton from "../../components/buttons/primaryButton/primaryButton.jsx";
-import CarroTextField from "../../components/text-field/carro-text-field.jsx";
+import WaiteroTextField from "../../components/text-field/waitero-text-field.jsx";
 import SearchIcon from '@material-ui/icons/Search';
 import UsersTable from "../../components/UsersTable/UsersTable"
 import { InputAdornment } from "@material-ui/core";
 
-const UsersPage = () => {
+const Orders = () => {
   return (
     <PageContainer>
       <Box
@@ -18,7 +18,7 @@ const UsersPage = () => {
         paddingBottom="2%"
       >
         <Box textAlign="left" fontSize="35px">
-          Utilizatori
+          Comenzi
         </Box>
 
         <Box sx={{ width: 334 }}>
@@ -29,7 +29,7 @@ const UsersPage = () => {
             style={{fontWeight: "600"}}
             
           >
-            ADAUGA UTILIZATOR
+            ADAUGA COMANDA
           </PrimaryButton>
         </Box>
       </Box>
@@ -41,7 +41,7 @@ const UsersPage = () => {
         paddingTop="2%"
       >
         <Box textAlign="left" fontSize="35px">
-          <CarroTextField variant="outlined" label="Cauta un utilizator"
+          <WaiteroTextField variant="outlined" label="Cauta un utilizator"
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
@@ -64,4 +64,4 @@ const UsersPage = () => {
   );
 };
 
-export default UsersPage;
+export default Orders;

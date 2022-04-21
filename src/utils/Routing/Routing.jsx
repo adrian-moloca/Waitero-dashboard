@@ -3,16 +3,23 @@ import {BrowserRouter , Route, Switch} from 'react-router-dom';
 import ProtectedRoute from '../protected-route/protected-route';
 import Login from '../../pages/login/login';
 import ForgotPassword from '../../pages/login/forgot-password/forgot-password';
-import HomePage from '../../pages/home-page/home-page';
-import StatisticsPage from '../../pages/statistics/statistics';
-import UsersPage from '../../pages/users/users';
-import LocationPage from '../../pages/location/location';
+import HomePage from '../../pages/Private/home-page/home-page';
+import StatisticsPage from '../../pages/Private/statistics/statistics';
+import UsersPage from '../../pages/Private/users/users';
+import RestaurantsPage from '../../pages/Private/restaurants/restaurants';
 import ResetPassword from '../../pages/reset-password/reset-password';
+import Overview from '../../pages/overview/overview';
+import WorkStaff from '../../pages/work-staff/work-staff';
+import Menus from '../../pages/menus/menus';
+import Orders from '../../pages/orders/orders';
+
 import './Routing.css';
 
 const Routes = () => {
 
     const [collapsed, setCollapsed] = useState(false);
+
+    const isWaiteroManager = false
 
     const onCollapse = () =>  setCollapsed(!collapsed);
 
@@ -25,8 +32,12 @@ const Routes = () => {
                 <ProtectedRoute exact path="/home" component={HomePage} />
                 <ProtectedRoute exact path="/statistics" component={StatisticsPage} />
                 <ProtectedRoute exact path="/users" component={UsersPage} />
-                <ProtectedRoute exact path="/location" component={LocationPage} />
-                <ProtectedRoute path="*" component={HomePage}/>
+                <ProtectedRoute exact path="/restaurants" component={RestaurantsPage} />
+                <ProtectedRoute exact path="/overview" component={Overview} />
+                <ProtectedRoute exact path="/work-staff" component={WorkStaff} />
+                <ProtectedRoute exact path="/menus" component={Menus} />
+                <ProtectedRoute exact path="/orders" component={Orders} />
+                <ProtectedRoute path="*" component={isWaiteroManager ? HomePage : Overview} />
             </Switch>
         </BrowserRouter>
     );

@@ -2,25 +2,25 @@ import React from "react";
 import { TextField } from "@material-ui/core";
 import { withStyles } from "@material-ui/styles";
 
-const CarroTextField = withStyles({
+const WaiteroTextField = withStyles({
     root: {
         
       '& label.Mui-focused': {
-        color: '#00b4d8',
+        color: 'rgba(255, 90, 95, 1)',
       },
 
       '& .MuiInput-underline:after':{
-        borderBottomColor: '#00b4d8',
+        borderBottomColor: 'rgba(255, 90, 95, 1)',
       },
 
       '& .MuiOutlinedInput-root': {
         '&:hover fieldset': {
-          borderColor: '#00b4d8',
+          borderColor: 'rgba(255, 90, 95, 1)',
           
         },
 
         '&.Mui-focused fieldset': {
-          borderColor: '#00b4d8',
+          borderColor: 'rgba(255, 90, 95, 1)',
         },
       },
 
@@ -28,4 +28,4 @@ const CarroTextField = withStyles({
     }
   })(TextField);
 
-  export default CarroTextField;
+  export default WaiteroTextField;

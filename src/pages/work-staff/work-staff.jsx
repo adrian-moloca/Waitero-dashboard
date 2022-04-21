@@ -1,14 +1,13 @@
 import React from "react";
-import "./location.jsx";
 import { Box } from "@material-ui/core";
 import PageContainer from "../../components/container/page-container/page-container.jsx";
 import PrimaryButton from "../../components/buttons/primaryButton/primaryButton.jsx";
-import CarroTextField from "../../components/text-field/carro-text-field.jsx";
+import WaiteroTextField from "../../components/text-field/waitero-text-field.jsx";
 import SearchIcon from '@material-ui/icons/Search';
-import LocationTable from "../../components/LocationTable/LocationTable.jsx";
+import UsersTable from "../../components/UsersTable/UsersTable"
 import { InputAdornment } from "@material-ui/core";
 
-const LocationPage = () => {
+const WorkStaff = () => {
   return (
     <PageContainer>
       <Box
@@ -19,7 +18,7 @@ const LocationPage = () => {
         paddingBottom="2%"
       >
         <Box textAlign="left" fontSize="35px">
-          Locatii
+          Personal
         </Box>
 
         <Box sx={{ width: 334 }}>
@@ -30,7 +29,7 @@ const LocationPage = () => {
             style={{fontWeight: "600"}}
             
           >
-            ADAUGA LOCATIE
+            Adauga personal
           </PrimaryButton>
         </Box>
       </Box>
@@ -42,7 +41,7 @@ const LocationPage = () => {
         paddingTop="2%"
       >
         <Box textAlign="left" fontSize="35px">
-          <CarroTextField variant="outlined" label="Cauta o locatie"
+          <WaiteroTextField variant="outlined" label="Cauta un utilizator"
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
@@ -59,10 +58,10 @@ const LocationPage = () => {
         justifyContent="center"
         paddingTop="2%"
       >
-        <LocationTable/>
+        <UsersTable/>
       </Box>
     </PageContainer>
   );
 };
 
-export default LocationPage;
+export default WorkStaff;

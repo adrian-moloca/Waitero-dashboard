@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Box} from '@material-ui/core';
-import CarroDatePicker from '../../components/date-picker/carro-date-picker.jsx';
-import PageContainer from '../../components/container/page-container/page-container.jsx';
+import CarroDatePicker from '../../../components/date-picker/carro-date-picker.jsx';
+import PageContainer from '../../../components/container/page-container/page-container.jsx';
 import GeneralStatistics from './general-statistics/general-statistics.jsx';
 import './statisticsStyle.jsx';
 

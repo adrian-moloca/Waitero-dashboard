@@ -3,7 +3,7 @@ import {useHistory, withRouter } from "react-router-dom";
 import {Drawer, Grid, Box} from '@material-ui/core';
 import SideMenuContainer from '../container/side-menu/side-menu-container';
 import { withStyles } from '@material-ui/core';
-import {Home, Computer, Person, NotListedLocation} from '@material-ui/icons';
+import {Home, Computer, Person, Restaurant} from '@material-ui/icons';
 import {ToggleButton , ToggleButtonGroup} from '@material-ui/lab';
 
 const MyDrawer = withStyles({
@@ -46,7 +46,7 @@ const MyButtonGroup = withStyles({
 
 })(ToggleButtonGroup);
 
-const SideMenu = (props) =>{
+const SideMenuPrivate = (props) =>{
 
     const history = useHistory();
 
@@ -57,7 +57,6 @@ const SideMenu = (props) =>{
                 <Box mt='10%' width='100%'>
                     <MyButtonGroup value={props.currentPage}
                                    exclusive
-                                   onChange={props.onChangePage} 
                                    orientation='vertical'>
                         <MyButton value='home' onClick={()=>history.push('/home')}>
                             <Grid container item xs={4} justifyContent='center'>
@@ -83,12 +82,12 @@ const SideMenu = (props) =>{
                                 UTILIZATORI
                             </Grid>
                         </MyButton>
-                        <MyButton value='location' onClick={()=>history.push('/location')}>
+                        <MyButton value='restaurants' onClick={()=>history.push('/restaurants')}>
                         <Grid container item xs={4} justifyContent='center'>
-                                <NotListedLocation fontSize='large'/>
+                                <Restaurant fontSize='large'/>
                             </Grid>
                             <Grid container item xs={5}  justifyContent='flex-start'>
-                                LOCATII
+                                RESTAURANTE
                             </Grid>
                         </MyButton>
                     </MyButtonGroup>
@@ -99,4 +98,4 @@ const SideMenu = (props) =>{
     );
 }
 
-export default withRouter(SideMenu);
+export default withRouter(SideMenuPrivate);

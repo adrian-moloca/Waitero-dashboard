@@ -10,7 +10,7 @@ const MyContainer = withStyles({
         display:'flex',
         flexDirection:'column',
         alignItems: 'center',
-        backgroundColor:'#00b4d8',
+        backgroundColor:'rgba(255, 90, 95, 1)',
         //minHeight:'100vh',
         position: 'absolute',
         top: 0,
@@ -29,8 +29,9 @@ const MyContainer = withStyles({
 const LoginContainer = (props) =>{
     return(
         <MyContainer>
-            <Box maxWidth='100%' height='120px' top={0} left={0} right={0} padding={5} paddingBottom='5%' display='flex' justifyContent='center' >
-                <img src={CarroLogo}/>
+            <Box maxWidth='100%' paddingTop={'9%'} paddingBottom={ 3} display='flex' justifyContent='center'
+                fontSize={60} color={'white' }>
+                WAITERO
             </Box>
             <Box width='650px' display='flex' alignSelf='center'>
                 {props.children}

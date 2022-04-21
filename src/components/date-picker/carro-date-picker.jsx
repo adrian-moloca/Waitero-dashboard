@@ -4,7 +4,7 @@ import { ThemeProvider } from "@material-ui/styles";
 import { createTheme } from "@material-ui/core";
 import DateFnsUtils from '@date-io/date-fns';
 import {  MuiPickersUtilsProvider, KeyboardDatePicker } from "@material-ui/pickers";
-import CarroTextField from "../text-field/carro-text-field";
+import WaiteroTextField from "../text-field/waitero-text-field";
 import {ro} from "date-fns/locale";
 
 registerLocale('ro', ro);
@@ -12,7 +12,7 @@ registerLocale('ro', ro);
 const DatePickerTh = createTheme({
     palette:{
         primary: {
-            500:'#00b4d8',
+            500:'rgba(255, 90, 95, 1)',
         }, 
     },
 });
@@ -31,7 +31,7 @@ const CarroDatePicker = (props)=>{
                             views={props.views}
                             format={props.format}
                             openTo={props.openTo}
-                            TextFieldComponent={CarroTextField}
+                            TextFieldComponent={WaiteroTextField}
                             onChange={props.handleDateSelect}
                             defaultValue={props.defaultShow}
                             fullWidth

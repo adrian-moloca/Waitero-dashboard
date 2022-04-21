@@ -6,9 +6,9 @@ const PrimaryButton = withStyles({
 
     contained:{
       color: '#fff',
-      backgroundColor: '#00b4d8',
+      backgroundColor: 'rgba(255, 90, 95, 1)',
       '&:hover': {
-        color: '#00b4d8',
+        color: 'rgba(255, 90, 95, 1)',
         backgroundColor: '#fff',
       }
     }
