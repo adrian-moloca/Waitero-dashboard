@@ -12,6 +12,7 @@ import Overview from '../../pages/overview/overview';
 import WorkStaff from '../../pages/work-staff/work-staff';
 import Menus from '../../pages/menus/menus';
 import Orders from '../../pages/orders/orders';
+import Settings from '../../pages/settings/settings';
 
 import './Routing.css';
 
@@ -19,7 +20,7 @@ const Routes = () => {
 
     const [collapsed, setCollapsed] = useState(false);
 
-    const isWaiteroManager = false
+    const isWaiteroManager = true
 
     const onCollapse = () =>  setCollapsed(!collapsed);
 
@@ -37,6 +38,7 @@ const Routes = () => {
                 <ProtectedRoute exact path="/work-staff" component={WorkStaff} />
                 <ProtectedRoute exact path="/menus" component={Menus} />
                 <ProtectedRoute exact path="/orders" component={Orders} />
+                <ProtectedRoute exact path="/settings" component={Settings} />
                 <ProtectedRoute path="*" component={isWaiteroManager ? HomePage : Overview} />
             </Switch>
         </BrowserRouter>

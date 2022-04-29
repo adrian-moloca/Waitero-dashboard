@@ -7,7 +7,7 @@ import Header from '../../components/header/header';
 function ProtectedRoute({ component: Component, loggedIn, ...restOfProps }) {
     const[currentPage, setCurrentPage] = useState(window.location.pathname.replace('/', ''));
 
-    const isWaiteroManager = false;
+    const isWaiteroManager = true;
 
     useEffect(() => {
         setCurrentPage(window.location.pathname.replace('/', ''))

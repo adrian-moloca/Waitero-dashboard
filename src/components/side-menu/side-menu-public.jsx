@@ -90,7 +90,7 @@ const SideMenuPublic = (props) =>{
                                 PERSONAL
                             </Grid>
                         </MyButton>
-                        <MyButton value='restaurants' onClick={()=>history.push('/restaurants')}>
+                        <MyButton value='settings' onClick={()=>history.push('/settings')}>
                         <Grid container item xs={4} justifyContent='center'>
                                 <Settings fontSize='large'/>
                             </Grid>

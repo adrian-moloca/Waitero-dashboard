@@ -34,7 +34,7 @@ const Overview = () => {
           <Box textAlign='left'  fontSize='35px'>
             Overview
           </Box>
-          <Box paddingTop='2%'>
+          <Box paddingTop='8%'>
               <BoxWithShadow source={coverPhoto} setSource={ setCoverPhoto }
                   overlayText={'EDITEAZA COPERTA'} height={250} width={'92%'} isButton />
               <Box onMouseEnter={() => setShowEditResName(true)} onMouseLeave={() => setShowEditResName(false)}
@@ -50,13 +50,9 @@ const Overview = () => {
           { resDescription }
           { showEditDescription ? <EditLabelModal label={resDescription} setLabel={(label) => setResDescription(label) }/> : null}
         </Box>
-
-          <Box paddingTop='2%' width={'100%'}>
-          </Box>
-        
         </Box>
        <Box width={'63%'} display={'flex'} flexDirection={'column'} alignItems='center'> 
-      <Box width='100%' marginTop={'38px'} display='flex' flexDirection='row' justifyContent='space-between' marginBottom={4}>
+      <Box width='100%' marginTop={'8%'} display='flex' flexDirection='row' justifyContent='space-between' marginBottom={4}>
           <Box paddingTop='2%' width={'48%'}>
               <AddBoxOverview 
                   overlayText={'Adauga meniu'} backgroundColor={'#00000099'} height={250} width={'100%'} alignItems={'center'} justifyContent={'flex-end'} iconAdd/>
