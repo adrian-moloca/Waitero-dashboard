@@ -6,6 +6,7 @@ let initial = {
     hasErrors: false,
     user: {
         _id: '',
+        isWaiteroManager: false,
         isLoggedIn: false,
         token: '',
         user_details: {
@@ -14,7 +15,7 @@ let initial = {
            phoneNumber: '',
            lastName: '',
            firstName: '',
-           dateOfBirth: '' 
+           dateOfBirth: ''
         }
     }
 }

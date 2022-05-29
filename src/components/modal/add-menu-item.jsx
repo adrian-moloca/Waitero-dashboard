@@ -1,21 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 import { Box, Modal, Fade, Grid, InputAdornment, IconButton } from '@material-ui/core';
 import useStyles from './modal-style';
 import WaiteroTextField from '../text-field/waitero-text-field';
-import { RESTAURANT } from '../../pages/menus/data';
 import { Add, Close, Delete, SaveAlt } from '@material-ui/icons';
 
-const EditMenuItem = ({isModalOpen, setIsModalOpen, item, setItem }) => {
+const AddMenuItem = ({isModalOpen, setIsModalOpen, setItem }) => {
     
     const classes = useStyles();
 
-    const [tempItem, setTempItem] = useState(item);
+    const initialItem = {
+        plateName: '',
+        plateIngredients: [],
+        platePrice: 0
+    }
+
+    const [tempItem, setTempItem] = useState(initialItem);
     const [newItem, setNewItem] = useState('')
 
     function addItem() {
-        console.log(tempItem)
         setTempItem({ ...tempItem, plateIngredients: tempItem?.plateIngredients?.concat([{ ingredientName: newItem, ingredientPrice: 0 }]) });
-        console.log('tempItem', tempItem)
         setNewItem('');
     }
 
@@ -27,32 +30,28 @@ const EditMenuItem = ({isModalOpen, setIsModalOpen, item, setItem }) => {
 
     function returnBack() {
         setIsModalOpen();
+        setTempItem(initialItem);
     }
 
     const setEdits = (item, index) => {
         const tempIngredients = [...tempItem.plateIngredients]
         tempIngredients.splice(index, 1,{...tempItem.plateIngredients[index], ingredientName: item})
-        console.log('tempIngredients', tempIngredients)
         setTempItem({ ...tempItem, plateIngredients: tempIngredients })    
     }
 
     function saveItem() {
         setItem(tempItem);
         setIsModalOpen();
+        setTempItem(initialItem);
     }
-
-    useEffect(() => {
-        if (item)
-            setTempItem(item) 
-    }, [item])
 
     return (
         <>
             <Modal open={isModalOpen} onClose={()=>returnBack() } back>
                 <Fade in={isModalOpen} timeout={600}>
                     <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center"  className={classes.paper}>       
-                        <Box display="flex" mt={3} fontSize={22}>
-                            {tempItem?.plateName || "Plate name can't be read"}
+                        <Box mr={2} width={400}>
+                            <WaiteroTextField value={tempItem.plateName} onChange={(e)=>setTempItem({...tempItem, plateName: e.target.value})} placeholder='Plate name' fullWidth/>
                         </Box>
                         <Box display="flex" mt={3} width='80%' fontSize={22}>
                             <Grid container justifyContent='space-between'>
@@ -101,4 +100,4 @@ const EditMenuItem = ({isModalOpen, setIsModalOpen, item, setItem }) => {
     ); 
 }
 
-export default EditMenuItem;
+export default AddMenuItem;
