@@ -19,10 +19,8 @@ import './Routing.css';
 const Routes = () => {
 
     const [collapsed, setCollapsed] = useState(false);
-
-    const isWaiteroManager = true
-
-    const onCollapse = () =>  setCollapsed(!collapsed);
+    
+    const isWaiteroManager = false;
 
     return(
         <BrowserRouter>

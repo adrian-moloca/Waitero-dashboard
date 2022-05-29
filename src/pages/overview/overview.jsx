@@ -54,7 +54,7 @@ const Overview = () => {
        <Box width={'63%'} display={'flex'} flexDirection={'column'} alignItems='center'> 
       <Box width='100%' marginTop={'8%'} display='flex' flexDirection='row' justifyContent='space-between' marginBottom={4}>
           <Box paddingTop='2%' width={'48%'}>
-              <AddBoxOverview 
+              <AddBoxOverview onClick={()=>history.push('/menus')}
                   overlayText={'Adauga meniu'} backgroundColor={'#00000099'} height={250} width={'100%'} alignItems={'center'} justifyContent={'flex-end'} iconAdd/>
           </Box>
           <Box paddingTop='2%' width={'48%'}>

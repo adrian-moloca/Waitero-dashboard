@@ -26,7 +26,7 @@ const AddMenuModal = ({ isOpen, setIsOpen, createMenuType}) => {
           <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center"  className={classes.paper}>       
             <Box display="flex" mt={3}>
                 <Box mr={2} width={400}>
-                    <WaiteroTextField value={name} onKeyDown={(key)=>key.key === 'Enter' && createMenuTypeAction(name)} onChange={(e)=>setName(e.target.value)} fullWidth/>
+                    <WaiteroTextField placeholder='Name' value={name} onKeyDown={(key)=>key.key === 'Enter' && createMenuTypeAction(name)} onChange={(e)=>setName(e.target.value)} fullWidth/>
                 </Box>
                 <Box ml={2}>
                     <IconButton onClick={returnBack}><Close color='error' size={25}/></IconButton>
