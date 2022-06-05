@@ -1,61 +1,83 @@
-import React, { useState, useEffect } from 'react';
-import {useHistory, withRouter, Redirect } from 'react-router-dom';
-import {Box, Grid, FormControlLabel} from '@material-ui/core';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import {Box, Grid, FormControlLabel, CircularProgress} from '@material-ui/core';
 import LoginContainer from '../../components/container/login-page/login-page-container';
 import LoginBox from '../../components/box/login-page/primary-box-login-page';
 import WaiteroTextField from '../../components/text-field/waitero-text-field';
 import PrimaryButton from '../../components/buttons/primaryButton/primaryButton';
-import CarroCheckbox from '../../components/checkbox/carro-checkbox';
+import WaiteroCheckbox from '../../components/checkbox/waitero-checkbox';
 import { Link } from 'react-router-dom';
+import { loginA } from '../../api/api-admin/login-admin';
+import { connect } from 'react-redux';
+import WaiteroSwitch from '../../components/switch/waitero-switch';
+import { rememberMeToggle, cleanErrorMessage } from '../../redux/types/AdminTypes';
+import { withRouter } from 'react-router-dom';
+import WaiteroAlert from '../../components/alert/alert';
 
-const Login = () => { 
+const Login = ({ loginAdmin, rememberMeToggleAdmin, cleanErrorMessageA, rememberMe, adminData }) => { 
 
-  const[remindMe, setRemindMe] = useState(false);
+  const [email, setEmail] = useState("");
 
-  const[Email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const[Password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const [adminLog, setAdminLog] = useState(false);
 
   const history = useHistory();
 
-  const handleRemindMe = (event) =>{
-
-    !event.target.checked ? setRemindMe(false) : setRemindMe(true)
+  const setNavigation = (path) => {
+    history.push(path)
   }
 
-  useEffect(()=>{
-    if((localStorage.getItem('isLoggedIn')==='true')) 
-                history.push('/home')
-  }, [])
+  const loginHandler = () => {
+    if (adminLog)
+      loginAdmin(email, password, setLoading, setNavigation)
+  }
+
+  const rememberMeToggleHandler = (newValue) => {
+    if (adminLog)
+      rememberMeToggleAdmin(newValue)
+  }
 
   return (
-      <LoginContainer>
-        <LoginBox>
-          <Box marginBottom={8} fontSize={25}>
+    <LoginContainer>
+      <WaiteroAlert isError={adminData.hasErrors} message={adminData.message} cleanError={cleanErrorMessageA}/>
+      <LoginBox>
+          <Box marginBottom={2} fontSize={25}>
             Autentificare
           </Box>
-          <Grid container item xl={7} lg={7} md={7} spacing={3}>
-              <Grid container item xl={12} lg={12} md={12}>
-                <WaiteroTextField value = {Email} onChange = {(e)=> setEmail(e.target.value)} 
-                                label='Email' variant='outlined' fullWidth/>
+          <Grid container item xl={7} lg={7} md={7} spacing={2}>
+              <Grid container item justifyContent='space-between' xs={12} xl={12}>
+                <Grid container item justifyContent='flex-end' xs={4} lg={4} md={4}>
+                  <Box>Client</Box>
+                </Grid>
+                <Grid container item justifyContent='center' xs={4} lg={4} md={4} style={{height: 30}}>
+              <WaiteroSwitch defaultValue={adminLog} onChange={() => setAdminLog(!adminLog)} />
+                </Grid>
+                <Grid container item justifyContent='flex-start' xs={4} lg={4} md={4}>
+                  <Box>Admin</Box>
+                </Grid>
               </Grid>
               <Grid container item xl={12} lg={12} md={12}>
-                <WaiteroTextField value= {Password} onChange = {(e)=> setPassword(e.target.value)} 
-                                label='Parola' variant='outlined' fullWidth/>
+                <WaiteroTextField defaultValue = {email} onBlur = {(e)=> setEmail(e.target.value)} 
+                                label='email' variant='outlined' fullWidth/>
               </Grid>
-              <Grid container item xl={6} lg={6} md={6}>
-                <FormControlLabel onChange={(e)=>handleRemindMe(e) }control={<CarroCheckbox/>} 
+              <Grid container item xl={12} lg={12} md={12}>
+                <WaiteroTextField defaultValue= {password} onBlur = {(e)=> setPassword(e.target.value)} 
+                                label='Parola' variant='outlined' type='password' fullWidth/>
+              </Grid>
+              <Grid container item xl={12} lg={6} md={6}>
+            <FormControlLabel defaultChecked={rememberMe} onChange={(e)=>rememberMeToggleHandler(e.target.checked) }control={<WaiteroCheckbox/>} 
                                   label='Remind me' style={{color:'rgba(255, 90, 95, 1)'}}/>
               </Grid>
-              <Grid container item xl={6} lg={6} md={6} justifyContent='flex-end' alignItems='center'>
+              <Grid container item xl={12} lg={6} md={6} justifyContent='flex-end' alignItems='center'>
                 <Link to='/login/forgot-password' style={{color:'rgba(255, 90, 95, 1)', textDecoration:'none', fontSize: '17px'}}>
                   Am uitat parola
                 </Link>
               </Grid>
               <Grid container item xl={12} lg={12} md={12} >
-                <Link to='/home' style={{textDecoration: 'none', width:'100%'}}>
-                  <PrimaryButton variant='contained' onClick={() => localStorage.setItem('isLoggedIn', true)} fullWidth>AUTENTIFICARE</PrimaryButton>
-                </Link>
+                  <PrimaryButton variant='contained' onClick={() => loginHandler()} fullWidth>{loading ? <CircularProgress size={30}/> : 'AUTENTIFICARE'}</PrimaryButton>
               </Grid>
           </Grid>
         </LoginBox>
@@ -63,4 +85,14 @@ const Login = () => {
   );
 }
 
-export default withRouter(Login);
+const mapStateToProps = state => ({
+  rememberMe: state.adminReducer.rememberMe,
+  adminData: state.adminReducer
+});
+
+const mapDispatchToProps = dispatch => ({
+  loginAdmin: (email, password, setLoading, setNavigation) => dispatch(loginA(email, password, setLoading, setNavigation)),
+  rememberMeToggleAdmin: (newStatus) => dispatch(rememberMeToggle(newStatus)),
+  cleanErrorMessageA: () => dispatch(cleanErrorMessage())
+})
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Login));

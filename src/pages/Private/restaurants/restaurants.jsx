@@ -1,16 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import "./restaurants.jsx";
 import { Box } from "@material-ui/core";
 import PageContainer from "../../../components/container/page-container/page-container.jsx";
-import PrimaryButton from "../../../components/buttons/primaryButton/primaryButton.jsx";
 import WaiteroTextField from "../../../components/text-field/waitero-text-field.jsx";
 import SearchIcon from '@material-ui/icons/Search';
 import RestaurantsTable from "../../../components/RestaurantsTable/RestaurantsTable.jsx";
 import { InputAdornment } from "@material-ui/core";
+import AddClientModal from "../../../components/modal/add-client-modal.jsx";
+import { withRouter } from "react-router-dom";
+import { connect } from 'react-redux';
+import WaiteroAlert from '../../../components/alert/alert';
+import { cleanErrorMessage } from "../../../redux/types/AdminTypes.jsx";
 
-const RestaurantsPage = () => {
+const RestaurantsPage = ({hasErrorsAdmin, messageAdmin, cleanErrorMessage }) => {
+
   return (
-    <PageContainer>
+    <>
+      <PageContainer>
       <Box
         width="90%"
         display="flex"
@@ -19,20 +25,10 @@ const RestaurantsPage = () => {
         paddingBottom="2%"
       >
         <Box textAlign="left" fontSize="35px">
-          Restaurante
+          Clienti
         </Box>
-
-        <Box sx={{ width: 334 }}>
-          <PrimaryButton
-            variant="contained"
-            fullWidth
-            color="primary"
-            style={{fontWeight: "600"}}
-            
-          >
-            ADAUGA RESTAURANT
-          </PrimaryButton>
-        </Box>
+          <WaiteroAlert isError={hasErrorsAdmin} message={messageAdmin} cleanError={()=>cleanErrorMessage()}/>
+          <AddClientModal/>
       </Box>
       <Box
         width="90%"
@@ -62,7 +58,16 @@ const RestaurantsPage = () => {
         <RestaurantsTable/>
       </Box>
     </PageContainer>
+    </>
   );
 };
 
-export default RestaurantsPage;
+const mapStateToProps = (state) => ({
+  hasErrorsAdmin: state.adminReducer.hasErrors,
+  messageAdmin: state.adminReducer.message
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  cleanErrorMessage: () => dispatch(cleanErrorMessage())
+})
+export default  withRouter(connect(mapStateToProps, mapDispatchToProps)(RestaurantsPage));

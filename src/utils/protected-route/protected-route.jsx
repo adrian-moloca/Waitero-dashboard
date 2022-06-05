@@ -1,26 +1,29 @@
-import React, {useEffect, useState} from 'react';
+import React, {useLayoutEffect, useState} from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import SideMenuPrivate from '../../components/side-menu/side-menu-private';
 import SideMenuPublic from '../../components/side-menu/side-menu-public';
 import Header from '../../components/header/header';
+import { useHistory } from 'react-router-dom';
 
-function ProtectedRoute({ component: Component, loggedIn, ...restOfProps }) {
-    const[currentPage, setCurrentPage] = useState(window.location.pathname.replace('/', ''));
+function ProtectedRoute({ component: Component, loggedIn, role, ...restOfProps }) {
+    
+    const history = useHistory();
 
-    const isWaiteroManager = false;
+    const[currentPage, setCurrentPage] = useState(history.location.pathname);
 
-    useEffect(() => {
-        setCurrentPage(window.location.pathname.replace('/', ''))
-    }, [window.location.pathname])
+
+    useLayoutEffect(() => {
+        setCurrentPage(history.location.pathname)
+    }, [history.location.pathname])
 
     return (
     <React.Fragment>
         <Header/>
-        {isWaiteroManager ? <SideMenuPrivate currentPage={currentPage}/> : <SideMenuPublic currentPage={currentPage}/>}
+        {role === 'admin' ? <SideMenuPrivate currentPage={currentPage}/> : <SideMenuPublic currentPage={currentPage}/>}
         <Route
             {...restOfProps}
-            render={(props) =>
-            localStorage.getItem('isLoggedIn') === 'true' ? <Component {...props} /> : <Redirect to="/login" />
+            render={(restOfProps) =>
+                loggedIn ? <Component {...restOfProps} /> : <Redirect to="/login" />
             }
         />
     </React.Fragment>
