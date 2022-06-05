@@ -41,7 +41,7 @@ const Routes = ({ isUserAdmin, isUserLoggedIn }) => {
 
 const mapStateToProps = (state) => ({
     isUserAdmin: state.adminReducer?.admin?.role,
-    isUserLoggedIn: state.adminReducer?.admin?.loggedIn
+    isUserLoggedIn: state.adminReducer?.admin?.loggedIn || state?.clientReducer?.client.loggedIn
 })
                                             
 export default connect(mapStateToProps, null)(Routes);

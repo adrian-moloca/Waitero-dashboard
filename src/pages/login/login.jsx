@@ -13,8 +13,11 @@ import WaiteroSwitch from '../../components/switch/waitero-switch';
 import { rememberMeToggle, cleanErrorMessage } from '../../redux/types/AdminTypes';
 import { withRouter } from 'react-router-dom';
 import WaiteroAlert from '../../components/alert/alert';
+import { cleanErrorMessageClient, rememberMeToggleClient } from '../../redux/types/ClientTypes';
+import { loginC } from '../../api/api-client/login-client';
+import { isDate } from 'date-fns';
 
-const Login = ({ loginAdmin, rememberMeToggleAdmin, cleanErrorMessageA, rememberMe, adminData }) => { 
+const Login = ({ loginAdmin, loginClient, rememberMeToggleAdmin, rememberMeToggleClient, cleanErrorMessageAdmin, cleanErrorMessageClient, rememberMeAdmin,  rememberMeClient, adminData, clientData }) => { 
 
   const [email, setEmail] = useState("");
 
@@ -33,16 +36,20 @@ const Login = ({ loginAdmin, rememberMeToggleAdmin, cleanErrorMessageA, remember
   const loginHandler = () => {
     if (adminLog)
       loginAdmin(email, password, setLoading, setNavigation)
+    else 
+      loginClient(email, password, setLoading, setNavigation)
   }
 
   const rememberMeToggleHandler = (newValue) => {
     if (adminLog)
       rememberMeToggleAdmin(newValue)
+    else 
+      rememberMeToggleClient(newValue)
   }
 
   return (
     <LoginContainer>
-      <WaiteroAlert isError={adminData.hasErrors} message={adminData.message} cleanError={cleanErrorMessageA}/>
+      <WaiteroAlert isError={adminData.hasErrors || clientData.hasErrors} message={adminData.message || clientData.message} cleanError={adminLog ? cleanErrorMessageAdmin : cleanErrorMessageClient}/>
       <LoginBox>
           <Box marginBottom={2} fontSize={25}>
             Autentificare
@@ -68,7 +75,7 @@ const Login = ({ loginAdmin, rememberMeToggleAdmin, cleanErrorMessageA, remember
                                 label='Parola' variant='outlined' type='password' fullWidth/>
               </Grid>
               <Grid container item xl={12} lg={6} md={6}>
-            <FormControlLabel defaultChecked={rememberMe} onChange={(e)=>rememberMeToggleHandler(e.target.checked) }control={<WaiteroCheckbox/>} 
+            <FormControlLabel defaultChecked={adminLog ? rememberMeAdmin : rememberMeClient} onChange={(e)=>rememberMeToggleHandler(e.target.checked) }control={<WaiteroCheckbox/>} 
                                   label='Remind me' style={{color:'rgba(255, 90, 95, 1)'}}/>
               </Grid>
               <Grid container item xl={12} lg={6} md={6} justifyContent='flex-end' alignItems='center'>
@@ -85,14 +92,19 @@ const Login = ({ loginAdmin, rememberMeToggleAdmin, cleanErrorMessageA, remember
   );
 }
 
-const mapStateToProps = state => ({
-  rememberMe: state.adminReducer.rememberMe,
-  adminData: state.adminReducer
+const mapStateToProps = (state) => ({
+  rememberMeAdmin: state.adminReducer.rememberMe,
+  adminData: state.adminReducer,
+  rememberMeClient: state.clientReducer.rememberMe,
+  clientData: state.clientReducer
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   loginAdmin: (email, password, setLoading, setNavigation) => dispatch(loginA(email, password, setLoading, setNavigation)),
+  loginClient: (email, password, setLoading, setNavigation) => dispatch(loginC(email, password, setLoading, setNavigation)),
   rememberMeToggleAdmin: (newStatus) => dispatch(rememberMeToggle(newStatus)),
-  cleanErrorMessageA: () => dispatch(cleanErrorMessage())
+  rememberMeToggleClient: (newStatus) => dispatch(rememberMeToggleClient(newStatus)),
+  cleanErrorMessageAdmin: () => dispatch(cleanErrorMessage()),
+  cleanErrorMessageClient: () => dispatch(cleanErrorMessageClient())
 })
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Login));

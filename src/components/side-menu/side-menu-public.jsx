@@ -53,7 +53,7 @@ const SideMenuPublic = (props) =>{
     return(
 
         <MyDrawer variant='permanent' anchor='left'>
-            <SideMenuContainer>
+            <SideMenuContainer userRole={'client'} >
                 <Box mt='10%' width='100%'>
                     <MyButtonGroup value={props.currentPage}
                                    exclusive 

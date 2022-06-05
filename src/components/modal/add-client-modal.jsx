@@ -7,10 +7,9 @@ import SecondaryButton from '../buttons/secondaryButton/secondaryButton';
 import { addClient } from '../../api/api-admin/add-client';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import WaiteroAlert from '../alert/alert';
 import { cleanErrorMessage } from '../../redux/types/AdminTypes';
 
-const AddClientModal = ({hasErrorsAdmin, messageAdmin, addClientA, cleanErrorMessage}) => {
+const AddClientModal = ({addClientA}) => {
     
     const classes = useStyles();
 
@@ -92,7 +91,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-    addClientA: (name, email, password, phone, loadingSetter, closeModalAddClient) => dispatch(addClient(name, email, phone, password, loadingSetter, closeModalAddClient)),
+    addClientA: (name, email, phone, password, loadingSetter, closeModalAddClient) => dispatch(addClient(name, email, phone, password, loadingSetter, closeModalAddClient)),
     cleanErrorMessage: () => dispatch(cleanErrorMessage())
 })
 export default  withRouter(connect(mapStateToProps, mapDispatchToProps)(AddClientModal));

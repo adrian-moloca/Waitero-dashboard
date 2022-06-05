@@ -5,6 +5,7 @@ import { withStyles } from '@material-ui/core';
 import { cleanAdmin } from '../../redux/types/AdminTypes';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import { cleanClient } from '../../redux/types/ClientTypes';
 
 const MyAppBar = withStyles({
     
@@ -24,7 +25,7 @@ const MyToolbar = withStyles({
 
 })(Toolbar);
 
-const Header = ({name, isAdmin, cleanAdmin}) => {
+const Header = ({name, isAdmin, cleanAdmin, cleanClient}) => {
 
     const[anchorEl, setAnchorEl] = useState(null);
 
@@ -41,6 +42,8 @@ const Header = ({name, isAdmin, cleanAdmin}) => {
     const logoutHandler = () => {
         if (isAdmin === 'admin')
             cleanAdmin()
+        else
+            cleanClient()
     }
 
     return(
@@ -68,9 +71,12 @@ const Header = ({name, isAdmin, cleanAdmin}) => {
 }
 
 const mapStateToProps = (state) => ({
-    name: state?.adminReducer?.admin?.name,
+    name: state?.adminReducer?.admin?.name || state?.clientReducer?.client?.name,
     isAdmin: state?.adminReducer?.admin?.role
 })
-const mapDispatchToProps = (dispatch) => ({ cleanAdmin: () => dispatch(cleanAdmin()) })
+const mapDispatchToProps = (dispatch) => ({
+    cleanAdmin: () => dispatch(cleanAdmin()),
+    cleanClient: () => dispatch(cleanClient())
+})
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Header));
