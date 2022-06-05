@@ -8,6 +8,7 @@ let initial = {
     hasErrors: false,
     message: "",
     rememberMe: false,
+    token: "",
     client: {
         access: "",
         email: "",
@@ -32,6 +33,7 @@ const clientReducer = (state = initial, action) => {
                 ...state,
                 client: action.payload.client,
                 message: action.payload.message, 
+                token: action.payload.token,
                 loading: false,
                 hasErrors: false
             }

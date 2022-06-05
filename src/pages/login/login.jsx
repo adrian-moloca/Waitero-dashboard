@@ -53,9 +53,9 @@ const Login = ({ loginAdmin, loginClient, rememberMeToggleAdmin, rememberMeToggl
       <LoginBox>
           <Box marginBottom={2} fontSize={25}>
             Autentificare
-          </Box>
-          <Grid container item xl={7} lg={7} md={7} spacing={2}>
-              <Grid container item justifyContent='space-between' xs={12} xl={12}>
+        </Box>
+        <Box width={'80%'} marginBottom={5}>
+              <Grid container   xs={12} xl={12}>
                 <Grid container item justifyContent='flex-end' xs={4} lg={4} md={4}>
                   <Box>Client</Box>
                 </Grid>
@@ -65,7 +65,9 @@ const Login = ({ loginAdmin, loginClient, rememberMeToggleAdmin, rememberMeToggl
                 <Grid container item justifyContent='flex-start' xs={4} lg={4} md={4}>
                   <Box>Admin</Box>
                 </Grid>
-              </Grid>
+          </Grid>
+          </Box>
+          <Grid container item xl={7} lg={7} md={7} spacing={2}>
               <Grid container item xl={12} lg={12} md={12}>
                 <WaiteroTextField defaultValue = {email} onBlur = {(e)=> setEmail(e.target.value)} 
                                 label='email' variant='outlined' fullWidth/>

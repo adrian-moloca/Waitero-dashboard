@@ -13,7 +13,7 @@ const WaiteroSwitch = withStyles((theme) => ({
         color: theme.palette.grey[500],
         padding: 2,
       '&$checked': {
-        transform: 'translateX(35px)',
+        transform: 'translateX(40px)',
         color: theme.palette.common.white,
         '& + $track': {
           opacity: 1,
@@ -23,14 +23,15 @@ const WaiteroSwitch = withStyles((theme) => ({
       },
     },
     thumb: {
-      width: 20,
-      height: 20,
+      width: 16,
+      height: 16,
       boxShadow: 5,
     },
     track: {
       border: `2px solid ${theme.palette.grey[300]}`,
-      borderRadius: 28/2,
+      borderRadius: 20/2,
       opacity: 1,
+      height: 16,
       backgroundColor: theme.palette.common.white,
     },
     checked: {},

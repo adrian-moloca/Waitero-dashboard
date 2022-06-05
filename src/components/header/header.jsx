@@ -44,6 +44,7 @@ const Header = ({name, isAdmin, cleanAdmin, cleanClient}) => {
             cleanAdmin()
         else
             cleanClient()
+        window.localStorage.removeItem('state');
     }
 
     return(
