@@ -12,7 +12,7 @@ import { connect } from 'react-redux';
 import WaiteroAlert from '../../../components/alert/alert';
 import { cleanErrorMessage } from "../../../redux/types/AdminTypes.jsx";
 
-const RestaurantsPage = ({hasErrorsAdmin, messageAdmin, cleanErrorMessage }) => {
+const RestaurantsPage = ({adminReducer, cleanErrorMessage }) => {
 
   return (
     <>
@@ -27,7 +27,6 @@ const RestaurantsPage = ({hasErrorsAdmin, messageAdmin, cleanErrorMessage }) => 
         <Box textAlign="left" fontSize="35px">
           Clienti
         </Box>
-          <WaiteroAlert isError={hasErrorsAdmin} message={messageAdmin} cleanError={()=>cleanErrorMessage()}/>
           <AddClientModal/>
       </Box>
       <Box
@@ -57,14 +56,14 @@ const RestaurantsPage = ({hasErrorsAdmin, messageAdmin, cleanErrorMessage }) => 
       >
         <RestaurantsTable/>
       </Box>
+      <WaiteroAlert isError={adminReducer.hasErrors} message={adminReducer.message} cleanError={()=>cleanErrorMessage()}/>
     </PageContainer>
     </>
   );
 };
 
 const mapStateToProps = (state) => ({
-  hasErrorsAdmin: state.adminReducer.hasErrors,
-  messageAdmin: state.adminReducer.message
+  adminReducer: state.adminReducer
 })
 
 const mapDispatchToProps = (dispatch) => ({
