@@ -53,12 +53,12 @@ const SideMenuPrivate = (props) =>{
     return(
 
         <MyDrawer variant='permanent' anchor='left'>
-            <SideMenuContainer>
+            <SideMenuContainer userRole={'admin'}>
                 <Box mt='10%' width='100%'>
                     <MyButtonGroup value={props.currentPage}
                                    exclusive
                                    orientation='vertical'>
-                        <MyButton value='home' onClick={()=>history.push('/home')}>
+                        <MyButton value='/home' onClick={()=>history.push('/home')}>
                             <Grid container item xs={4} justifyContent='center'>
                                 <Home fontSize='large'/>
                             </Grid>
@@ -66,7 +66,7 @@ const SideMenuPrivate = (props) =>{
                                 ACASA
                             </Grid>
                         </MyButton>
-                        <MyButton value='statistics' onClick={()=>history.push('/statistics')}>
+                        <MyButton value='/statistics' onClick={()=>history.push('/statistics')}>
                             <Grid container item xs={4} justifyContent='center'>
                                 <Computer fontSize='large'/>
                             </Grid>
@@ -74,7 +74,7 @@ const SideMenuPrivate = (props) =>{
                                 STATISTICI
                             </Grid>
                         </MyButton>
-                        <MyButton value='users' onClick={()=>history.push('/users')}>
+                        <MyButton value='/users' onClick={()=>history.push('/users')}>
                             <Grid container item xs={4} justifyContent='center'>
                                 <Person fontSize='large'/>
                             </Grid>
@@ -82,12 +82,12 @@ const SideMenuPrivate = (props) =>{
                                 UTILIZATORI
                             </Grid>
                         </MyButton>
-                        <MyButton value='restaurants' onClick={()=>history.push('/restaurants')}>
+                        <MyButton value='/clients' onClick={()=>history.push('/clients')}>
                         <Grid container item xs={4} justifyContent='center'>
                                 <Restaurant fontSize='large'/>
                             </Grid>
                             <Grid container item xs={5}  justifyContent='flex-start'>
-                                RESTAURANTE
+                                CLIENTI
                             </Grid>
                         </MyButton>
                     </MyButtonGroup>

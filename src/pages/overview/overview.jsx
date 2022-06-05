@@ -9,6 +9,8 @@ import { Forum, Money, RestaurantMenu } from '@material-ui/icons';
 import EditStringArrayModal from '../../components/modal/edit-string-array-modal.jsx';
 import AddBoxOverview from '../../components/box/add-box-overview/add-box-overview.js';
 import GeneralStatisticsBox from '../../components/box/general-statistics-box/general-statistics-box.jsx';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 const Overview = () => { 
 
@@ -21,11 +23,6 @@ const Overview = () => {
   const [resDescription, setResDescription] = useState('Oamenii din Europa de Vest iau masa in afara casei de secole, dar restaurantul, ca si concept opus hanului, tarabei cu mancare sau oricarei alte facilitati modeste, si-a inceput istoria cu doar 250 de ani in urma. Restaurantul a inceput prin a fi si a ramas in primul sau secol de existenta, un loc destinat exclusiv oamenilor bogati, care serveau – la Londra, Paris, New York sau Berlin – o bucatarie internationala mai mult sau mai putin frantuzeasca, foarte putin variata.')
   const [cusines, setCusines] = useState(['Italian', 'Mediteran'])
   const history = useHistory()
-
-  useEffect(() => {
-    if (window.location.pathname !== '/overview')
-      history.push('/overview')  
-  }, [])
 
   return (
     <PageContainer>
@@ -87,4 +84,4 @@ const Overview = () => {
   )
 }
 
-export default Overview;
+export default withRouter(connect(null, null)(Overview));

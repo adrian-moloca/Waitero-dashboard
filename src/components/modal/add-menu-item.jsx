@@ -49,7 +49,7 @@ const AddMenuItem = ({isModalOpen, setIsModalOpen, setItem }) => {
         <>
             <Modal open={isModalOpen} onClose={()=>returnBack() } back>
                 <Fade in={isModalOpen} timeout={600}>
-                    <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center"  className={classes.paper}>       
+                    <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" className={classes.paper}>       
                         <Box mr={2} width={400}>
                             <WaiteroTextField value={tempItem.plateName} onChange={(e)=>setTempItem({...tempItem, plateName: e.target.value})} placeholder='Plate name' fullWidth/>
                         </Box>

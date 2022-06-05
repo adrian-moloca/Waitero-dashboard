@@ -53,12 +53,12 @@ const SideMenuPublic = (props) =>{
     return(
 
         <MyDrawer variant='permanent' anchor='left'>
-            <SideMenuContainer>
+            <SideMenuContainer userRole={'client'} >
                 <Box mt='10%' width='100%'>
                     <MyButtonGroup value={props.currentPage}
                                    exclusive 
                                    orientation='vertical'>
-                        <MyButton value='overview' onClick={()=>history.push('/overview')}>
+                        <MyButton value='/overview' onClick={()=>history.push('/overview')}>
                             <Grid container item xs={4} justifyContent='center'>
                                 <ViewQuilt fontSize='large'/>
                             </Grid>
@@ -66,7 +66,7 @@ const SideMenuPublic = (props) =>{
                                 OVERVIEW
                             </Grid>
                         </MyButton>
-                        <MyButton value='menus' onClick={()=>history.push('/menus')}>
+                        <MyButton value='/menus' onClick={()=>history.push('/menus')}>
                             <Grid container item xs={4} justifyContent='center'>
                                 <RestaurantMenu fontSize='large'/>
                             </Grid>
@@ -74,7 +74,7 @@ const SideMenuPublic = (props) =>{
                                 MENIURI
                             </Grid>
                         </MyButton>
-                        <MyButton value='orders' onClick={()=>history.push('/orders')}>
+                        <MyButton value='/orders' onClick={()=>history.push('/orders')}>
                             <Grid container item xs={4} justifyContent='center'>
                                 <History fontSize='large'/>
                             </Grid>
@@ -82,7 +82,7 @@ const SideMenuPublic = (props) =>{
                                 COMENZI
                             </Grid>
                         </MyButton>
-                        <MyButton value='work-staff' onClick={()=>history.push('/work-staff')}>
+                        <MyButton value='/work-staff' onClick={()=>history.push('/work-staff')}>
                             <Grid container item xs={4} justifyContent='center'>
                                 <SupervisorAccount fontSize='large'/>
                             </Grid>
@@ -90,7 +90,7 @@ const SideMenuPublic = (props) =>{
                                 PERSONAL
                             </Grid>
                         </MyButton>
-                        <MyButton value='settings' onClick={()=>history.push('/settings')}>
+                        <MyButton value='/settings' onClick={()=>history.push('/settings')}>
                         <Grid container item xs={4} justifyContent='center'>
                                 <Settings fontSize='large'/>
                             </Grid>

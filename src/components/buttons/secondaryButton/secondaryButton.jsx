@@ -5,20 +5,20 @@ import { withStyles } from '@material-ui/core';
 const SecondaryButton = withStyles({
     contained:{
         color: '#fff',
-        backgroundColor: '#F50057',
+        backgroundColor: 'rgba(255, 90, 95, 1)',
         '&:hover': {
-            color: '#F50057',
+            color: 'rgba(255, 90, 95, 1)',
             backgroundColor: '#fff',
         },
     },
 
     outlined:{
-        color: '#F50057',
+        color: 'rgba(255, 90, 95, 1)',
         backgroundColor: '#FFF',
-        borderColor:'#F50057',
+        borderColor:'rgba(255, 90, 95, 1)',
         '&:hover': {
             color: '#FFF',
-            backgroundColor: '#F50057',
+            backgroundColor: 'rgba(255, 90, 95, 1)',
         },
     },
 

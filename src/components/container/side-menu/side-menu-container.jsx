@@ -24,13 +24,17 @@ const MyContainer = withStyles({
 
 })(Container);
 
-const SideMenuContainer = (props) =>{
+const SideMenuContainer = (props) => {
+
     return(
         <MyContainer>
             <Box maxWidth='100%' paddingTop={15} display='flex' justifyContent='center'
                 fontSize={50} color={'white' }>
                 WAITERO
             </Box>
+            {props.userRole ? (<Box width={'100%'} paddingTop={1} display={'flex'} justifyContent={'center'} fontSize={30} color={'white'}>
+                                    {props.userRole?.toUpperCase()}
+                                </Box>) : null}
             <Box width='100%' display='flex' alignSelf='center'>
                 {props.children}
             </Box>
