@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Box, Grid } from '@material-ui/core';
 import { Rating } from '@material-ui/lab';
 import PageContainer from '../../components/container/page-container/page-container.jsx';
@@ -11,6 +11,7 @@ import AddBoxOverview from '../../components/box/add-box-overview/add-box-overvi
 import GeneralStatisticsBox from '../../components/box/general-statistics-box/general-statistics-box.jsx';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+
 
 const Overview = () => { 
 

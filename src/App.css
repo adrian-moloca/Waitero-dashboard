@@ -9,6 +9,7 @@
 
 ::-webkit-scrollbar {
   width: 5px;
+  scroll-behavior: smooth;
 }
 
 /* Track */

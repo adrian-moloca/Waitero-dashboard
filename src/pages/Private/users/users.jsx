@@ -20,28 +20,15 @@ const UsersPage = () => {
         <Box textAlign="left" fontSize="35px">
           Utilizatori
         </Box>
-
-        <Box sx={{ width: 334 }}>
-          <PrimaryButton
-            variant="contained"
-            fullWidth
-            color="primary"
-            style={{fontWeight: "600"}}
-            
-          >
-            ADAUGA UTILIZATOR
-          </PrimaryButton>
-        </Box>
       </Box>
       <Box
         width="90%"
         display="flex"
         flexDirection="column"
         justifyContent="center"
-        paddingTop="2%"
       >
         <Box textAlign="left" fontSize="35px">
-          <WaiteroTextField variant="outlined" label="Cauta un utilizator"
+          <WaiteroTextField variant="outlined" label="Cauta un utilizator" fullWidth
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
