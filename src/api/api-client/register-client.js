@@ -16,6 +16,9 @@ export const registerClient = (name, email, phone, password, loadingSetter = () 
             setNavigation('/on-boarding')
         }).catch((error) => {
             dispatch(registerClientFailure(error?.response?.data?.message));
-        }).finally(()=>loadingSetter(false))
+        }).finally(() => {
+            loadingSetter(false);
+            window.location.reload();
+        })
     }
 }
