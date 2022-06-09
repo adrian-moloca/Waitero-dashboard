@@ -15,7 +15,10 @@ export const loginC = (email, password, loadingSetter = () => undefined, setNavi
             res.data?.client?.restaurants?.length > 0 ? setNavigation('/overview') : setNavigation('/on-boarding') ;
         }).catch(error => {
             dispatch(fetchClientFailure(error.response.data.error))
-        }).finally(() => {loadingSetter(false) })  
+        }).finally(() => {
+            loadingSetter(false);
+            window.location.reload();
+        })  
     }
 }
 

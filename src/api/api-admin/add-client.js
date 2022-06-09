@@ -18,8 +18,9 @@ export const addClient = (name, email, phone, password, loadingSetter = () => un
         }).catch((error) => {
             dispatch(addClientFailure(error?.response?.data?.message));
         }).finally(() => {
-            loadingSetter(false)
+            loadingSetter(false);
             dispatch(getClients());
+            window.location.reload();
         })
     }
 }

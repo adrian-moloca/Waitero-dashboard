@@ -1,5 +1,5 @@
-import React, {Fragment, useState} from 'react';
-import {Box, Grid, Paper} from '@material-ui/core';
+import React, { useState} from 'react';
+import {Box, Paper} from '@material-ui/core';
 import { withStyles } from '@material-ui/styles';
 
 const MyPaper = withStyles({

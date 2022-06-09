@@ -15,7 +15,10 @@ export const loginA = (email, password, loadingSetter = () => undefined, setNavi
             setNavigation('/home');
         }).catch(error => {
             dispatch(fetchAdminFailure(error?.response?.data?.error))
-        }).finally(() => {loadingSetter(false) })  
+        }).finally(() => {
+            loadingSetter(false);
+            window.location.reload();
+        })  
     }
 }
 
