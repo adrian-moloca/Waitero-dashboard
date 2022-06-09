@@ -7,7 +7,7 @@ export const addRestaurant = (restaurantName, restaurantCuisines, clientId, load
         dispatch(addRestaurantRequest());
         cwaxios.post(clientId + '/add-restaurant', {
             restaurantName: restaurantName,
-            restaurantCuisines: restaurantCuisines
+            cuisines: restaurantCuisines
         }).then((res) => {
             dispatch(addRestaurantSuccess(res.data));
             setNavigation('/overview')
