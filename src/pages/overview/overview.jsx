@@ -14,27 +14,25 @@ import { connect } from 'react-redux';
 import WaiteroSelect from '../../components/select/waitero-select.jsx';
 
 
-const Overview = ({ restaurants }) => { 
+const Overview = ({ restaurants, clientData }) => { 
 
   const [selectedRestaurant, setSelectedRestaurant] = useState(restaurants[0]?.id)
-  const [coverPhoto, setCoverPhoto] = useState(restaurants[0]?.photos);
+  const [coverPhoto, setCoverPhoto] = useState(restaurants[0]?.coverPicture);
   const [menuPhoto, setMenuPhoto] = useState('https://images.unsplash.com/photo-1559329007-40df8a9345d8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80')
   const [restaurantName, setRestaurantName] = useState(restaurants.find(el=> el.id === selectedRestaurant).restaurantName);  
   const [showEditResName, setShowEditResName] = useState(false);
   const [showEditDescription, setShowEditDescription] = useState(false);
   const [showEditCusines, setShowEditCusines] = useState(false);
-  const [resDescription, setResDescription] = useState('Oamenii din Europa de Vest iau masa in afara casei de secole, dar restaurantul, ca si concept opus hanului, tarabei cu mancare sau oricarei alte facilitati modeste, si-a inceput istoria cu doar 250 de ani in urma. Restaurantul a inceput prin a fi si a ramas in primul sau secol de existenta, un loc destinat exclusiv oamenilor bogati, care serveau – la Londra, Paris, New York sau Berlin – o bucatarie internationala mai mult sau mai putin frantuzeasca, foarte putin variata.')
-  const [cusines, setCusines] = useState(['Italian', 'Mediteran'])
+  const [resDescription, setResDescription] = useState(restaurants[0].description)
+  const [cusines, setCusines] = useState(restaurants[0].cuisines)
   const history = useHistory()
 
   useEffect(() => {
     setRestaurantName(restaurants.find(el=> el.id === selectedRestaurant).restaurantName)
-    console.log(selectedRestaurant)
   }, [selectedRestaurant])
 
   const handleChangeRestaurant = (e) => {
     setSelectedRestaurant(e.target.value)
-    console.log(e)
   } 
 
   return (
@@ -54,17 +52,17 @@ const Overview = ({ restaurants }) => {
               <BoxWithShadow source={coverPhoto} setSource={ setCoverPhoto }
                   overlayText={'EDITEAZA COPERTA'} height={250} width={'92%'} isButton />
               <Box onMouseEnter={() => setShowEditResName(true)} onMouseLeave={() => setShowEditResName(false)}
-                  style={{fontSize:35, fontWeight: '-moz-initial', paddingTop: '20px', width: 426, fontStyle: 'oblique'}}>{restaurantName}{showEditResName ? <EditLabelModal label={restaurantName} setLabel={(label) => setRestaurantName(label)} /> : null}</Box>
+              style={{ fontSize: 35, fontWeight: '-moz-initial', paddingTop: '20px', width: 426, fontStyle: 'oblique' }}>{restaurantName}{showEditResName ? <EditLabelModal labelName={'restaurantName'} label={restaurantName} setLabel={(label) => setRestaurantName(label)} clientId={clientData.id} restaurantId={selectedRestaurant} /> : null}</Box>
           </Box>
           <Box>
           <Box width={'92%'}  display={'flex'} justifyContent={'flex-end'}> <Rating readOnly defaultValue={4.3} precision={0.1} size='large'/></Box>
           <Box width={'92%'} display={'flex'} fontSize={20} flexDirection={'row'}> <Forum size={20} color={'#000'} style={{ paddingRight: 20 }} /> <Box>233 recenzii</Box></Box>    
           <Box width={'92%'} display={'flex'} fontSize={20} flexDirection={'row'}> <Money size={20} color={'#000'} style={{ paddingRight: 20 }} /> <Box>20 RON pret minim</Box></Box>      
-          <Box width={'92%'} display={'flex'} fontSize={20} flexDirection={'row'}> <RestaurantMenu size={20} color={'#000'} style={{ paddingRight: 20 }} /><Box onMouseEnter={() => setShowEditCusines(true)} onMouseLeave={() => setShowEditCusines(false)}>{cusines.length ? cusines.join(', ') : ''}{showEditCusines ? <EditStringArrayModal array={cusines} setArray={ setCusines }/> : null}</Box></Box>      
+          <Box width={'92%'} display={'flex'} fontSize={20} flexDirection={'row'}> <RestaurantMenu size={20} color={'#000'} style={{ paddingRight: 20 }} /><Box onMouseEnter={() => setShowEditCusines(true)} onMouseLeave={() => setShowEditCusines(false)}>{cusines.length ? cusines.join(', ') : ''}{showEditCusines ? <EditStringArrayModal labelName={'cuisines'} array={cusines} setArray={(cuisines) => setCusines(cuisines) }  clientId={clientData.id} restaurantId={selectedRestaurant}/> : null}</Box></Box>      
         </Box>
         <Box width={'92%'} display={'flex'} fontSize={19} marginTop={2} onMouseEnter={ () => setShowEditDescription(true) } onMouseLeave={()=>setShowEditDescription(false)}>
-          {  resDescription }
-          { showEditDescription ? <EditLabelModal label={resDescription} setLabel={(label) => setResDescription(label) }/> : null}
+          { resDescription }
+          { showEditDescription ? <EditLabelModal labelName={'description'} label ={resDescription} setLabel={(label) => setResDescription(label)}  clientId={clientData.id} restaurantId={selectedRestaurant} /> : null}
         </Box>
         </Box>
        <Box width={'63%'} display={'flex'} flexDirection={'column'} alignItems='center'> 
@@ -103,6 +101,9 @@ const Overview = ({ restaurants }) => {
   )
 }
 
-const mapStateToProps = (state) => ({restaurants: state?.clientReducer?.client?.restaurants})
+const mapStateToProps = (state) => ({
+  restaurants: state?.clientReducer?.client?.restaurants,
+  clientData: state?.clientReducer?.client
+})
 
 export default withRouter(connect(mapStateToProps, null)(Overview));

@@ -1,54 +1,51 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Modal, withStyles, Fade, IconButton } from '@material-ui/core';
 import WaiteroTextField from '../text-field/waitero-text-field';
 import useStyles from './modal-style';
-import PrimaryButton from '../buttons/primaryButton/primaryButton';
 import { Close, Edit, SaveAlt } from '@material-ui/icons';
+import { updateRestaurantField } from '../../api/api-client/client-requests';
+import WaiteroAlert from '../alert/alert';
+import { connect } from 'react-redux';
 
-const MyBox = withStyles({
-    root:{
-        display:'flex', 
-        width:'80%',
-        border: '0.5px solid rgba(0, 0, 0, 0.1)',
-        borderRadius:'15px',
-        boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
-    }
+const EditLabelModal = ({ labelName, label, setLabel = () => undefined, clientId, restaurantId }) => {
 
-})(Box);
+  const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [field, setField] = useState(label);
+  const classes = useStyles();
 
-const EditLabelModal = ({ label, setLabel}) => {
-    
-    const [open, setOpen] = useState(false);
-    const classes = useStyles();
-    const memoLabel = useRef(label);
+  useEffect(() => {
+    setField(label)
+  }, [label])
 
-    function returnBack() {
-        setLabel(memoLabel.current)
-        setOpen(false);
-    }
+  const updateField = () => {
+    updateRestaurantField({ [labelName]: field }, clientId, restaurantId, setLabel, setLoading, setError, setOpen);
+  }
 
-    return (
-        <>
-        <IconButton onClick={() => setOpen(true)} size={'small'} style={{marginLeft: 15}}><Edit size={ 14 } /></IconButton>
-        <Modal open={open} onClose={ returnBack } back>
-            <Fade in={open} timeout={600}>
-          <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center"  className={classes.paper}>       
+  return (
+    <>
+      <IconButton onClick={() => setOpen(true)} size={'small'} style={{ marginLeft: 15 }}><Edit size={14} /></IconButton>
+      <WaiteroAlert isError={error.length > 0} message={error} cleanError={() => setError('')} />
+      <Modal open={open} onClose={() => setOpen(false)}>
+        <Fade in={open} timeout={600}>
+          <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" className={classes.paper}>
             <Box display="flex" mt={3}>
-            <Box mr={2} width={400}>
-                <WaiteroTextField value={label} onChange={(e)=>setLabel(e.target.value)} fullWidth/>
+              <Box mr={2} width={400}>
+                <WaiteroTextField value={field} onChange={(e) => setField(e.target.value)} fullWidth />
               </Box>
               <Box ml={2}>
-                                <IconButton onClick={returnBack}><Close color='error' size={25}/></IconButton>
-            </Box>
-            <Box ml={2}>
-                <IconButton onClick={() => { setOpen(false) } }><SaveAlt style={{color: 'rgba(0,110,10)', fontSize: 25}}/></IconButton>
+                <IconButton onClick={() => setOpen(false)}><Close color='error' size={25} /></IconButton>
+              </Box>
+              <Box ml={2}>
+                <IconButton onClick={() => updateField()}><SaveAlt style={{ color: 'rgba(0,110,10)', fontSize: 25 }} /></IconButton>
               </Box>
             </Box>
           </Box>
         </Fade>
-        </Modal>
-        </>
-    ); 
+      </Modal>
+    </>
+  );
 }
 
-export default EditLabelModal;
+export default connect(null, null)(EditLabelModal);

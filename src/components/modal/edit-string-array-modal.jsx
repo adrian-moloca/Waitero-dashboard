@@ -1,62 +1,55 @@
-import React, { useRef, useState } from 'react';
-import { Box, Modal, withStyles, Fade, IconButton, InputAdornment } from '@material-ui/core';
-import WaiteroTextField from '../text-field/waitero-text-field';
+import React, { useEffect, useState } from 'react';
+import { Box, Modal, Fade, IconButton } from '@material-ui/core';
+import { ToggleButton } from '@material-ui/lab';
 import useStyles from './modal-style';
-import { Add, Close, Delete, Edit, SaveAlt } from '@material-ui/icons';
+import { Close, Edit, SaveAlt } from '@material-ui/icons';
+import { restaurant_categories } from '../../utils/costants/constants';
+import { updateRestaurantField } from '../../api/api-client/client-requests';
+import WaiteroAlert from '../alert/alert';
 
-const EditStringArrayModal = ({ array, setArray}) => {
+const EditStringArrayModal = ({ labelName, array, setArray = () =>undefined, clientId, restaurantId}) => {
     
     const [open, setOpen] = useState(false);
-    const [itemT, setItemT] = useState('');
+    const [itemT, setItemT] = useState(array);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(false)
     const classes = useStyles();
-    const memoArray = useRef(array);
 
-    function returnBack() {
-        setArray(memoArray.current)
-        setOpen(false);
+    useEffect(() => {
+        setItemT(array)
+    }, [array])
+
+    const onCategoryClick = (category) => {
+        if (itemT.includes(category))
+            setItemT(cuisines => cuisines.filter(cat => cat !== category))
+        else
+            setItemT(cuisines => cuisines.concat([category]))
     }
 
-    function deleteItem(index) {
-        const temp = [...array];
-        temp.splice(index, 1)
-        setArray(temp);
-    }
-
-    function addItem() {
-        setArray(array.concat([itemT]))
-        setItemT('')
-    }
+    const updateField = () => {
+        updateRestaurantField({ [labelName]: itemT }, clientId, restaurantId, setArray, setLoading, setError, setOpen);
+      }
 
     return (
         <>
         <IconButton onClick={() => setOpen(true)} size={'small'} style={{marginLeft: 15}}><Edit size={ 14 } /></IconButton>
-        <Modal open={open} onClose={ returnBack } back>
+        <WaiteroAlert isError={error.length > 0} message={error} cleanError={() => setError('')} />
+        <Modal open={open} onClose={() => setOpen(false)}>
             <Fade in={open} timeout={600}>
           <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center"  className={classes.paper}>       
             <Box display="flex" mt={3}>
-              <Box mr={2} width={400}>
-                <Box>{array.length ? array.map((item, index) => {
-                    return (
-                        <Box style={{backgroundColor: 'rgba(255, 90, 95, 0.1)', width: 'max-content', borderRadius: 5, padding: 3, margin: 5}}>
-                            <span>{ item }</span>
-                            <IconButton onClick={() => deleteItem(index)} size={'small'} style={{marginLeft: 15}}><Delete color='error' size={ 16 } /></IconButton>
-                        </Box>
-                )}) : null }</Box>
-                    <WaiteroTextField value={itemT} onChange={(e) => setItemT(e.target.value)} InputProps={{
-                        endAdornment: (
-                            <InputAdornment position={"start"}>
-                                <IconButton onClick={() => addItem()} size={'small'}>
-                                    <Add size={ 16 }/>
-                                </IconButton>
-                            </InputAdornment>    
-                        )
-                    }} onKeyDown={(event)=>event.key === 'Enter' ? addItem() : null} fullWidth/>
+              <Box mr={2} width={800}>
+                {restaurant_categories.map((category) => {
+                        return <ToggleButton style={{marginRight: 10, marginTop: 10, fontSize: 16}} selected={itemT.includes(category)} onChange={() => onCategoryClick(category)}>
+                            {category}        
+                        </ToggleButton>
+                })}
               </Box>
               <Box ml={2}>
-                    <IconButton onClick={returnBack}><Close color='error' size={25}/></IconButton>
+                    <IconButton onClick={()=>setOpen(false)}><Close color='error' size={25}/></IconButton>
             </Box>
             <Box ml={2}>
-                <IconButton onClick={() => { setOpen(false) } }><SaveAlt style={{color: 'rgba(0,110,10)', fontSize: 25}}/></IconButton>
+                <IconButton onClick={() => updateField()}><SaveAlt style={{color: 'rgba(0,110,10)', fontSize: 25}}/></IconButton>
               </Box>
             </Box>
           </Box>
