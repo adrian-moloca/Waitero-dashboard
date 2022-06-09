@@ -11,7 +11,7 @@ const StatisticsPage = () => {
 
   return (
         <PageContainer>
-            <Box width='90%' display='flex' flexDirection='column' justifyContent='center'>
+            <Box width='90%' display='flex' flexDirection={'column'} justifyContent='center'>
               <Box textAlign='left'  fontSize='35px'>
                 Statistici
               </Box>

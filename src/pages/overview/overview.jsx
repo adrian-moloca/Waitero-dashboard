@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Box, Grid } from '@material-ui/core';
+import React, { useEffect, useState } from 'react';
+import { Box, Grid, MenuItem } from '@material-ui/core';
 import { Rating } from '@material-ui/lab';
 import PageContainer from '../../components/container/page-container/page-container.jsx';
 import BoxWithShadow from '../../components/box/box-with-shadow/box-with-shadow.jsx';
@@ -11,13 +11,15 @@ import AddBoxOverview from '../../components/box/add-box-overview/add-box-overvi
 import GeneralStatisticsBox from '../../components/box/general-statistics-box/general-statistics-box.jsx';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import WaiteroSelect from '../../components/select/waitero-select.jsx';
 
 
-const Overview = () => { 
+const Overview = ({ restaurants }) => { 
 
-  const [coverPhoto, setCoverPhoto] = useState('https://images.unsplash.com/photo-1505253716362-afaea1d3d1af?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80');
+  const [selectedRestaurant, setSelectedRestaurant] = useState(restaurants[0]?.id)
+  const [coverPhoto, setCoverPhoto] = useState(restaurants[0]?.photos);
   const [menuPhoto, setMenuPhoto] = useState('https://images.unsplash.com/photo-1559329007-40df8a9345d8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80')
-  const [restaurantName, setRestaurantName] = useState('Un ristorante qualsiasi');  
+  const [restaurantName, setRestaurantName] = useState(restaurants.find(el=> el.id === selectedRestaurant).restaurantName);  
   const [showEditResName, setShowEditResName] = useState(false);
   const [showEditDescription, setShowEditDescription] = useState(false);
   const [showEditCusines, setShowEditCusines] = useState(false);
@@ -25,13 +27,29 @@ const Overview = () => {
   const [cusines, setCusines] = useState(['Italian', 'Mediteran'])
   const history = useHistory()
 
+  useEffect(() => {
+    setRestaurantName(restaurants.find(el=> el.id === selectedRestaurant).restaurantName)
+    console.log(selectedRestaurant)
+  }, [selectedRestaurant])
+
+  const handleChangeRestaurant = (e) => {
+    setSelectedRestaurant(e.target.value)
+    console.log(e)
+  } 
+
   return (
     <PageContainer>
       <Box display='flex' width={'90%'} flexDirection={'row'} alignItems={'flex-start'} justifyContent={'flex-start'}>
         <Box width='32%' display='flex' flexDirection='column' justifyContent='center'>
-          <Box textAlign='left'  fontSize='35px'>
-            Overview
-          </Box>
+          <WaiteroSelect value={selectedRestaurant} onChange={ handleChangeRestaurant } style={{fontSize: 35}}>
+            {restaurants.map((restaurant, index) => {
+              return (
+                <MenuItem key={restaurant.id + index} value={ restaurant.id }>
+                  { restaurant.restaurantName }
+                </MenuItem>
+              )
+            } ) }
+          </WaiteroSelect>
           <Box paddingTop='8%'>
               <BoxWithShadow source={coverPhoto} setSource={ setCoverPhoto }
                   overlayText={'EDITEAZA COPERTA'} height={250} width={'92%'} isButton />
@@ -45,7 +63,7 @@ const Overview = () => {
           <Box width={'92%'} display={'flex'} fontSize={20} flexDirection={'row'}> <RestaurantMenu size={20} color={'#000'} style={{ paddingRight: 20 }} /><Box onMouseEnter={() => setShowEditCusines(true)} onMouseLeave={() => setShowEditCusines(false)}>{cusines.length ? cusines.join(', ') : ''}{showEditCusines ? <EditStringArrayModal array={cusines} setArray={ setCusines }/> : null}</Box></Box>      
         </Box>
         <Box width={'92%'} display={'flex'} fontSize={19} marginTop={2} onMouseEnter={ () => setShowEditDescription(true) } onMouseLeave={()=>setShowEditDescription(false)}>
-          { resDescription }
+          {  resDescription }
           { showEditDescription ? <EditLabelModal label={resDescription} setLabel={(label) => setResDescription(label) }/> : null}
         </Box>
         </Box>
@@ -85,4 +103,6 @@ const Overview = () => {
   )
 }
 
-export default withRouter(connect(null, null)(Overview));
+const mapStateToProps = (state) => ({restaurants: state?.clientReducer?.client?.restaurants})
+
+export default withRouter(connect(mapStateToProps, null)(Overview));

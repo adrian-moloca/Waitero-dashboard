@@ -8,7 +8,6 @@ export const getClients = (loadingSetter = () => undefined) => {
         awaxios.get('get-clients').then((res) => {
             dispatch(getClientsSuccess(res.data));
         }).catch((error) => {
-            console.log(error);
             dispatch(getClientsFailure(error?.response?.data?.message));
         }).finally(()=>loadingSetter(false))
     }

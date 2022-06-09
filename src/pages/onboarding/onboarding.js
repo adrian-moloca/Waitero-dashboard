@@ -8,6 +8,7 @@ import { useHistory } from 'react-router-dom';
 import { addRestaurant } from '../../api/api-client/client-requests';
 import { connect } from 'react-redux';
 import { restaurant_categories } from '../../utils/costants/constants';
+import { ToggleButton } from '@material-ui/lab';
 
 const OnBoarding = ({ clientReducer, addRestaurant }) => {
 
@@ -18,14 +19,20 @@ const OnBoarding = ({ clientReducer, addRestaurant }) => {
     }
 
     const [restaurantName, setRestaurantName] = useState('');
-    const [restaurantDescription, setRestaurantDescription] = useState([]);
-    const [restaurantCuisines, setRestaurantCuisinies] = useState('');
+    const [restaurantCuisines, setRestaurantCuisinies] = useState([]);
 
     const [loading, setLoading] = useState(false);
 
 
     const submitHandler = () => {
-        addRestaurant(restaurantName, restaurantDescription, restaurantCuisines, clientReducer.client.id, setLoading, setNavigation)
+        addRestaurant(restaurantName, restaurantCuisines, clientReducer.client.id, setLoading, setNavigation)
+    }
+
+    const onCategoryClick = (category) => {
+        if (restaurantCuisines.includes(category))
+            setRestaurantCuisinies(cuisines => cuisines.filter(cat => cat !== category))
+        else
+            setRestaurantCuisinies(cuisines => cuisines.concat([category]))
     }
 
     return (<>
@@ -43,10 +50,12 @@ const OnBoarding = ({ clientReducer, addRestaurant }) => {
                     </Grid>
                     <Slide in={restaurantName.length>0 } direction='right'>
                         <Grid container item xs={10}>
-                            <Box fontSize={28} fontWeight={600} textAlign='left'>Ce tip de mancare serviti? <br/>Este nevoie sa adaugati cel putin o categorie.</Box>
-                            <Box display={'flex'} width='100%' overflow={'scroll'}>
+                            <Box fontSize={28} fontWeight={600} paddingBottom={1} textAlign='left'>Ce tip de mancare serviti? <br/>Este nevoie sa adaugati cel putin o categorie.</Box>
+                            <Box display={'flex'} width='100%' flexWrap={'wrap'}>
                                 {restaurant_categories.map((category) => {
-                                    return <Chip label={category} clickable size='medium'/>
+                                    return <ToggleButton style={{marginRight: 10, marginTop: 10, fontSize: 20}} selected={restaurantCuisines.includes(category)} onChange={() => onCategoryClick(category)}>
+                                        {category}        
+                                    </ToggleButton>
                                 })}
                             </Box>
                         </Grid>

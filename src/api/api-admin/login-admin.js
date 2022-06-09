@@ -11,11 +11,10 @@ export const loginA = (email, password, loadingSetter = () => undefined, setNavi
             email: email,
             password: password
         }).then(res => {
-            dispatch(fetchAdminSuccess(res.data))
+            dispatch(fetchAdminSuccess(res?.data))
             setNavigation('/home');
         }).catch(error => {
-            dispatch(fetchAdminFailure(error.response.data.error))
-            console.log(error)
+            dispatch(fetchAdminFailure(error?.response?.data?.error))
         }).finally(() => {loadingSetter(false) })  
     }
 }

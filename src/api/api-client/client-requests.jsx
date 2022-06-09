@@ -12,7 +12,6 @@ export const addRestaurant = (restaurantName, restaurantCuisines, clientId, load
             dispatch(addRestaurantSuccess(res.data));
             setNavigation('/overview')
         }).catch((error) => {
-            console.log(error);
             dispatch(addRestaurantFailure(error?.response?.data?.message));
         }).finally(()=>loadingSetter(false))
     }

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import './clients.jsx';
 import { Box } from '@material-ui/core';
 import PageContainer from '../../../components/container/page-container/page-container.jsx';
@@ -15,10 +15,16 @@ import { getClients } from '../../../api/api-admin/admin-requests.js';
 
 const Clients = ({ adminReducer, cleanErrorMessage, getClients }) => {
 
+    const isScreenMounted = useRef(true);
+
     const [searched, setSearched] = useState('');
 
     useEffect(() => {
-        getClients();
+        if (!isScreenMounted.current) return;
+        else {
+            getClients()
+        }
+        return () => isScreenMounted.current = false;
     }, [])
 
     return (
@@ -28,11 +34,11 @@ const Clients = ({ adminReducer, cleanErrorMessage, getClients }) => {
                     <Box textAlign="left" fontSize="35px">
                         Clienti
                     </Box>
-                    <AddClientModal />
+                    <AddClientModal/>
                 </Box>
                 <Box width="90%" display="flex" flexDirection="column" justifyContent="center" >
                     <Box textAlign="left" fontSize="35px">
-                        <WaiteroTextField variant="outlined" value={searched} onChange={(e)=>setSearched(e.target.value) }  label="Cauta un client" fullWidth
+                        <WaiteroTextField variant="outlined" value={searched} onChange={(e)=> setSearched(e.target.value) }  label="Cauta un client" fullWidth
                             InputProps={{
                                 endAdornment: (
                                     <InputAdornment position="end">

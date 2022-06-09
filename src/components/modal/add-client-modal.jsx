@@ -8,8 +8,9 @@ import { addClient } from '../../api/api-admin/add-client';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { cleanErrorMessage } from '../../redux/types/AdminTypes';
+import { getClients } from '../../api/api-admin/admin-requests';
 
-const AddClientModal = ({addClientA}) => {
+const AddClientModal = ({addClientA, getClients}) => {
     
     const classes = useStyles();
 
@@ -44,7 +45,7 @@ const AddClientModal = ({addClientA}) => {
                 ADAUGA CLIENTI
             </PrimaryButton>
         </Box>
-            <Modal open={isOpen} onClose={() => { setIsOpen(false);}}>
+            <Modal open={isOpen} onClose={() => { setIsOpen(false); }}>
             <Fade in={isOpen} timeout={600}>
                     <Box display="flex" flexDirection='column' justifyContent="center" alignItems="center" className={classes.paper}>
                         <Box>Adaugare client..</Box>
@@ -88,6 +89,7 @@ const AddClientModal = ({addClientA}) => {
 
 const mapDispatchToProps = (dispatch) => ({
     addClientA: (name, email, phone, password, loadingSetter, closeModalAddClient) => dispatch(addClient(name, email, phone, password, loadingSetter, closeModalAddClient)),
-    cleanErrorMessage: () => dispatch(cleanErrorMessage())
+    cleanErrorMessage: () => dispatch(cleanErrorMessage()),
+    getClients: (loadingSetter) => dispatch(getClients(loadingSetter))
 })
 export default withRouter(connect(null, mapDispatchToProps)(AddClientModal));
