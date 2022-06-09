@@ -8,8 +8,9 @@ import { addClient } from '../../api/api-admin/add-client';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { cleanErrorMessage } from '../../redux/types/AdminTypes';
+import { getClients } from '../../api/api-admin/admin-requests';
 
-const AddClientModal = ({addClientA}) => {
+const AddClientModal = ({addClientA, getClients}) => {
     
     const classes = useStyles();
 
@@ -44,9 +45,10 @@ const AddClientModal = ({addClientA}) => {
                 ADAUGA CLIENTI
             </PrimaryButton>
         </Box>
-        <Modal open={isOpen} onClose={() => setIsOpen(false)} back>
+            <Modal open={isOpen} onClose={() => { setIsOpen(false); }}>
             <Fade in={isOpen} timeout={600}>
-                <Box display="flex" flexDirection='column' justifyContent="center" alignItems="center" className={classes.paper}>
+                    <Box display="flex" flexDirection='column' justifyContent="center" alignItems="center" className={classes.paper}>
+                        <Box>Adaugare client..</Box>
                     <Box marginTop={10}>
                         <Grid container justifyContent='space-around' spacing={3}>
                             <Grid container item xs={5}>
@@ -62,12 +64,12 @@ const AddClientModal = ({addClientA}) => {
                                 <WaiteroTextField placeholder='Phone number' fullWidth defaultValue={phone} onBlur={(t) => setPhone(t.target.value)} />
                             </Grid>
                         </Grid>
-                    </Box>
-                    <Box marginTop={8}>
+                        </Box>
+                    <Box marginTop={6}>
                         <Grid container justifyContent='space-between' spacing={3}>
                             <Grid container item xs={5}>
                                 <PrimaryButton onClick={()=> addClientHandler()} variant={'contained'} style={{fontWeight: "600", width:250}}>
-                                        {loading ? <CircularProgress size={30}/> : 'ADAUGA CLIENT'}
+                                        {loading ? <CircularProgress size={22}/> : 'ADAUGA CLIENT'}
                                 </PrimaryButton>
                             </Grid>
                             <Grid container item xs={5}>
@@ -77,21 +79,17 @@ const AddClientModal = ({addClientA}) => {
                             </Grid>
                         </Grid>
                     </Box>
-                </Box>
-            </Fade>
-        </Modal>
+                    </Box>
+                </Fade>
+            </Modal>
         </>
     );
 
 }
 
-const mapStateToProps = (state) => ({
-    hasErrorsAdmin: state.adminReducer.hasErrors,
-    messageAdmin: state.adminReducer.message
-})
-
 const mapDispatchToProps = (dispatch) => ({
     addClientA: (name, email, phone, password, loadingSetter, closeModalAddClient) => dispatch(addClient(name, email, phone, password, loadingSetter, closeModalAddClient)),
-    cleanErrorMessage: () => dispatch(cleanErrorMessage())
+    cleanErrorMessage: () => dispatch(cleanErrorMessage()),
+    getClients: (loadingSetter) => dispatch(getClients(loadingSetter))
 })
-export default  withRouter(connect(mapStateToProps, mapDispatchToProps)(AddClientModal));
+export default withRouter(connect(null, mapDispatchToProps)(AddClientModal));

@@ -1,14 +1,79 @@
-import React from 'react'
-import './registerStyle.jsx'
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import {Box, Grid, CircularProgress} from '@material-ui/core';
+import LoginContainer from '../../components/container/login-page/login-page-container';
+import LoginBox from '../../components/box/login-page/primary-box-login-page';
+import WaiteroTextField from '../../components/text-field/waitero-text-field';
+import PrimaryButton from '../../components/buttons/primaryButton/primaryButton';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import WaiteroAlert from '../../components/alert/alert';
+import { cleanErrorMessageClient } from '../../redux/types/ClientTypes';
+import SecondaryButton from '../../components/buttons/secondaryButton/secondaryButton';
+import { registerClient } from '../../api/api-client/register-client';
 
-const Register = () => { 
+const Register = ({ registerClient, cleanErrorMessageClient, clientData }) => { 
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [phone, setPhone] = useState('');
+
+  const [loading, setLoading] = useState(false);
+
+
+  const history = useHistory();
+
+  const setNavigation = (path) => {
+    history.push(path)
+  }
+
+  const registerHandler = () => {
+      registerClient(name, email, phone, password, setLoading, setNavigation)
+  }
+
   return (
-    <div>
-      <p>
-      register
-      </p>
-    </div>
-  )
+    <LoginContainer>
+      <WaiteroAlert isError={clientData.hasErrors} message={ clientData.message} cleanError={cleanErrorMessageClient}/>
+      <LoginBox>
+          <Box marginBottom={3} fontSize={25}>
+            Inregistrare
+        </Box>
+        <Grid container item xl={7} lg={7} md={7} spacing={2}>
+              <Grid container item xl={12} lg={12} md={12}>
+                <WaiteroTextField defaultValue = {name} onBlur = {(e)=> setName(e.target.value)} 
+                                label='Nume' variant='outlined' fullWidth/>
+              </Grid>
+              <Grid container item xl={12} lg={12} md={12}>
+                <WaiteroTextField defaultValue = {email} onBlur = {(e)=> setEmail(e.target.value)} 
+                                label='Email' variant='outlined' fullWidth/>
+              </Grid>
+              <Grid container item xl={12} lg={12} md={12}>
+                <WaiteroTextField defaultValue= {password} onBlur = {(e)=> setPassword(e.target.value)} 
+                                label='Parola' variant='outlined' type='password' fullWidth/>
+          </Grid>
+          <Grid container item xl={12} lg={12} md={12}>
+                <WaiteroTextField defaultValue= {phone} onBlur = {(e)=> setPhone(e.target.value)} 
+                                label='Telefon' variant='outlined' fullWidth/>
+              </Grid>
+              <Grid container item xl={12} lg={12} md={12} >
+                  <PrimaryButton variant='contained' onClick={() => registerHandler()} fullWidth>{loading ? <CircularProgress size={30}/> : 'INREGISTRARE'}</PrimaryButton>
+          </Grid>
+          <Grid container item xl={12} lg={12} md={12} >
+                  <SecondaryButton variant='outlined' onClick={() => setNavigation('/login')} fullWidth>AM DEJA CONT, VREAU SA MA LOGHEZ</SecondaryButton>
+              </Grid>
+          </Grid>
+        </LoginBox>
+      </LoginContainer>
+  );
 }
 
-export default Register;
+const mapStateToProps = (state) => ({
+  clientData: state.clientReducer
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  cleanErrorMessageClient: () => dispatch(cleanErrorMessageClient()),
+  registerClient: (name, email, phone, password, loadingSetter, setNavigation) => dispatch(registerClient(name, email, phone, password, loadingSetter, setNavigation))
+})
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Register));

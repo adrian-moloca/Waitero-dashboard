@@ -9,6 +9,10 @@ export const ADD_CLIENT_REQUEST = 'ADD_CLIENT_REQUEST';
 export const ADD_CLIENT_SUCCESS = 'ADD_CLIENT_SUCCESS';
 export const ADD_CLIENT_FAILURE = 'ADD_CLIENT_FAILURE';
 
+export const GET_CLIENTS_REQUEST = 'GET_CLIENTS_REQUEST';
+export const GET_CLIENTS_SUCCESS = 'GET_CLIENTS_SUCCESS';
+export const GET_CLIENTS_FAILURE = 'GET_CLIENTS_FAILURE';
+
 export const REMEMBER_ME_TOGGLE = 'REMEMBER_ME_TOGGLE';
 
 export const CLEAN_ERROR_MESSAGE = 'CLEAN_ERROR_MESSAGE';
@@ -52,7 +56,27 @@ export const addClientSuccess = (response) => {
 
 export const addClientFailure = (error) => {
     return {
-        type: ADD_CLIENT_SUCCESS,
+        type: ADD_CLIENT_FAILURE,
+        payload: error
+    };
+}
+
+export const getClientsRequest = () => {
+    return {
+        type: GET_CLIENTS_REQUEST
+    };
+}
+
+export const getClientsSuccess = (response) => {
+    return {
+        type: GET_CLIENTS_SUCCESS,
+        payload: response
+    };
+}
+
+export const getClientsFailure = (error) => {
+    return {
+        type: GET_CLIENTS_FAILURE,
         payload: error
     };
 }

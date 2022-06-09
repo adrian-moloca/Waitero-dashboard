@@ -1,47 +1,52 @@
 import React from 'react';
-import {BrowserRouter , Route, Switch} from 'react-router-dom';
+import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import ProtectedRoute from '../protected-route/protected-route';
 import Login from '../../pages/login/login';
 import ForgotPassword from '../../pages/login/forgot-password/forgot-password';
 import HomePage from '../../pages/Private/home-page/home-page';
 import StatisticsPage from '../../pages/Private/statistics/statistics';
 import UsersPage from '../../pages/Private/users/users';
-import RestaurantsPage from '../../pages/Private/restaurants/restaurants';
 import ResetPassword from '../../pages/reset-password/reset-password';
 import Overview from '../../pages/overview/overview';
+import Clients from '../../pages/Private/clients/clients';
 import WorkStaff from '../../pages/work-staff/work-staff';
 import Menus from '../../pages/menus/menus';
 import Orders from '../../pages/orders/orders';
 import Settings from '../../pages/settings/settings';
+import OnBoarding from '../../pages/onboarding/onboarding';
+import Register from '../../pages/register/register';
 import { connect } from 'react-redux';
+
 import './Routing.css';
 
-const Routes = ({ isUserAdmin, isUserLoggedIn }) => {
+const Routes = ({ user }) => {
 
     return(
         <BrowserRouter>
-            <Switch>
+            <Switch >
+                <Route exact path='/' component={Login} />
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/login/forgot-password" component={ForgotPassword} />
                 <Route exact path="/reset-password" component={ResetPassword} />
-                <ProtectedRoute exact path="/home" component={HomePage} loggedIn={isUserLoggedIn} role={isUserAdmin} />
-                <ProtectedRoute exact path="/statistics" component={StatisticsPage} loggedIn={isUserLoggedIn} role={isUserAdmin} />
-                <ProtectedRoute exact path="/users" component={UsersPage} loggedIn={isUserLoggedIn} role={isUserAdmin} />
-                <ProtectedRoute exact path="/clients" component={RestaurantsPage} loggedIn={isUserLoggedIn} role={isUserAdmin} />
-                <ProtectedRoute exact path="/overview" component={Overview} loggedIn={isUserLoggedIn} role={isUserAdmin} />
-                <ProtectedRoute exact path="/work-staff" component={WorkStaff} loggedIn={isUserLoggedIn} role={isUserAdmin} />
-                <ProtectedRoute exact path="/menus" component={Menus} loggedIn={isUserLoggedIn} role={isUserAdmin} />
-                <ProtectedRoute exact path="/orders" component={Orders} loggedIn={isUserLoggedIn} role={isUserAdmin} />
-                <ProtectedRoute exact path="/settings" component={Settings}  loggedIn={isUserLoggedIn} role={isUserAdmin}/>
-                <ProtectedRoute path="*" component={isUserAdmin === 'admin' ? HomePage : Overview} loggedIn={isUserLoggedIn} role={isUserAdmin} />
+                <Route exact path="/register" component={Register} />
+                <ProtectedRoute exact path="/home" component={HomePage} user={user} />
+                <ProtectedRoute exact path="/statistics" component={StatisticsPage} user={user} />
+                <ProtectedRoute exact path="/users" component={UsersPage} user={user} />
+                <ProtectedRoute exact path="/clients" component={Clients} user={user} />
+                <ProtectedRoute exact path="/overview" component={Overview} user={user} />
+                <ProtectedRoute exact path="/work-staff" component={WorkStaff} user={user} />
+                <ProtectedRoute exact path="/menus" component={Menus} user={user} />
+                <ProtectedRoute exact path="/orders" component={Orders} user={user} />
+                <ProtectedRoute exact path="/settings" component={Settings}  user={user} />
+                <ProtectedRoute exact path="/on-boarding" component={OnBoarding} user={user} />
+                <ProtectedRoute path="*" component={user.role === 'admin' ? HomePage : Overview} />
             </Switch>
         </BrowserRouter>
     );
 };
 
 const mapStateToProps = (state) => ({
-    isUserAdmin: state.adminReducer?.admin?.role,
-    isUserLoggedIn: state.adminReducer?.admin?.loggedIn || state?.clientReducer?.client.loggedIn
+    user: state.adminReducer?.admin?.loggedIn ? state.adminReducer?.admin : state?.clientReducer?.client
 })
                                             
 export default connect(mapStateToProps, null)(Routes);

@@ -29,11 +29,11 @@ const MyContainer = withStyles({
 const LoginContainer = (props) =>{
     return(
         <MyContainer>
-            <Box maxWidth='100%' paddingTop={'9%'} paddingBottom={ 3} display='flex' justifyContent='center'
+            <Box maxWidth='100%' paddingTop={props.paddingTop || '6%'} paddingBottom={3} display='flex' justifyContent='center'
                 fontSize={60} color={'white' }>
                 WAITERO
             </Box>
-            <Box width='650px' display='flex' alignSelf='center'>
+            <Box width='750px' display='flex' alignSelf='center'>
                 {props.children}
             </Box>
         </MyContainer>

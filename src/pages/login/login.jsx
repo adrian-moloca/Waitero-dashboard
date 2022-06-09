@@ -15,7 +15,6 @@ import { withRouter } from 'react-router-dom';
 import WaiteroAlert from '../../components/alert/alert';
 import { cleanErrorMessageClient, rememberMeToggleClient } from '../../redux/types/ClientTypes';
 import { loginC } from '../../api/api-client/login-client';
-import { isDate } from 'date-fns';
 
 const Login = ({ loginAdmin, loginClient, rememberMeToggleAdmin, rememberMeToggleClient, cleanErrorMessageAdmin, cleanErrorMessageClient, rememberMeAdmin,  rememberMeClient, adminData, clientData }) => { 
 
@@ -55,7 +54,7 @@ const Login = ({ loginAdmin, loginClient, rememberMeToggleAdmin, rememberMeToggl
             Autentificare
         </Box>
         <Box width={'80%'} marginBottom={5}>
-              <Grid container   xs={12} xl={12}>
+              <Grid container>
                 <Grid container item justifyContent='flex-end' xs={4} lg={4} md={4}>
                   <Box>Client</Box>
                 </Grid>
@@ -81,12 +80,17 @@ const Login = ({ loginAdmin, loginClient, rememberMeToggleAdmin, rememberMeToggl
                                   label='Remind me' style={{color:'rgba(255, 90, 95, 1)'}}/>
               </Grid>
               <Grid container item xl={12} lg={6} md={6} justifyContent='flex-end' alignItems='center'>
-                <Link to='/login/forgot-password' style={{color:'rgba(255, 90, 95, 1)', textDecoration:'none', fontSize: '17px'}}>
+                <Link to='/login/forgot-password' style={{color:'rgba(255, 90, 95, 1)', textDecoration:'none', fontSize: '17px', textAlign: 'right'}}>
                   Am uitat parola
                 </Link>
               </Grid>
               <Grid container item xl={12} lg={12} md={12} >
-                  <PrimaryButton variant='contained' onClick={() => loginHandler()} fullWidth>{loading ? <CircularProgress size={30}/> : 'AUTENTIFICARE'}</PrimaryButton>
+                  <PrimaryButton variant='contained' onClick={() => loginHandler()} fullWidth>{loading ? <CircularProgress size={26}/> : 'AUTENTIFICARE'}</PrimaryButton>
+          </Grid>
+          <Grid container item xl={12} lg={12} md={12} justifyContent={'center'} >
+            <Link to='/register' style={{color:'rgba(255, 90, 95, 1)', fontSize: '14px', textAlign: 'center'}}>
+              Vreau sa ma inregistrez
+            </Link>
               </Grid>
           </Grid>
         </LoginBox>

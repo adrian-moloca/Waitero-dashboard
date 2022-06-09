@@ -1,6 +1,8 @@
 import {
     GET_CLIENT_REQUEST, GET_CLIENT_SUCCESS, GET_CLIENT_FAILURE,
-    REMEMBER_ME_TOGGLE, CLEAN_ERROR_MESSAGE, CLEAN_CLIENT_REDUCER
+    REMEMBER_ME_TOGGLE, CLEAN_ERROR_MESSAGE, CLEAN_CLIENT_REDUCER,
+    REGISTER_CLIENT_REQUEST, REGISTER_CLIENT_SUCCESS, REGISTER_CLIENT_FAILURE,
+    ADD_RESTAURANT_REQUEST, ADD_RESTAURANT_SUCCESS, ADD_RESTAURANT_FAILURE
 } from '../types/ClientTypes';
 
 let initial = {
@@ -16,7 +18,8 @@ let initial = {
         name: "",
         phone: "",
         role: "",
-        _id: ""
+        _id: "",
+        restaurants: []
     }
 }
 
@@ -58,6 +61,50 @@ const clientReducer = (state = initial, action) => {
         case CLEAN_CLIENT_REDUCER:
             return {
                 ...initial
+            }
+        case REGISTER_CLIENT_REQUEST:
+            return {
+                ...state,
+                loading: true,
+            }
+        case REGISTER_CLIENT_SUCCESS:
+            return{
+                ...state,
+                client: {...action.payload.client, loggedIn: true},
+                message: action.payload.message, 
+                token: action.payload.token,
+                loading: false,
+                hasErrors: false
+            }
+        case REGISTER_CLIENT_FAILURE:
+            return{
+                ...state,
+                hasErrors: true,
+                message: action.payload,
+                loading: false
+            }
+        case ADD_RESTAURANT_REQUEST:
+            return {
+                ...state,
+                loading: true
+            }
+        case ADD_RESTAURANT_SUCCESS:
+            return {
+                ...state,
+                loading: true,
+                hasErrors: false,
+                message: action.payload.message,
+                client: {
+                    ...state.client,
+                    restaurants: state.client.restaurants.concat([])
+                }
+            }
+        case ADD_RESTAURANT_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                hasErrors: true,
+                message: action.payload
             }
         default: 
             return  {

@@ -1,11 +1,10 @@
-import React, {useLayoutEffect, useState} from 'react';
+/* import React, {useLayoutEffect, useState} from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import SideMenuPrivate from '../../components/side-menu/side-menu-private';
-import SideMenuPublic from '../../components/side-menu/side-menu-public';
 import Header from '../../components/header/header';
 import { useHistory } from 'react-router-dom';
 
-function ProtectedRoute({ component: Component, user, ...restOfProps }) {
+function PrivateRoute({ component: Component, user, ...restOfProps }) {
     
     const history = useHistory();
 
@@ -19,15 +18,15 @@ function ProtectedRoute({ component: Component, user, ...restOfProps }) {
     return (
     <React.Fragment>
         <Header/>
-        {user.role === 'admin' ? <SideMenuPrivate currentPage={currentPage}/> : <SideMenuPublic currentPage={currentPage}/>}
+        <SideMenuPrivate currentPage={currentPage}/>
         <Route
             {...restOfProps}
             render={(restOfProps) =>
-                user.loggedIn ? <Component {...restOfProps} /> : <Redirect to="/login" />
+                user?.loggedIn ? <Component {...restOfProps} /> : <Redirect to="/login" />
             }
         />
     </React.Fragment>
     );
 }
 
-export default ProtectedRoute;
+export default PrivateRoute; */

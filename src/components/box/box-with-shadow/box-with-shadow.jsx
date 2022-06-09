@@ -33,9 +33,9 @@ const BoxWithShadow = ({source, overlayText, isButton, height, width, setSource,
                     width: width,
                 cursor: 'pointer'
                 }} onMouseEnter={() => setOnHover(true)} onMouseLeave={() => setOnHover(false)}>
-                    <label for='select-cover-photo' style={{height: '100%', width: '100%', cursor: 'pointer'}} onClick={(e)=>console.log('LABEL ', e)}>
-                        {onHover ? <Box fontSize={height / 4} fontWeight={'bold'} marginX={2} color={'white'}>{overlayText}</Box> : null}
-                    </label>
+                    {onHover ? <label for='select-cover-photo' style={{height: '100%', width: '100%', backdropFilter: 'brightness(40%)', borderRadius: 5, cursor: 'pointer'}} onClick={(e)=>console.log('LABEL ', e)}>
+                         <Box fontSize={height / 4} fontWeight={'bold'} marginX={2} color={'white'}>{overlayText}</Box>
+                    </label> : null}
             </MyPaper>) : (
                 <MyPaper style={{
                 backgroundImage: `url(${source})`,
