@@ -96,7 +96,7 @@ const clientReducer = (state = initial, action) => {
                 message: action.payload.message,
                 client: {
                     ...state.client,
-                    restaurants: state.client.restaurants.concat([])
+                    restaurants: state.client.restaurants.concat([action?.payload?.restaurant])
                 }
             }
         case ADD_RESTAURANT_FAILURE:
