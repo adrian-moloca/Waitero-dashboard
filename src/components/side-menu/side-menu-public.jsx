@@ -5,6 +5,7 @@ import SideMenuContainer from '../container/side-menu/side-menu-container';
 import { withStyles } from '@material-ui/core';
 import {History, RestaurantMenu, SupervisorAccount, Settings, ViewQuilt} from '@material-ui/icons';
 import {ToggleButton , ToggleButtonGroup} from '@material-ui/lab';
+import { connect } from 'react-redux';
 
 const MyDrawer = withStyles({
 
@@ -46,7 +47,7 @@ const MyButtonGroup = withStyles({
 
 })(ToggleButtonGroup);
 
-const SideMenuPublic = (props) =>{
+const SideMenuPublic = ({currentPage, restaurants}) =>{
 
     const history = useHistory();
 
@@ -55,7 +56,8 @@ const SideMenuPublic = (props) =>{
         <MyDrawer variant='permanent' anchor='left'>
             <SideMenuContainer userRole={'client'} >
                 <Box mt='10%' width='100%'>
-                    <MyButtonGroup value={props.currentPage}
+                    {restaurants.length > 0 &&
+                    <MyButtonGroup value={currentPage}
                                    exclusive 
                                    orientation='vertical'>
                         <MyButton value='/overview' onClick={()=>history.push('/overview')}>
@@ -99,6 +101,7 @@ const SideMenuPublic = (props) =>{
                             </Grid>
                         </MyButton>
                     </MyButtonGroup>
+                    }
                 </Box>
             </SideMenuContainer>
         </MyDrawer>
@@ -106,4 +109,6 @@ const SideMenuPublic = (props) =>{
     );
 }
 
-export default withRouter(SideMenuPublic);
+const mapStateToProps = (state) => ({restaurants: state?.clientReducer?.client?.restaurants || []}) 
+
+export default withRouter(connect(mapStateToProps, null)(SideMenuPublic));

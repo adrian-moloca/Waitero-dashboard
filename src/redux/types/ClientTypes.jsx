@@ -17,6 +17,10 @@ export const ADD_RESTAURANT_REQUEST = 'ADD_RESTAURANT_REQUEST';
 export const ADD_RESTAURANT_SUCCESS = 'ADD_RESTAURANT_SUCCESS';
 export const ADD_RESTAURANT_FAILURE = 'ADD_RESTAURANT_FAILURE';
 
+export const GET_RESTAURANTS_REQUEST = 'GET_RESTAURANTS_REQUEST';
+export const GET_RESTAURANTS_SUCCESS = 'GET_RESTAURANTS_SUCCESS';
+export const GET_RESTAURANTS_FAILURE = 'GET_RESTAURANTS_FAILURE';
+
 // Functions
 // CLIENT fetch functions
 export const fetchClientRequest = () => {
@@ -94,6 +98,26 @@ export const addRestaurantSuccess = (response) => {
 export const addRestaurantFailure = (error) => {
     return {
         type: ADD_RESTAURANT_FAILURE,
+        payload: error
+    };
+};
+
+export const getRestaurantsRequest = () => {
+    return {
+        type: GET_RESTAURANTS_REQUEST
+    };
+};
+
+export const getRestaurantsSuccess = (response) => {
+    return {
+        type: GET_RESTAURANTS_SUCCESS,
+        payload: response
+    };
+};
+
+export const getRestaurantsFailure = (error) => {
+    return {
+        type: GET_RESTAURANTS_FAILURE,
         payload: error
     };
 };

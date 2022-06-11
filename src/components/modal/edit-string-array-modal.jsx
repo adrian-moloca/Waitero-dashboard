@@ -12,7 +12,7 @@ const EditStringArrayModal = ({ labelName, array, setArray = () =>undefined, cli
     const [open, setOpen] = useState(false);
     const [itemT, setItemT] = useState(array);
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(false)
+    const [error, setError] = useState({message: '', isError: false})
     const classes = useStyles();
 
     useEffect(() => {
@@ -33,7 +33,7 @@ const EditStringArrayModal = ({ labelName, array, setArray = () =>undefined, cli
     return (
         <>
         <IconButton onClick={() => setOpen(true)} size={'small'} style={{marginLeft: 15}}><Edit size={ 14 } /></IconButton>
-        <WaiteroAlert isError={error.length > 0} message={error} cleanError={() => setError('')} />
+        <WaiteroAlert isError={error.isError} message={error.message} cleanError={() => setError({message: '', isError: false})} />
         <Modal open={open} onClose={() => setOpen(false)}>
             <Fade in={open} timeout={600}>
           <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center"  className={classes.paper}>       

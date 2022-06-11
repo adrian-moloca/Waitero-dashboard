@@ -2,7 +2,8 @@ import {
     GET_CLIENT_REQUEST, GET_CLIENT_SUCCESS, GET_CLIENT_FAILURE,
     REMEMBER_ME_TOGGLE, CLEAN_ERROR_MESSAGE, CLEAN_CLIENT_REDUCER,
     REGISTER_CLIENT_REQUEST, REGISTER_CLIENT_SUCCESS, REGISTER_CLIENT_FAILURE,
-    ADD_RESTAURANT_REQUEST, ADD_RESTAURANT_SUCCESS, ADD_RESTAURANT_FAILURE
+    ADD_RESTAURANT_REQUEST, ADD_RESTAURANT_SUCCESS, ADD_RESTAURANT_FAILURE,
+    GET_RESTAURANTS_REQUEST, GET_RESTAURANTS_SUCCESS, GET_RESTAURANTS_FAILURE
 } from '../types/ClientTypes';
 
 let initial = {
@@ -100,6 +101,29 @@ const clientReducer = (state = initial, action) => {
                 }
             }
         case ADD_RESTAURANT_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                hasErrors: true,
+                message: action.payload
+            }
+        case GET_RESTAURANTS_REQUEST:
+            return {
+                ...state,
+                loading: true
+            }
+        case GET_RESTAURANTS_SUCCESS:
+            return {
+                ...state,
+                loading: true,
+                hasErrors: false,
+                message: action.payload.message,
+                client: {
+                    ...state.client,
+                    restaurants: action?.payload?.restaurants || []
+                }
+            }
+        case GET_RESTAURANTS_FAILURE:
             return {
                 ...state,
                 loading: false,

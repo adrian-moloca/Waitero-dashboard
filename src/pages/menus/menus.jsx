@@ -3,7 +3,7 @@ import { Box, IconButton, Modal, Paper } from '@material-ui/core';
 
 import PageContainer from '../../components/container/page-container/page-container.jsx';
 
-import { useHistory } from 'react-router-dom';
+import { useHistory, withRouter } from 'react-router-dom';
 
 import MenuCard from '../../components/box/menu-card/menu-card.jsx';
 
@@ -13,13 +13,17 @@ import EditMenuItem from '../../components/modal/edit-menu-item.jsx';
 import AddMenuModal from '../../components/modal/add-menu-type.jsx';
 import AddContent from '../../components/box/add-content/add-content.jsx';
 import AddMenuItem from '../../components/modal/add-menu-item.jsx';
+import { connect } from 'react-redux';
+import { makePickerWithState } from '@material-ui/pickers';
+import PrimaryButton from '../../components/buttons/primaryButton/primaryButton.jsx';
 
 const MENU_DATA = RESTAURANT.restaurantMenu
 
-const Menus = () => { 
+const Menus = ({restaurants}) => { 
 
   const history = useHistory(); 
   const firstRender = useRef(true);
+  const [restaurantSelected, setRestaurantSelected] = useState('');
   const [menuType, setMenuType] = useState(-1)
   const [onSection, setOnSection] = useState(-1);
   const [plateSelected, setPlateSelected] = useState(-1);
@@ -32,9 +36,11 @@ const Menus = () => {
     if (onSection >= 0){
       setOnSection(-1);
       return;
-    }
-    if (menuType >= 0 && onSection < 0){
+    } else if (menuType >= 0 && onSection < 0){
       setMenuType(-1)
+      return;
+    } else if(menuType < 0){
+      setRestaurantSelected('')
       return;
     }
   }
@@ -97,9 +103,28 @@ const Menus = () => {
 
   return (
     <PageContainer>
+      { !restaurantSelected ? (
+              <Box display='flex' width={'90%'} flexDirection={'column'} alignItems={'flex-start'} justifyContent={'flex-start'}>
+                  <Box width='100%' display={'flex'} justifyContent={'center'} fontSize={30} mb={3}>
+                    ALEGETI RESTAURANTUL
+                  </Box>
+                  <>
+                  {restaurants.map((el)=>{
+                    return (
+                      
+                      <PrimaryButton variant='contained' style={{marginBottom: 5}} onClick={()=>setRestaurantSelected(el.id)} fullWidth>
+                        {el.restaurantName}
+                      </PrimaryButton>
+                      
+                      )
+                    })}
+                    </>
+                </Box>
+      ) : (
+        <>
       <Box display='flex' width={'90%'} flexDirection={'column'} alignItems={'flex-start'} justifyContent={'flex-start'}>
         <Box textAlign='left' width={'100%'} fontSize='35px'>
-          <IconButton onClick={() => goBackMenuSelection()} size={'small'} style={{ marginRight: 15 }} disabled={menuType < 0 && onSection < 0}>
+          <IconButton onClick={() => goBackMenuSelection()} size={'small'} style={{ marginRight: 15 }} >
               <ArrowBack size={14} />
             </IconButton>
                 Meniuri
@@ -153,8 +178,11 @@ const Menus = () => {
       <EditMenuItem isModalOpen={modalIngredientsStatus} setIsModalOpen={() => closeModal()} item={menuData?.menuTypes[menuType]?.menuSections[onSection]?.plates[plateSelected]} setItem={(item) => saveEdits(item)} />
       <AddMenuModal isOpen={modalAddMenuType} setIsOpen={() => setModalAddMenuType(false)} createMenuType={(name) => addMenuType(name, menuType)} />
       <AddMenuItem isModalOpen={modalAddMenuItem} setIsModalOpen={() => setModalAddMenuItem(false)} setItem={(newItem) => { saveEditsAddMenuItem(newItem);  console.log(newItem)} }/>
+      </> ) }
     </PageContainer>
   )
 }
 
-export default Menus;
+const mapStateToProps = (state) => ({restaurants: state?.clientReducer?.client?.restaurants})
+
+export default withRouter(connect(mapStateToProps, null)(Menus));

@@ -3,7 +3,7 @@ import { Box, Grid, MenuItem } from '@material-ui/core';
 import { Rating } from '@material-ui/lab';
 import PageContainer from '../../components/container/page-container/page-container.jsx';
 import BoxWithShadow from '../../components/box/box-with-shadow/box-with-shadow.jsx';
-import { useHistory } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 import EditLabelModal from '../../components/modal/edit-label-modal.jsx';
 import { Forum, Money, RestaurantMenu } from '@material-ui/icons';
 import EditStringArrayModal from '../../components/modal/edit-string-array-modal.jsx';
@@ -12,38 +12,61 @@ import GeneralStatisticsBox from '../../components/box/general-statistics-box/ge
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import WaiteroSelect from '../../components/select/waitero-select.jsx';
+import DeleteModal from '../../components/modal/delete-modal.jsx';
+import { getRestaurants, updateRestaurantField } from '../../api/api-client/client-requests.js';
+import { useRef } from 'react';
+import WaiteroAlert from '../../components/alert/alert.jsx';
 
+const Overview = ({ restaurants, clientData, getRestaurants }) => { 
 
-const Overview = ({ restaurants, clientData }) => { 
-
-  const [selectedRestaurant, setSelectedRestaurant] = useState(restaurants[0]?.id)
-  const [coverPhoto, setCoverPhoto] = useState(restaurants[0]?.coverPicture);
+  const [selectedRestaurant, setSelectedRestaurant] = useState(restaurants.length > 0 ? restaurants[0]?.id : '')
+  const [coverPhoto, setCoverPhoto] = useState(restaurants.length > 0 ? restaurants[0]?.coverPicture : '');
   const [menuPhoto, setMenuPhoto] = useState('https://images.unsplash.com/photo-1559329007-40df8a9345d8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80')
-  const [restaurantName, setRestaurantName] = useState(restaurants.find(el=> el.id === selectedRestaurant).restaurantName);  
+  const [restaurantName, setRestaurantName] = useState(restaurants.length > 0 ? restaurants[0]?.restaurantName : '');  
   const [showEditResName, setShowEditResName] = useState(false);
   const [showEditDescription, setShowEditDescription] = useState(false);
   const [showEditCusines, setShowEditCusines] = useState(false);
-  const [resDescription, setResDescription] = useState(restaurants[0].description)
-  const [cusines, setCusines] = useState(restaurants[0].cuisines)
+  const [resDescription, setResDescription] = useState(restaurants.length > 0 ?  restaurants[0]?.description : '')
+  const [cusines, setCusines] = useState(restaurants.length > 0 ? restaurants[0]?.cuisines : '')
+  const [error, setError] = useState({message: '', isError: false})
   const history = useHistory()
+  const firstRender = useRef(true)
 
   useEffect(() => {
-    setRestaurantName(restaurants.find(el=> el.id === selectedRestaurant).restaurantName)
+    setRestaurantName(restaurants.find(el=> el.id === selectedRestaurant)?.restaurantName)
   }, [selectedRestaurant])
+
+  useEffect(()=>{
+    if(!restaurants.find(el=> el.id === selectedRestaurant))
+      setSelectedRestaurant(restaurants[0]?.id)
+  }, [restaurants])
 
   const handleChangeRestaurant = (e) => {
     setSelectedRestaurant(e.target.value)
-  } 
+  }
+
+  useEffect(()=>{
+    getRestaurants(clientData.id, ()=>undefined)
+  },[restaurantName, resDescription, cusines, coverPhoto])
+
+  useEffect(()=>{
+    if(firstRender.current )
+      firstRender.current = false
+    else if(coverPhoto.length > 0 && !(firstRender.current))
+     updateRestaurantField({coverPicture: coverPhoto}, clientData.id, selectedRestaurant, setCoverPhoto, ()=>undefined, setError )
+  }, [coverPhoto])
 
   return (
     <PageContainer>
+      <WaiteroAlert isError={error.isError} message={error.message} cleanError={() => setError({message: '', isError: false})} />
+      {restaurants.length > 0 ? (
       <Box display='flex' width={'90%'} flexDirection={'row'} alignItems={'flex-start'} justifyContent={'flex-start'}>
         <Box width='32%' display='flex' flexDirection='column' justifyContent='center'>
           <WaiteroSelect value={selectedRestaurant} onChange={ handleChangeRestaurant } style={{fontSize: 35}}>
             {restaurants.map((restaurant, index) => {
               return (
                 <MenuItem key={restaurant.id + index} value={ restaurant.id }>
-                  { restaurant.restaurantName }
+                  { restaurant?.restaurantName }
                 </MenuItem>
               )
             } ) }
@@ -63,6 +86,9 @@ const Overview = ({ restaurants, clientData }) => {
         <Box width={'92%'} display={'flex'} fontSize={19} marginTop={2} onMouseEnter={ () => setShowEditDescription(true) } onMouseLeave={()=>setShowEditDescription(false)}>
           { resDescription }
           { showEditDescription ? <EditLabelModal labelName={'description'} label ={resDescription} setLabel={(label) => setResDescription(label)}  clientId={clientData.id} restaurantId={selectedRestaurant} /> : null}
+        </Box>
+        <Box width={'92%'} display={'flex'} fontSize={19} marginTop={2} onMouseEnter={ () => setShowEditDescription(true) } onMouseLeave={()=>setShowEditDescription(false)}>
+          <DeleteModal label={'Sterge restaurantul'} message={'Confirmati stergerea acestui restaurant?'} clientId={clientData.id} restaurantId={selectedRestaurant}/>
         </Box>
         </Box>
        <Box width={'63%'} display={'flex'} flexDirection={'column'} alignItems='center'> 
@@ -97,13 +123,18 @@ const Overview = ({ restaurants, clientData }) => {
       </Box>
           
         </Box>
+    ) : <Redirect to='on-boarding'/>}
     </PageContainer>
   )
 }
 
 const mapStateToProps = (state) => ({
-  restaurants: state?.clientReducer?.client?.restaurants,
+  restaurants: state?.clientReducer?.client?.restaurants || [],
   clientData: state?.clientReducer?.client
 })
 
-export default withRouter(connect(mapStateToProps, null)(Overview));
+const mapDispatchToProps = (dispatch) => ({
+  getRestaurants: (clientId, loadingSetter) => dispatch(getRestaurants(clientId, loadingSetter))
+})
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Overview));

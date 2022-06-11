@@ -11,7 +11,7 @@ const EditLabelModal = ({ labelName, label, setLabel = () => undefined, clientId
 
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState({message: '', isError: false});
   const [field, setField] = useState(label);
   const classes = useStyles();
 
@@ -26,7 +26,7 @@ const EditLabelModal = ({ labelName, label, setLabel = () => undefined, clientId
   return (
     <>
       <IconButton onClick={() => setOpen(true)} size={'small'} style={{ marginLeft: 15 }}><Edit size={14} /></IconButton>
-      <WaiteroAlert isError={error.length > 0} message={error} cleanError={() => setError('')} />
+      <WaiteroAlert isError={error.isError} message={error.message} cleanError={() => setError({message: '', isError: false})} />
       <Modal open={open} onClose={() => setOpen(false)}>
         <Fade in={open} timeout={600}>
           <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" className={classes.paper}>
