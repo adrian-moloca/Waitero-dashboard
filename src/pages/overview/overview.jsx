@@ -22,6 +22,7 @@ const Overview = ({ restaurants, clientData, getRestaurants }) => {
   const [selectedRestaurant, setSelectedRestaurant] = useState(restaurants.length > 0 ? restaurants[0]?.id : '')
   const [coverPhoto, setCoverPhoto] = useState(restaurants.length > 0 ? restaurants[0]?.coverPicture : '');
   const [menuPhoto, setMenuPhoto] = useState('https://images.unsplash.com/photo-1559329007-40df8a9345d8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80')
+  const [photos, setPhotos] = useState(restaurants.length > 0 ? restaurants[0]?.photos : [])
   const [restaurantName, setRestaurantName] = useState(restaurants.length > 0 ? restaurants[0]?.restaurantName : '');  
   const [showEditResName, setShowEditResName] = useState(false);
   const [showEditDescription, setShowEditDescription] = useState(false);
@@ -31,6 +32,13 @@ const Overview = ({ restaurants, clientData, getRestaurants }) => {
   const [error, setError] = useState({message: '', isError: false})
   const history = useHistory()
   const firstRender = useRef(true)
+
+  const handleAddPhotos=(newPhotos, remIndex)=>{
+    if(remIndex !== -1)
+      setPhotos(photos.concat(newPhotos))
+    else
+      setPhotos(photos.filter((el, index)=> index !== remIndex))
+  }
 
   useEffect(() => {
     setRestaurantName(restaurants.find(el=> el.id === selectedRestaurant)?.restaurantName)
@@ -72,7 +80,7 @@ const Overview = ({ restaurants, clientData, getRestaurants }) => {
             } ) }
           </WaiteroSelect>
           <Box paddingTop='8%'>
-              <BoxWithShadow source={coverPhoto} setSource={ setCoverPhoto }
+              <BoxWithShadow name = {'cover-photo'} source={coverPhoto} setSource={ setCoverPhoto }
                   overlayText={'EDITEAZA COPERTA'} height={250} width={'92%'} isButton />
               <Box onMouseEnter={() => setShowEditResName(true)} onMouseLeave={() => setShowEditResName(false)}
               style={{ fontSize: 35, fontWeight: '-moz-initial', paddingTop: '20px', width: 426, fontStyle: 'oblique' }}>{restaurantName}{showEditResName ? <EditLabelModal labelName={'restaurantName'} label={restaurantName} setLabel={(label) => setRestaurantName(label)} clientId={clientData.id} restaurantId={selectedRestaurant} /> : null}</Box>
@@ -102,7 +110,7 @@ const Overview = ({ restaurants, clientData, getRestaurants }) => {
               overlayText={'Tabel personal'} flexDirection={'column'} justifyContent={'space-between'} backgroundColor={'#000000'} height={250} width={'100%'} iconList/>
           </Box>
           </Box>
-          <BoxWithShadow source={menuPhoto} setSource={ setMenuPhoto }
+          <BoxWithShadow name={'photos'} source={photos.length > 0 ? photos[0] : ''} setSource={ setPhotos } multiple 
             overlayText={'ADAUGA POZE'} height={250} width={'100%'} justifyContent={'flex-end'} isButton />
           <Box height={200} width={'100%'} marginTop={4}>
             <Grid container justifyContent='space-between' width='100%'>

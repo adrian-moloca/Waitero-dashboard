@@ -16,13 +16,13 @@ const MyPaper = withStyles({
 
 })(Paper);
 
-const BoxWithShadow = ({source, overlayText, isButton, height, width, setSource, justifyContent}) =>{
+const BoxWithShadow = ({name, source, overlayText, isButton, height, width, setSource, justifyContent, multiple}) =>{
 
     const [onHover, setOnHover] = useState(false);
 
     return(
     <>
-                    <input type='file' name='select-cover-photo' accept='image/*' id={'select-cover-photo'} style={{ display: 'none', height: 0, width: 0 }} onChange={e => setSource(URL.createObjectURL(e.target.files[0])) }/>
+                    <input type='file' multiple={multiple} name={`select-${name})`} accept='image/*' id={`select-${name})`} style={{ display: 'none', height: 0, width: 0 }} onChange={e => setSource(URL.createObjectURL(e.target.files[0])) }/>
             {isButton ? (
             <MyPaper style={{
                 backgroundImage: `url(${source})`,
@@ -33,7 +33,7 @@ const BoxWithShadow = ({source, overlayText, isButton, height, width, setSource,
                     width: width,
                 cursor: 'pointer'
                 }} onMouseEnter={() => setOnHover(true)} onMouseLeave={() => setOnHover(false)}>
-                    {onHover ? <label for='select-cover-photo' style={{height: '100%', width: '100%', backdropFilter: 'brightness(40%)', borderRadius: 5, cursor: 'pointer'}} onClick={(e)=>console.log('LABEL ', e)}>
+                    {onHover ? <label for={`select-${name})`} style={{height: '100%', width: '100%', backdropFilter: 'brightness(40%)', borderRadius: 5, cursor: 'pointer'}} onClick={(e)=>console.log('LABEL ', e)}>
                          <Box fontSize={height / 4} fontWeight={'bold'} marginX={2} color={'white'}>{overlayText}</Box>
                     </label> : null}
             </MyPaper>) : (
