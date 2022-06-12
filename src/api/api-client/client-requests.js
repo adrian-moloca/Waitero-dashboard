@@ -1,5 +1,6 @@
 import { cwaxios } from "../../utils/axios-config";
 import { addRestaurantRequest, addRestaurantSuccess, addRestaurantFailure, getRestaurantsRequest, getRestaurantsSuccess, getRestaurantsFailure } from "../../redux/types/ClientTypes";
+import { getMenusFailure, getMenusRequest, getMenusSuccess } from "../../redux/types/RestaurantTypes";
 
 export const getRestaurants = (clientId, loadingSetter = () => undefined) => {
     loadingSetter(true)
@@ -51,5 +52,32 @@ export const deleteRestaurant = async (clientId, restaurantId, loadingSetter = (
     }).finally(() => {
         loadingSetter(false);
         closeModalDelete();
+    })
+}
+
+export const getMenus = (clientId, restaurantId, loadingSetter = () => undefined) => {
+    loadingSetter(true)
+    return async (dispatch) => {
+        dispatch(getMenusRequest());
+        cwaxios.get(`${clientId}/restaurant/${restaurantId}/get-menus`).then((res) => {
+            dispatch(getMenusSuccess(res.data));
+        }).catch((error) => {
+            dispatch(getMenusFailure(error?.response?.data?.message));
+        }).finally(() => loadingSetter(false))
+    }
+}
+
+export const addMenu = async (menuName, clientId, restaurantId, loadingSetter = () => undefined, errorSetter = () => undefined, closeModalAdd = () => undefined) => {
+    loadingSetter(true);
+    cwaxios.post(`${clientId}/restaurant/${restaurantId}/add-menu`, {
+        menuName: menuName
+    }).then((res) => {
+        errorSetter({message: res?.data?.message, isError: false})
+    }).catch((error) => {
+        errorSetter({message: error?.response?.data?.message || 'cannot update',  isError: true})
+    }).finally(() => {
+        loadingSetter(false);
+        closeModalAdd();
+        window.location.reload()
     })
 }

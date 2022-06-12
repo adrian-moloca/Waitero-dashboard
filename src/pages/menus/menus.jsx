@@ -16,10 +16,14 @@ import AddMenuItem from '../../components/modal/add-menu-item.jsx';
 import { connect } from 'react-redux';
 import { makePickerWithState } from '@material-ui/pickers';
 import PrimaryButton from '../../components/buttons/primaryButton/primaryButton.jsx';
+import { getMenus } from '../../api/api-client/client-requests.js';
+import { cleanErrorMessageRestaurant } from '../../redux/types/RestaurantTypes.js';
+import WaiteroAlert from '../../components/alert/alert.jsx';
+import { cleanErrorMessage } from '../../redux/types/AdminTypes.jsx';
 
 const MENU_DATA = RESTAURANT.restaurantMenu
 
-const Menus = ({restaurants}) => { 
+const Menus = ({restaurants, menus, clientData, restaurantReducer, getMenus, cleanErrorMessage}) => { 
 
   const history = useHistory(); 
   const firstRender = useRef(true);
@@ -101,6 +105,11 @@ const Menus = ({restaurants}) => {
       setModalIngredientsStatus(false)
   }, [plateSelected])
 
+  useEffect(() => {
+    if (restaurantSelected.length > 0)
+        getMenus(clientData.id, restaurantSelected)
+  }, [restaurantSelected])
+
   return (
     <PageContainer>
       { !restaurantSelected ? (
@@ -133,7 +142,7 @@ const Menus = ({restaurants}) => {
           {menuType < 0 && (
             <>
               {
-                menuData.menuTypes?.map((item, index) => {
+                menus?.map((item, index) => {
                   return (
                       <Box marginRight={3} onClick={()=>setMenuType(index)}>
                           <MenuCard title={item.menuName}/>
@@ -176,13 +185,24 @@ const Menus = ({restaurants}) => {
         </Box>
       </Box>
       <EditMenuItem isModalOpen={modalIngredientsStatus} setIsModalOpen={() => closeModal()} item={menuData?.menuTypes[menuType]?.menuSections[onSection]?.plates[plateSelected]} setItem={(item) => saveEdits(item)} />
-      <AddMenuModal isOpen={modalAddMenuType} setIsOpen={() => setModalAddMenuType(false)} createMenuType={(name) => addMenuType(name, menuType)} />
+      <AddMenuModal isOpen={modalAddMenuType} setIsOpen={() => setModalAddMenuType(false)} clientId={clientData.id} restaurantId={restaurantSelected} createMenuType={(name) => addMenuType(name, menuType)} />
       <AddMenuItem isModalOpen={modalAddMenuItem} setIsModalOpen={() => setModalAddMenuItem(false)} setItem={(newItem) => { saveEditsAddMenuItem(newItem);  console.log(newItem)} }/>
-      </> ) }
+        </>)}
+        <WaiteroAlert isError={restaurantReducer.hasErrors} message={restaurantReducer.message} cleanError={() => cleanErrorMessage()} />
     </PageContainer>
   )
 }
 
-const mapStateToProps = (state) => ({restaurants: state?.clientReducer?.client?.restaurants})
+const mapStateToProps = (state) => ({
+  restaurantReducer: state?.restaurantReducer, 
+  menus: state?.restaurantReducer?.restaurant?.menus,
+  restaurants: state?.clientReducer?.client?.restaurants,
+  clientData: state?.clientReducer?.client
+})
 
-export default withRouter(connect(mapStateToProps, null)(Menus));
+const mapDispatchToProps = (dispatch) => ({
+  getMenus: (clientId, restaurantId, loadingSetter) => dispatch(getMenus(clientId, restaurantId, loadingSetter)),
+  cleanErrorMessage: () => dispatch(cleanErrorMessageRestaurant())
+})
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Menus));
