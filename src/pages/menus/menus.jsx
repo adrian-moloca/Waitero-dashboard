@@ -104,7 +104,7 @@ const Menus = ({restaurants}) => {
   return (
     <PageContainer>
       { !restaurantSelected ? (
-              <Box display='flex' width={'90%'} flexDirection={'column'} alignItems={'flex-start'} justifyContent={'flex-start'}>
+              <Box display='flex' width={'90%'} flexDirection={'column'} alignItems={'center'} justifyContent={'flex-start'}>
                   <Box width='100%' display={'flex'} justifyContent={'center'} fontSize={30} mb={3}>
                     ALEGETI RESTAURANTUL
                   </Box>
@@ -112,7 +112,7 @@ const Menus = ({restaurants}) => {
                   {restaurants.map((el)=>{
                     return (
                       
-                      <PrimaryButton variant='contained' style={{marginBottom: 5}} onClick={()=>setRestaurantSelected(el.id)} fullWidth>
+                      <PrimaryButton variant='contained' style={{marginBottom: 5, width: '50%'}} onClick={()=>setRestaurantSelected(el.id)}>
                         {el.restaurantName}
                       </PrimaryButton>
                       

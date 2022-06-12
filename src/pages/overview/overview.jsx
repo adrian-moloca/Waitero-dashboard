@@ -16,6 +16,7 @@ import DeleteModal from '../../components/modal/delete-modal.jsx';
 import { getRestaurants, updateRestaurantField } from '../../api/api-client/client-requests.js';
 import { useRef } from 'react';
 import WaiteroAlert from '../../components/alert/alert.jsx';
+import { getBase64Image, getBase64ImagesArray } from '../../utils/functions/base64Image.js';
 
 const Overview = ({ restaurants, clientData, getRestaurants }) => { 
 
@@ -40,6 +41,11 @@ const Overview = ({ restaurants, clientData, getRestaurants }) => {
       setPhotos(photos.filter((el, index)=> index !== remIndex))
   }
 
+  const createCoverPhoto= async (photo)=>{
+    const base64 = await getBase64Image(photo)
+    setCoverPhoto(base64)
+  }
+
   useEffect(() => {
     setRestaurantName(restaurants.find(el=> el.id === selectedRestaurant)?.restaurantName)
   }, [selectedRestaurant])
@@ -61,7 +67,7 @@ const Overview = ({ restaurants, clientData, getRestaurants }) => {
     if(firstRender.current )
       firstRender.current = false
     else if(coverPhoto.length > 0 && !(firstRender.current))
-     updateRestaurantField({coverPicture: coverPhoto}, clientData.id, selectedRestaurant, setCoverPhoto, ()=>undefined, setError )
+      updateRestaurantField({coverPicture: coverPhoto}, clientData.id, selectedRestaurant, setCoverPhoto, ()=>undefined, setError )
   }, [coverPhoto])
 
   return (
@@ -80,7 +86,7 @@ const Overview = ({ restaurants, clientData, getRestaurants }) => {
             } ) }
           </WaiteroSelect>
           <Box paddingTop='8%'>
-              <BoxWithShadow name = {'cover-photo'} source={coverPhoto} setSource={ setCoverPhoto }
+              <BoxWithShadow name = {'cover-photo'} source={coverPhoto} setSource={ createCoverPhoto }
                   overlayText={'EDITEAZA COPERTA'} height={250} width={'92%'} isButton />
               <Box onMouseEnter={() => setShowEditResName(true)} onMouseLeave={() => setShowEditResName(false)}
               style={{ fontSize: 35, fontWeight: '-moz-initial', paddingTop: '20px', width: 426, fontStyle: 'oblique' }}>{restaurantName}{showEditResName ? <EditLabelModal labelName={'restaurantName'} label={restaurantName} setLabel={(label) => setRestaurantName(label)} clientId={clientData.id} restaurantId={selectedRestaurant} /> : null}</Box>

@@ -22,7 +22,7 @@ const BoxWithShadow = ({name, source, overlayText, isButton, height, width, setS
 
     return(
     <>
-                    <input type='file' multiple={multiple} name={`select-${name})`} accept='image/*' id={`select-${name})`} style={{ display: 'none', height: 0, width: 0 }} onChange={e => setSource(URL.createObjectURL(e.target.files[0])) }/>
+                    <input type='file' multiple={multiple} name={`select-${name})`} accept='image/*' id={`select-${name})`} style={{ display: 'none', height: 0, width: 0 }} onChange={e => setSource(e.target.files[0]) }/>
             {isButton ? (
             <MyPaper style={{
                 backgroundImage: `url(${source})`,
