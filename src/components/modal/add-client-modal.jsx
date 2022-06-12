@@ -46,7 +46,7 @@ const AddClientModal = ({addClientA, getClients}) => {
             </PrimaryButton>
         </Box>
             <Modal open={isOpen} onClose={() => { setIsOpen(false); }}>
-            <Fade in={isOpen} timeout={600}>
+                <Fade in={isOpen} timeout={600}>
                     <Box display="flex" flexDirection='column' justifyContent="center" alignItems="center" className={classes.paper}>
                         <Box>Adaugare client..</Box>
                     <Box marginTop={10}>
@@ -69,7 +69,7 @@ const AddClientModal = ({addClientA, getClients}) => {
                         <Grid container justifyContent='space-between' spacing={3}>
                             <Grid container item xs={5}>
                                 <PrimaryButton onClick={()=> addClientHandler()} variant={'contained'} style={{fontWeight: "600", width:250}}>
-                                        {loading ? <CircularProgress size={22}/> : 'ADAUGA CLIENT'}
+                                        {loading ? <CircularProgress size={22} style={{color: '#fff'}} /> : 'ADAUGA CLIENT'}
                                 </PrimaryButton>
                             </Grid>
                             <Grid container item xs={5}>

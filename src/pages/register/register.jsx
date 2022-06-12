@@ -57,7 +57,7 @@ const Register = ({ registerClient, cleanErrorMessageClient, clientData }) => {
                                 label='Telefon' variant='outlined' fullWidth/>
               </Grid>
               <Grid container item xl={12} lg={12} md={12} >
-                  <PrimaryButton variant='contained' onClick={() => registerHandler()} fullWidth>{loading ? <CircularProgress size={30}/> : 'INREGISTRARE'}</PrimaryButton>
+                  <PrimaryButton variant='contained' onClick={() => registerHandler()} fullWidth>{loading ? <CircularProgress  style={{color: '#fff'}} size={30}/> : 'INREGISTRARE'}</PrimaryButton>
           </Grid>
           <Grid container item xl={12} lg={12} md={12} >
                   <SecondaryButton variant='outlined' onClick={() => setNavigation('/login')} fullWidth>AM DEJA CONT, VREAU SA MA LOGHEZ</SecondaryButton>

@@ -62,7 +62,7 @@ const OnBoarding = ({ clientReducer, addRestaurant }) => {
                     </Slide>
                     <Grid container item xs={10} justifyContent={'flex-end'}>
                         <PrimaryButton variant={'contained'} disabled={!restaurantName.length || !restaurantCuisines.length} onClick={() => submitHandler()} style={{ width: 350 }}>
-                            { loading ? <CircularProgress size={26}/> : 'SUBMITETI' }
+                            { loading ? <CircularProgress  style={{color: '#fff'}} size={26}/> : 'SUBMITETI' }
                         </PrimaryButton>
                     </Grid>
                     {/* <Redirect to={'/overview'}/> */}

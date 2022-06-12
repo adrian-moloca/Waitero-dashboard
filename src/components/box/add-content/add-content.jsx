@@ -4,9 +4,9 @@ import { AddBoxTwoTone } from "@material-ui/icons";
 
 const AddContent = ({title}) => {
     return (
-        <Box display={'flex'}>
+        <Box display={'flex'} flexDirection={'column'} alignItems={'center'}>
             {title}
-            <AddBoxTwoTone style={{fontSize: '50px'}}/>
+            <AddBoxTwoTone style={{fontSize: '50px', marginTop: 10}}/>
         </Box>
     );
 }

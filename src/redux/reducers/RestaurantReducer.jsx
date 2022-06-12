@@ -1,7 +1,9 @@
 import {
     GET_RESTAURANT_REQUEST, GET_RESTAURANT_SUCCESS, GET_RESTAURANT_FAILURE,
     CLEAN_ERROR_MESSAGE, CLEAN_RESTAURANT_REDUCER,
-    GET_MENUS_REQUEST, GET_MENUS_SUCCESS, GET_MENUS_FAILURE
+    GET_MENUS_REQUEST, GET_MENUS_SUCCESS, GET_MENUS_FAILURE,
+    GET_CATEGORIES_REQUEST, GET_CATEGORIES_SUCCESS, GET_CATEGORIES_FAILURE,
+    GET_PLATES_REQUEST, GET_PLATES_SUCCESS, GET_PLATES_FAILURE
 } from '../types/RestaurantTypes';
 
 let initial = {
@@ -53,7 +55,7 @@ const restaurantReducer = (state = initial, action) => {
         case GET_MENUS_SUCCESS:
             return {
                 ...state,
-                loading: true,
+                loading: false,
                 hasErrors: false,
                 message: action.payload.message,
                 restaurant: {
@@ -62,6 +64,52 @@ const restaurantReducer = (state = initial, action) => {
                 }
             }
         case GET_MENUS_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                hasErrors: true,
+                message: action.payload
+            }
+        case GET_CATEGORIES_REQUEST:
+            return {
+                ...state,
+                loading: true
+            }
+        case GET_CATEGORIES_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                hasErrors: false,
+                message: action.payload.message,
+                restaurant: {
+                    ...state.restaurant,
+                    categories: action?.payload?.categories || []
+                }
+            }
+        case GET_CATEGORIES_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                hasErrors: true,
+                message: action.payload
+            }
+        case GET_PLATES_REQUEST:
+            return {
+                ...state,
+                loading: true
+            }
+        case GET_PLATES_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                hasErrors: false,
+                message: action.payload.message,
+                restaurant: {
+                    ...state.restaurant,
+                    plates: action?.payload?.plates || []
+                }
+            }
+        case GET_PLATES_FAILURE:
             return {
                 ...state,
                 loading: false,

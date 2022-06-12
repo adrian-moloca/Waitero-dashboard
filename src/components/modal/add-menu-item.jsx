@@ -1,25 +1,29 @@
-import React, { useLayoutEffect, useState } from 'react';
-import { Box, Modal, Fade, Grid, InputAdornment, IconButton } from '@material-ui/core';
+import React, { useState } from 'react';
+import { Box, Modal, Fade, Grid, InputAdornment, IconButton, CircularProgress } from '@material-ui/core';
 import useStyles from './modal-style';
 import WaiteroTextField from '../text-field/waitero-text-field';
 import { Add, Close, Delete, SaveAlt } from '@material-ui/icons';
+import { addPlate } from '../../api/api-client/client-requests';
+import WaiteroAlert from '../alert/alert';
 
-const AddMenuItem = ({isModalOpen, setIsModalOpen, setItem }) => {
+const AddMenuItem = ({isModalOpen, setIsModalOpen, setItem, clientId, restaurantId, menuId, categoryId}) => {
     
     const classes = useStyles();
 
     const initialItem = {
         plateName: '',
         plateIngredients: [],
-        platePrice: 0
+        platePrice: ''
     }
 
     const [tempItem, setTempItem] = useState(initialItem);
-    const [newItem, setNewItem] = useState('')
+    const [newIngredient, setNewIngredient] = useState('')
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState({ message: '', isError: false });
 
     function addItem() {
-        setTempItem({ ...tempItem, plateIngredients: tempItem?.plateIngredients?.concat([{ ingredientName: newItem, ingredientPrice: 0 }]) });
-        setNewItem('');
+        setTempItem({ ...tempItem, plateIngredients: tempItem?.plateIngredients?.concat([ newIngredient ]) });
+        setNewIngredient('');
     }
 
     function deleteItem(index) {
@@ -35,64 +39,68 @@ const AddMenuItem = ({isModalOpen, setIsModalOpen, setItem }) => {
 
     const setEdits = (item, index) => {
         const tempIngredients = [...tempItem.plateIngredients]
-        tempIngredients.splice(index, 1,{...tempItem.plateIngredients[index], ingredientName: item})
+        tempIngredients.splice(index, 1, item)
         setTempItem({ ...tempItem, plateIngredients: tempIngredients })    
     }
 
     function saveItem() {
-        setItem(tempItem);
-        setIsModalOpen();
+        addPlate(tempItem.plateName, parseFloat(tempItem.platePrice), newIngredient.length > 0 ? tempItem.plateIngredients.concat([newIngredient]) : tempItem.plateIngredients, clientId, restaurantId, menuId, categoryId, setLoading, setError, ()=>setIsModalOpen())
         setTempItem(initialItem);
     }
 
     return (
         <>
-            <Modal open={isModalOpen} onClose={()=>returnBack() } back>
+            <WaiteroAlert isError={error.isError} message={error.message} cleanError={() => setError({message: '', isError: false})} />
+            <Modal open={isModalOpen} onClose={()=>returnBack() }>
                 <Fade in={isModalOpen} timeout={600}>
-                    <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" className={classes.paper}>       
-                        <Box mr={2} width={400}>
-                            <WaiteroTextField value={tempItem.plateName} onChange={(e)=>setTempItem({...tempItem, plateName: e.target.value})} placeholder='Plate name' fullWidth/>
-                        </Box>
-                        <Box display="flex" mt={3} width='80%' fontSize={22}>
-                            <Grid container justifyContent='space-between'>
-                                {tempItem?.plateIngredients?.map((ing, index) => {
-                                    return (
-                                        <Grid container item xs={5}>
-                                            <WaiteroTextField fullWidth defaultValue={ing.ingredientName} onChange={(t) => setEdits(t.target.value, index)}
-                                                            InputProps={{
-                                                                endAdornment: (
-                                                                    <InputAdornment position={"start"}>
-                                                                        <IconButton onClick={() => deleteItem(index)} size={'small'}>
-                                                                            <Delete size={ 16 }/>
-                                                                        </IconButton>
-                                                                    </InputAdornment>    
-                                                                )
-                                                            }}/>
-                                        </Grid>
-                                    )
-                                }) || "Ingredients can't be read"}
-                                <Grid container item xs={5}>
-                                <WaiteroTextField value={newItem} onChange={(e) => setNewItem(e.target.value)} InputProps={{
-                                    endAdornment: (
-                                        <InputAdornment position={"start"}>
-                                            <IconButton onClick={() => addItem()} size={'small'}>
-                                                <Add size={ 16 }/>
-                                            </IconButton>
-                                        </InputAdornment>    
-                                    )
-                                }} onKeyDown={(event)=>event.key === 'Enter' ? addItem() : null} fullWidth/>
+                    <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" className={classes.paper}>
+                        {loading ? <CircularProgress /> : (<>
+                            <Box mr={2} width={400}>
+                                <WaiteroTextField value={tempItem.plateName} onChange={(e) => setTempItem({ ...tempItem, plateName: e.target.value })} placeholder='Nume preparat' fullWidth />
+                            </Box>
+                            <Box mr={2} width={400}>
+                                <WaiteroTextField value={tempItem.platePrice} onChange={(e) => setTempItem({ ...tempItem, platePrice: e.target.value })} placeholder='Pret preparat' fullWidth />
+                            </Box>
+                            <Box display="flex" mt={3} width='80%' fontSize={22}>
+                                <Grid container justifyContent='space-between'>
+                                    {tempItem?.plateIngredients?.map((ing, index) => {
+                                        return (
+                                            <Grid key={ing} container item xs={5}>
+                                                <WaiteroTextField fullWidth value={ing} onChange={(t) => setEdits(t.target.value, index)}
+                                                    InputProps={{
+                                                        endAdornment: (
+                                                            <InputAdornment position={"start"}>
+                                                                <IconButton onClick={() => deleteItem(index)} size={'small'}>
+                                                                    <Delete size={16} />
+                                                                </IconButton>
+                                                            </InputAdornment>
+                                                        )
+                                                    }} />
+                                            </Grid>
+                                        )
+                                    }) || "Ingredients can't be read"}
+                                    <Grid container item xs={5}>
+                                        <WaiteroTextField value={newIngredient} onChange={(e) => setNewIngredient(e.target.value)} InputProps={{
+                                            endAdornment: (
+                                                <InputAdornment position={"start"}>
+                                                    <IconButton onClick={() => addItem()} size={'small'}>
+                                                        <Add size={16} />
+                                                    </IconButton>
+                                                </InputAdornment>
+                                            )
+                                        }} onKeyDown={(event) => event.key === 'Enter' ? addItem() : null} placeholder='Adauga ingredient' fullWidth />
+                                    </Grid>
                                 </Grid>
-                            </Grid>
-                        </Box>
-                        <Box display="flex" mt={3}>
-                            <Box ml={2}>
-                                    <IconButton onClick={returnBack}><Close color='error' size={25}/></IconButton>
                             </Box>
-                            <Box ml={2}>
-                                <IconButton onClick={saveItem}><SaveAlt style={{color: 'rgba(0,110,10)', fontSize: 25}}/></IconButton>
+                            <Box display="flex" mt={3}>
+                                <Box ml={2}>
+                                    <IconButton onClick={returnBack}><Close color='error' size={25} /></IconButton>
+                                </Box>
+                                <Box ml={2}>
+                                    <IconButton onClick={saveItem}><SaveAlt style={{ color: 'rgba(0,110,10)', fontSize: 25 }} /></IconButton>
+                                </Box>
                             </Box>
-                        </Box>
-
+                        </>)}
                     </Box>
                 </Fade>
             </Modal>

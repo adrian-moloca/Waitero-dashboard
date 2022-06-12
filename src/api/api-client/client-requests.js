@@ -1,6 +1,6 @@
 import { cwaxios } from "../../utils/axios-config";
 import { addRestaurantRequest, addRestaurantSuccess, addRestaurantFailure, getRestaurantsRequest, getRestaurantsSuccess, getRestaurantsFailure } from "../../redux/types/ClientTypes";
-import { getMenusFailure, getMenusRequest, getMenusSuccess } from "../../redux/types/RestaurantTypes";
+import { getCategoriesFailure, getCategoriesRequest, getCategoriesSuccess, getMenusFailure, getMenusRequest, getMenusSuccess, getPlatesFailure, getPlatesRequest, getPlatesSuccess } from "../../redux/types/RestaurantTypes";
 
 export const getRestaurants = (clientId, loadingSetter = () => undefined) => {
     loadingSetter(true)
@@ -78,6 +78,71 @@ export const addMenu = async (menuName, clientId, restaurantId, loadingSetter = 
     }).finally(() => {
         loadingSetter(false);
         closeModalAdd();
-        window.location.reload()
+    })
+}
+
+export const getCategories = (clientId, restaurantId, menuId, loadingSetter = () => undefined) => {
+    loadingSetter(true)
+    return async (dispatch) => {
+        dispatch(getCategoriesRequest());
+        cwaxios.get(`${clientId}/restaurant/${restaurantId}/menu/${menuId}/get-categories`).then((res) => {
+            dispatch(getCategoriesSuccess(res.data));
+        }).catch((error) => {
+            dispatch(getCategoriesFailure(error?.response?.data?.message));
+        }).finally(() => loadingSetter(false))
+    }
+}
+
+export const addCategory = async (categoryName, clientId, restaurantId, menuId, loadingSetter = () => undefined, errorSetter = () => undefined, closeModalAdd = () => undefined) => {
+    loadingSetter(true);
+    cwaxios.post(`${clientId}/restaurant/${restaurantId}/menu/${menuId}/add-category`, {
+        categoryName: categoryName
+    }).then((res) => {
+        errorSetter({message: res?.data?.message, isError: false})
+    }).catch((error) => {
+        errorSetter({message: error?.response?.data?.message || 'cannot update',  isError: true})
+    }).finally(() => {
+        loadingSetter(false);
+        closeModalAdd();
+    })
+}
+
+export const getPlates = (clientId, restaurantId, menuId, categoryId, loadingSetter = () => undefined) => {
+    loadingSetter(true)
+    return async (dispatch) => {
+        dispatch(getPlatesRequest());
+        cwaxios.get(`${clientId}/restaurant/${restaurantId}/menu/${menuId}/category/${categoryId}/get-plates`).then((res) => {
+            dispatch(getPlatesSuccess(res.data));
+        }).catch((error) => {
+            dispatch(getPlatesFailure(error?.response?.data?.message));
+        }).finally(() => loadingSetter(false))
+    }
+}
+
+export const addPlate = async (plateName, platePrice, plateIngredients, clientId, restaurantId, menuId, categoryId, loadingSetter = () => undefined, errorSetter = () => undefined, closeModalAdd = () => undefined) => {
+    loadingSetter(true);
+    cwaxios.post(`${clientId}/restaurant/${restaurantId}/menu/${menuId}/category/${categoryId}/add-plate`, {
+        plateName: plateName,
+        platePrice: platePrice,
+        plateIngredients: plateIngredients
+    }).then((res) => {
+        errorSetter({message: res?.data?.message, isError: false})
+    }).catch((error) => {
+        errorSetter({message: error?.response?.data?.message || 'cannot update',  isError: true})
+    }).finally(() => {
+        loadingSetter(false);
+        closeModalAdd();
+    })
+}
+
+export const getPlateMinimumPrice = (clientId, restaurantId, setMinimum = () => undefined, loadingSetter = () => undefined, errorSetter = () => undefined) => {
+    loadingSetter(true);
+    cwaxios.get(`${clientId}/restaurant/${restaurantId}/get-minimum-price-plate`).then((res) => {
+        setMinimum(res?.data?.plates?.platePrice)
+        errorSetter(res?.data?.message)
+    }).catch((error) => {
+        errorSetter({message: error?.response?.data?.message || 'cannot update',  isError: true})
+    }).finally(() => {
+        loadingSetter(false);
     })
 }

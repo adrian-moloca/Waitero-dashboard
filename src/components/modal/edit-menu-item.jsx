@@ -10,13 +10,11 @@ const EditMenuItem = ({isModalOpen, setIsModalOpen, item, setItem }) => {
     const classes = useStyles();
 
     const [tempItem, setTempItem] = useState(item);
-    const [newItem, setNewItem] = useState('')
+    const [newIngredient, setNewIngredient] = useState('')
 
     function addItem() {
-        console.log(tempItem)
-        setTempItem({ ...tempItem, plateIngredients: tempItem?.plateIngredients?.concat([{ ingredientName: newItem, ingredientPrice: 0 }]) });
-        console.log('tempItem', tempItem)
-        setNewItem('');
+        setTempItem({ ...tempItem, plateIngredients: tempItem?.plateIngredients?.concat([ newIngredient ]) });
+        setNewIngredient('');
     }
 
     function deleteItem(index) {
@@ -31,8 +29,7 @@ const EditMenuItem = ({isModalOpen, setIsModalOpen, item, setItem }) => {
 
     const setEdits = (item, index) => {
         const tempIngredients = [...tempItem.plateIngredients]
-        tempIngredients.splice(index, 1,{...tempItem.plateIngredients[index], ingredientName: item})
-        console.log('tempIngredients', tempIngredients)
+        tempIngredients.splice(index, 1, item)
         setTempItem({ ...tempItem, plateIngredients: tempIngredients })    
     }
 
@@ -51,15 +48,18 @@ const EditMenuItem = ({isModalOpen, setIsModalOpen, item, setItem }) => {
             <Modal open={isModalOpen} onClose={()=>returnBack() } back>
                 <Fade in={isModalOpen} timeout={600}>
                     <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center"  className={classes.paper}>       
-                        <Box display="flex" mt={3} fontSize={22}>
-                            {tempItem?.plateName || "Plate name can't be read"}
-                        </Box>
+                        <Box mr={2} width={400}>
+                                <WaiteroTextField value={tempItem?.plateName} onChange={(e) => setTempItem({ ...tempItem, plateName: e.target.value })} placeholder='Nume preparat' fullWidth />
+                            </Box>
+                            <Box mr={2} width={400}>
+                                <WaiteroTextField value={tempItem?.platePrice} onChange={(e) => setTempItem({ ...tempItem, platePrice: e.target.value })} placeholder='Pret preparat' fullWidth />
+                            </Box>
                         <Box display="flex" mt={3} width='80%' fontSize={22}>
                             <Grid container justifyContent='space-between'>
                                 {tempItem?.plateIngredients?.map((ing, index) => {
                                     return (
                                         <Grid container item xs={5}>
-                                            <WaiteroTextField fullWidth defaultValue={ing.ingredientName} onChange={(t) => setEdits(t.target.value, index)}
+                                            <WaiteroTextField fullWidth defaultValue={ing} onChange={(t) => setEdits(t.target.value, index)}
                                                             InputProps={{
                                                                 endAdornment: (
                                                                     <InputAdornment position={"start"}>
@@ -73,7 +73,7 @@ const EditMenuItem = ({isModalOpen, setIsModalOpen, item, setItem }) => {
                                     )
                                 }) || "Ingredients can't be read"}
                                 <Grid container item xs={5}>
-                                <WaiteroTextField value={newItem} onChange={(e) => setNewItem(e.target.value)} InputProps={{
+                                <WaiteroTextField value={newIngredient} onChange={(e) => setNewIngredient(e.target.value)} InputProps={{
                                     endAdornment: (
                                         <InputAdornment position={"start"}>
                                             <IconButton onClick={() => addItem()} size={'small'}>
