@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Grid, MenuItem } from '@material-ui/core';
+import { Box, CircularProgress, Grid, MenuItem } from '@material-ui/core';
 import { Rating } from '@material-ui/lab';
 import PageContainer from '../../components/container/page-container/page-container.jsx';
 import BoxWithShadow from '../../components/box/box-with-shadow/box-with-shadow.jsx';
@@ -16,15 +16,13 @@ import DeleteModal from '../../components/modal/delete-modal.jsx';
 import { getPlateMinimumPrice, getRestaurants, updateRestaurantField } from '../../api/api-client/client-requests.js';
 import { useRef } from 'react';
 import WaiteroAlert from '../../components/alert/alert.jsx';
-import { getBase64Image, getBase64ImagesArray } from '../../utils/functions/base64Image.js';
+import { getBase64Image } from '../../utils/functions/base64Image.js';
 
 const Overview = ({ restaurants, clientData, getRestaurants }) => { 
 
   const [selectedRestaurant, setSelectedRestaurant] = useState(restaurants.length > 0 ? restaurants[0]?.id : '')
   const [coverPhoto, setCoverPhoto] = useState(restaurants.length > 0 ? restaurants[0]?.coverPicture : '');
   const [photoChanged, setPhotoChanged] = useState(false);
-  const [menuPhoto, setMenuPhoto] = useState('https://images.unsplash.com/photo-1559329007-40df8a9345d8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80')
-  const [photos, setPhotos] = useState(restaurants.length > 0 ? restaurants[0]?.photos : [])
   const [restaurantName, setRestaurantName] = useState(restaurants.length > 0 ? restaurants[0]?.restaurantName : '');  
   const [showEditResName, setShowEditResName] = useState(false);
   const [showEditDescription, setShowEditDescription] = useState(false);
@@ -36,13 +34,6 @@ const Overview = ({ restaurants, clientData, getRestaurants }) => {
   const [loadingMinPrice, setLoadMinPrice] = useState(false);
   const history = useHistory()
   const firstRender = useRef(true)
-
-  const handleAddPhotos=(newPhotos, remIndex)=>{
-    if(remIndex !== -1)
-      setPhotos(photos.concat(newPhotos))
-    else
-      setPhotos(photos.filter((el, index)=> index !== remIndex))
-  }
 
   const createCoverPhoto= async (photo)=>{
     const base64 = await getBase64Image(photo)
@@ -107,7 +98,7 @@ const Overview = ({ restaurants, clientData, getRestaurants }) => {
           <Box>
           <Box width={'92%'}  display={'flex'} justifyContent={'flex-end'}> <Rating readOnly defaultValue={4.3} precision={0.1} size='large'/></Box>
           <Box width={'92%'} display={'flex'} fontSize={20} flexDirection={'row'}> <Forum size={20} color={'#000'} style={{ paddingRight: 20 }} /> <Box>233 recenzii</Box></Box>    
-          <Box width={'92%'} display={'flex'} fontSize={20} flexDirection={'row'}> <Money size={20} color={'#000'} style={{ paddingRight: 20 }} /> <Box>{plateMinimumPrice} RON pret minim</Box></Box>      
+          <Box width={'92%'} display={'flex'} fontSize={20} flexDirection={'row'}> <Money size={20} color={'#000'} style={{ paddingRight: 20 }} /> <Box>{loadingMinPrice ? <CircularProgress size={16}/> : plateMinimumPrice} RON pret minim</Box></Box>      
           <Box width={'92%'} display={'flex'} fontSize={20} flexDirection={'row'}> <RestaurantMenu size={20} color={'#000'} style={{ paddingRight: 20 }} /><Box onMouseEnter={() => setShowEditCusines(true)} onMouseLeave={() => setShowEditCusines(false)}>{cusines.length ? cusines.join(', ') : ''}{showEditCusines ? <EditStringArrayModal labelName={'cuisines'} array={cusines} setArray={(cuisines) => setCusines(cuisines) }  clientId={clientData.id} restaurantId={selectedRestaurant}/> : null}</Box></Box>      
         </Box>
         <Box width={'92%'} display={'flex'} fontSize={19} marginTop={2} onMouseEnter={ () => setShowEditDescription(true) } onMouseLeave={()=>setShowEditDescription(false)}>

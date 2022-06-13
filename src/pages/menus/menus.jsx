@@ -1,32 +1,29 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { Box, CircularProgress, IconButton, Modal, Paper } from '@material-ui/core';
+import React, { useEffect, useRef, useState } from 'react';
+import { Box, CircularProgress, IconButton } from '@material-ui/core';
 
 import PageContainer from '../../components/container/page-container/page-container.jsx';
 
-import { useHistory, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 import MenuCard from '../../components/box/menu-card/menu-card.jsx';
 
 import { RESTAURANT } from './data.js';
-import { AddBoxTwoTone, ArrowBack, Delete, Edit } from '@material-ui/icons';
+import { ArrowBack, Edit } from '@material-ui/icons';
 import EditMenuItem from '../../components/modal/edit-menu-item.jsx';
 import AddMenuModal from '../../components/modal/add-menu-type.jsx';
 import AddContent from '../../components/box/add-content/add-content.jsx';
 import AddMenuItem from '../../components/modal/add-menu-item.jsx';
 import { connect } from 'react-redux';
-import { makePickerWithState } from '@material-ui/pickers';
 import PrimaryButton from '../../components/buttons/primaryButton/primaryButton.jsx';
 import { getCategories, getMenus, getPlates } from '../../api/api-client/client-requests.js';
 import { cleanErrorMessageRestaurant } from '../../redux/types/RestaurantTypes.js';
 import WaiteroAlert from '../../components/alert/alert.jsx';
-import { cleanErrorMessage } from '../../redux/types/AdminTypes.jsx';
 import DeleteModalIcon from '../../components/modal/delete-modal-icon.jsx';
 
 const MENU_DATA = RESTAURANT.restaurantMenu
 
 const Menus = ({ restaurants, menus, categories, plates, clientData, restaurantReducer, getMenus, getCategories, getPlates, cleanErrorMessage }) => {
 
-  const history = useHistory();
   const firstRender = useRef(true);
   const [restaurantSelected, setRestaurantSelected] = useState('');
   const [menuType, setMenuType] = useState('')

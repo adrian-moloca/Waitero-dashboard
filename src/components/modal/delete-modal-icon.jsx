@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Box, Modal, Fade, Grid, CircularProgress, IconButton } from '@material-ui/core';
-import WaiteroTextField from '../text-field/waitero-text-field';
 import useStyles from './modal-style';
 import WaiteroAlert from '../alert/alert';
 import { connect } from 'react-redux';

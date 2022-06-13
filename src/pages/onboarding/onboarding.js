@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, CircularProgress, Grid, Slide , Chip} from '@material-ui/core'
+import { Box, CircularProgress, Grid, Slide } from '@material-ui/core'
 import PageContainer from '../../components/container/page-container/page-container';
 import { withRouter } from 'react-router-dom';
 import WaiteroTextFieldLarge from '../../components/text-field/text-field-large/text-field-large';

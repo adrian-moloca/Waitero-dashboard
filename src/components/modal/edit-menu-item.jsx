@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Box, Modal, Fade, Grid, InputAdornment, IconButton } from '@material-ui/core';
 import useStyles from './modal-style';
 import WaiteroTextField from '../text-field/waitero-text-field';
-import { RESTAURANT } from '../../pages/menus/data';
 import { Add, Close, Delete, SaveAlt } from '@material-ui/icons';
 
 const EditMenuItem = ({isModalOpen, setIsModalOpen, item, setItem }) => {

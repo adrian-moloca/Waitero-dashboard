@@ -1,6 +1,5 @@
 import React from "react";
-import { Paper, Box, IconButton } from "@material-ui/core";
-import { Delete } from "@material-ui/icons";
+import { Paper, Box } from "@material-ui/core";
 
 const MenuCard = ({title}) => {
 
