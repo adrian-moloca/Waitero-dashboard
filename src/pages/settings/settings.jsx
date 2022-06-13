@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Box } from '@material-ui/core';
 import PageContainer from '../../components/container/page-container/page-container.jsx';
-import { useHistory } from 'react-router-dom';
-import AddBoxOverview from '../../components/box/add-box-overview/add-box-overview.js';
+import { useHistory, withRouter } from 'react-router-dom';
+import AddBoxOverview from '../../components/box/add-box-overview/add-box-overview.jsx';
+import ResetPasswordModal from '../../components/modal/reset-password.jsx'
+import { connect } from 'react-redux'
 
-const Settings = () => {
+const Settings = ({ client }) => {
   const history = useHistory()
+
+  const [current, setCurrent] = useState(-1);
 
   return (
     <PageContainer>
@@ -14,22 +18,17 @@ const Settings = () => {
                 Setari
             </Box>
             <Box display='flex' justifyContent={'flex-start'} width>  
-                <Box paddingTop='2%' width={'24%'} marginRight={'2%'}>
-                    <AddBoxOverview 
-                        overlayText={'Profil'} backgroundColor={'#ffffff'} color={'#00000090'} height={250} width={'100%'} alignItems={'center'} justifyContent={'flex-end'} boxShadow={'0px 6px 6px rgba(0, 0, 0, 0.25)'} iconHome/>
-                </Box>
-                <Box paddingTop='2%' width={'24%'} marginRight={'2%'}>
+                <Box marginTop='2%' marginRight={'2%'} onClick={()=>setCurrent(1)}>
                     <AddBoxOverview
-                        overlayText={'Account'} backgroundColor={'#ffffff'} color={'#00000090'} height={250} width={'100%'} alignItems={'center'} iconAccount boxShadow={'0px 6px 6px rgba(0, 0, 0, 0.25)'}/>
-                </Box>
-                <Box paddingTop='2%' width={'24%'} marginRight={'2%'}>
-                    <AddBoxOverview
-                        overlayText={'Display'} flexDirection={'column'} justifyContent={'space-between'} backgroundColor={'#ffffff'} color={'#00000090'} height={250} width={'100%'} iconDisplay boxShadow={'0px 6px 6px rgba(0, 0, 0, 0.25)'}/>
+                        overlayText={'Reset Password'} backgroundColor={'#ffffff'} color={'#00000090'} height={180} width={'300px'} alignItems={'center'} iconPassword boxShadow={'0px 6px 6px rgba(0, 0, 0, 0.25)'}/>
                 </Box>
             </Box>      
         </Box>
+        <ResetPasswordModal open={current === 1} setOpen={ setCurrent } clientId={ client.id }/>
     </PageContainer>
   )
 }
 
-export default Settings;
+const mapStateToProps = (state) => ({client: state?.clientReducer?.client})
+
+export default withRouter(connect(mapStateToProps, null)(Settings));

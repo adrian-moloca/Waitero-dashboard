@@ -2,6 +2,21 @@ import { cwaxios } from "../../utils/axios-config";
 import { addRestaurantRequest, addRestaurantSuccess, addRestaurantFailure, getRestaurantsRequest, getRestaurantsSuccess, getRestaurantsFailure } from "../../redux/types/ClientTypes";
 import { getCategoriesFailure, getCategoriesRequest, getCategoriesSuccess, getMenusFailure, getMenusRequest, getMenusSuccess, getPlatesFailure, getPlatesRequest, getPlatesSuccess } from "../../redux/types/RestaurantTypes";
 
+export const updateClientPassword = async (oldPassword, newPassword, clientId, loadingSetter = () => undefined, errorSetter = () => undefined, closeModalEdit = () => undefined) => {
+    loadingSetter(true);
+    cwaxios.patch(`${clientId}/update-client-password`, {
+        oldPassword: oldPassword,
+        newPassword: newPassword
+    }).then((res) => {
+        errorSetter({message: res?.data?.message, isError: false})
+    }).catch((error) => {
+        errorSetter({message: error?.response?.data?.message || 'cannot update',  isError: true})
+    }).finally(() => {
+        loadingSetter(false);
+        closeModalEdit();
+    })
+}
+
 export const getRestaurants = (clientId, loadingSetter = () => undefined) => {
     loadingSetter(true)
     return async (dispatch) => {
@@ -13,6 +28,7 @@ export const getRestaurants = (clientId, loadingSetter = () => undefined) => {
         }).finally(()=>loadingSetter(false))
     }
 }
+
 export const addRestaurant = (restaurantName, restaurantCuisines, clientId, loadingSetter = () => undefined, setNavigation = () => undefined) => {
     loadingSetter(true)
     return async (dispatch) => {

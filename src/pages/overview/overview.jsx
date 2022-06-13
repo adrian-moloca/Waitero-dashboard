@@ -7,7 +7,7 @@ import { Redirect, useHistory } from 'react-router-dom';
 import EditLabelModal from '../../components/modal/edit-label-modal.jsx';
 import { Forum, Money, RestaurantMenu } from '@material-ui/icons';
 import EditStringArrayModal from '../../components/modal/edit-string-array-modal.jsx';
-import AddBoxOverview from '../../components/box/add-box-overview/add-box-overview.js';
+import AddBoxOverview from '../../components/box/add-box-overview/add-box-overview.jsx';
 import GeneralStatisticsBox from '../../components/box/general-statistics-box/general-statistics-box.jsx';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
