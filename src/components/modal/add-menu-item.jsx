@@ -43,8 +43,13 @@ const AddMenuItem = ({isModalOpen, setIsModalOpen, setItem, clientId, restaurant
         setTempItem({ ...tempItem, plateIngredients: tempIngredients })    
     }
 
+    const closeModal = () =>{
+        setItem();
+        setIsModalOpen();
+    }
+
     function saveItem() {
-        addPlate(tempItem.plateName, parseFloat(tempItem.platePrice), newIngredient.length > 0 ? tempItem.plateIngredients.concat([newIngredient]) : tempItem.plateIngredients, clientId, restaurantId, menuId, categoryId, setLoading, setError, ()=>setIsModalOpen())
+        addPlate(tempItem.plateName, parseFloat(tempItem.platePrice), newIngredient.length > 0 ? tempItem.plateIngredients.concat([newIngredient]) : tempItem.plateIngredients, clientId, restaurantId, menuId, categoryId, setLoading, setError, closeModal)
         setTempItem(initialItem);
     }
 

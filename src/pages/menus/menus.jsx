@@ -20,6 +20,7 @@ import { getCategories, getMenus, getPlates } from '../../api/api-client/client-
 import { cleanErrorMessageRestaurant } from '../../redux/types/RestaurantTypes.js';
 import WaiteroAlert from '../../components/alert/alert.jsx';
 import { cleanErrorMessage } from '../../redux/types/AdminTypes.jsx';
+import DeleteModalIcon from '../../components/modal/delete-modal-icon.jsx';
 
 const MENU_DATA = RESTAURANT.restaurantMenu
 
@@ -135,7 +136,7 @@ const Menus = ({ restaurants, menus, categories, plates, clientData, restaurantR
                         return (
                           <Box>
                             <Box display={'flex'}>
-                              <IconButton><Delete color='error'/></IconButton>
+                              <DeleteModalIcon type={'menu'} clientId={clientData.id} message={'Confirmati stergerea acestui meniu?'} restaurantId={restaurantSelected} menuId={item.id}/>
                               <IconButton><Edit /></IconButton>
                             </Box>
                             <Box key={item.id} marginRight={3} marginBottom={3} onClick={() => setMenuType(item.id)}>
@@ -153,12 +154,18 @@ const Menus = ({ restaurants, menus, categories, plates, clientData, restaurantR
                   <>
                     {categories?.map((item) => {
                       return (
-                        <Box key={item.id} marginRight={3} marginBottom={3} onClick={() => setOnCategory(item.id)}>
-                          <MenuCard title={item.categoryName} />
+                        <Box>
+                          <Box display={'flex'}>
+                            <DeleteModalIcon type={'category'} clientId={clientData.id} message={'Confirmati stergerea acestei categorii?'} restaurantId={restaurantSelected} menuId={menuType} categoryId={item.id}/>
+                            <IconButton><Edit /></IconButton>
+                          </Box>
+                          <Box key={item.id} marginRight={3} marginBottom={3} onClick={() => setOnCategory(item.id)}>
+                            <MenuCard title={item.categoryName} />
+                          </Box>
                         </Box>
                       )
                     })}
-                    <Box marginRight={3} onClick={() => setModalAddMenuType(true)}>
+                    <Box marginRight={3} marginTop={6} onClick={() => setModalAddMenuType(true)}>
                       <MenuCard title={<AddContent title={'Adauga categorie'} />} />
                     </Box>
                   </>
@@ -167,12 +174,18 @@ const Menus = ({ restaurants, menus, categories, plates, clientData, restaurantR
                   <>
                     {plates?.map((item) => {
                       return (
-                        <Box marginRight={3} marginBottom={3} onClick={() => setPlateSelected(item.id)}>
-                          <MenuCard title={item.plateName} />
+                        <Box>
+                          <Box display={'flex'}>
+                            <DeleteModalIcon  type={'plate'} clientId={clientData.id} message={'Confirmati stergerea acestui preparat?'} restaurantId={restaurantSelected} menuId={menuType} categoryId={onCategory} plateId={item.id}/>
+                            <IconButton><Edit /></IconButton>
+                          </Box>
+                          <Box marginRight={3} marginBottom={3} onClick={() => setPlateSelected(item.id)}>
+                            <MenuCard title={item.plateName} />
+                        </Box>
                         </Box>
                       )
                     })}
-                    <Box marginRight={3} onClick={() => setModalAddMenuItem(true)}>
+                    <Box marginRight={3} marginTop={6} onClick={() => setModalAddMenuItem(true)}>
                       <MenuCard title={<AddContent title={'Adauga preparat'} />} />
                     </Box>
                   </>

@@ -81,6 +81,18 @@ export const addMenu = async (menuName, clientId, restaurantId, loadingSetter = 
     })
 }
 
+export const deleteMenu = async (clientId, restaurantId, menuId, loadingSetter = () => undefined, errorSetter = () => undefined, closeModalDelete = () => undefined) => {
+    loadingSetter(true);
+    cwaxios.delete(`${clientId}/restaurant/${restaurantId}/menu/${menuId}/delete-menu`).then((res) => {
+        errorSetter({message: res?.data?.message, isError: false})
+    }).catch((error) => {
+        errorSetter({message: error?.response?.data?.message || 'cannot update',  isError: true})
+    }).finally(() => {
+        loadingSetter(false);
+        closeModalDelete();
+    })
+}
+
 export const getCategories = (clientId, restaurantId, menuId, loadingSetter = () => undefined) => {
     loadingSetter(true)
     return async (dispatch) => {
@@ -104,6 +116,18 @@ export const addCategory = async (categoryName, clientId, restaurantId, menuId, 
     }).finally(() => {
         loadingSetter(false);
         closeModalAdd();
+    })
+}
+
+export const deleteCategory = async (clientId, restaurantId, menuId, categoryId, loadingSetter = () => undefined, errorSetter = () => undefined, closeModalDelete = () => undefined) => {
+    loadingSetter(true);
+    cwaxios.delete(`${clientId}/restaurant/${restaurantId}/menu/${menuId}/category/${categoryId}/delete-category`).then((res) => {
+        errorSetter({message: res?.data?.message, isError: false})
+    }).catch((error) => {
+        errorSetter({message: error?.response?.data?.message || 'cannot update',  isError: true})
+    }).finally(() => {
+        loadingSetter(false);
+        closeModalDelete();
     })
 }
 
@@ -132,6 +156,18 @@ export const addPlate = async (plateName, platePrice, plateIngredients, clientId
     }).finally(() => {
         loadingSetter(false);
         closeModalAdd();
+    })
+}
+
+export const deletePlate = async (clientId, restaurantId, menuId, categoryId, plateId, loadingSetter = () => undefined, errorSetter = () => undefined, closeModalDelete = () => undefined) => {
+    loadingSetter(true);
+    cwaxios.delete(`${clientId}/restaurant/${restaurantId}/menu/${menuId}/category/${categoryId}/plate/${plateId}/delete-plate`).then((res) => {
+        errorSetter({message: res?.data?.message, isError: false})
+    }).catch((error) => {
+        errorSetter({message: error?.response?.data?.message || 'cannot update',  isError: true})
+    }).finally(() => {
+        loadingSetter(false);
+        closeModalDelete();
     })
 }
 

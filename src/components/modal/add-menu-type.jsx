@@ -30,11 +30,14 @@ const AddMenuModal = ({
         setName('');
     }
 
+    const closeModal = () => {
+        createMenuType();
+        setIsOpen(false);
+    }
+
     function createMenuTypeAction() {
         if (menuId.length === 0)
-            addMenu(name, clientId, restaurantId, setLoading, setError, () =>
-                setIsOpen(false)
-            ).then(() => createMenuType());
+            addMenu(name, clientId, restaurantId, setLoading, setError, closeModal)
         else
             addCategory(
                 name,
@@ -43,8 +46,8 @@ const AddMenuModal = ({
                 menuId,
                 setLoading,
                 setError,
-                () => setIsOpen(false)
-            ).then(() => createMenuType());
+                closeModal
+            )
         setName('');
     }
 
