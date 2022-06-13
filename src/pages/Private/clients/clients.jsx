@@ -10,7 +10,7 @@ import AddClientModal from '../../../components/modal/add-client-modal.jsx';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import WaiteroAlert from '../../../components/alert/alert';
-import { cleanErrorMessage } from '../../../redux/types/AdminTypes.jsx';
+import { cleanErrorMessage } from '../../../redux/types/AdminTypes.js';
 import { getClients } from '../../../api/api-admin/admin-requests.js';
 
 const Clients = ({ adminReducer, cleanErrorMessage, getClients }) => {

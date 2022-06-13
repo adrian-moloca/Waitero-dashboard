@@ -1,13 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, CircularProgress, IconButton } from '@material-ui/core';
-
 import PageContainer from '../../components/container/page-container/page-container.jsx';
-
 import { withRouter } from 'react-router-dom';
-
 import MenuCard from '../../components/box/menu-card/menu-card.jsx';
-
-import { RESTAURANT } from './data.js';
 import { ArrowBack, Edit } from '@material-ui/icons';
 import EditMenuItem from '../../components/modal/edit-menu-item.jsx';
 import AddMenuModal from '../../components/modal/add-menu-type.jsx';
@@ -19,20 +14,17 @@ import { getCategories, getMenus, getPlates } from '../../api/api-client/client-
 import { cleanErrorMessageRestaurant } from '../../redux/types/RestaurantTypes.js';
 import WaiteroAlert from '../../components/alert/alert.jsx';
 import DeleteModalIcon from '../../components/modal/delete-modal-icon.jsx';
-
-const MENU_DATA = RESTAURANT.restaurantMenu
+import EditMenuModal from '../../components/modal/edit-menu-type.jsx';
 
 const Menus = ({ restaurants, menus, categories, plates, clientData, restaurantReducer, getMenus, getCategories, getPlates, cleanErrorMessage }) => {
 
-  const firstRender = useRef(true);
   const [restaurantSelected, setRestaurantSelected] = useState('');
   const [menuType, setMenuType] = useState('')
   const [onCategory, setOnCategory] = useState('');
   const [plateSelected, setPlateSelected] = useState('');
-  const [menuData, setMenuData] = useState(MENU_DATA || {});
-  const [modalIngredientsStatus, setModalIngredientsStatus] = useState(false);
   const [modalAddMenuType, setModalAddMenuType] = useState(false);
   const [modalAddMenuItem, setModalAddMenuItem] = useState(false);
+  const [modalEditMenuType, setModalEditMenuType] = useState({name: '', id: ''}); 
 
   const getTitle = () => {
     if (menuType.length === 0)
@@ -55,33 +47,6 @@ const Menus = ({ restaurants, menus, categories, plates, clientData, restaurantR
       return;
     }
   }
-
-  const closeModal = () => {
-    setPlateSelected(-1)
-  }
-
-  const saveEdits = (item) => {
-    const tempPlates = [...menuData.menuTypes[menuType]?.menuSections[onCategory]?.plates]
-    const tempSections = [...menuData.menuTypes[menuType]?.menuSections]
-    const tempTypes = [...menuData.menuTypes]
-    tempPlates.splice(plateSelected, 1, item)
-    tempSections.splice(onCategory, 1, { ...menuData.menuTypes[menuType]?.menuSections[onCategory], plates: tempPlates })
-    tempTypes.splice(menuType, 1, { ...menuData.menuTypes[menuType], menuSections: tempSections })
-    setMenuData({ menuTypes: tempTypes })
-  }
-
-  useEffect(() => {
-    MENU_DATA ? setMenuData(MENU_DATA) : setMenuData({})
-  }, [MENU_DATA])
-
-  useEffect(() => {
-    if (firstRender.current)
-      firstRender.current = false
-    else if (!modalIngredientsStatus)
-      setModalIngredientsStatus(true)
-    else
-      setModalIngredientsStatus(false)
-  }, [plateSelected])
 
   useEffect(() => {
     if (restaurantSelected.length > 0)
@@ -134,7 +99,7 @@ const Menus = ({ restaurants, menus, categories, plates, clientData, restaurantR
                           <Box>
                             <Box display={'flex'}>
                               <DeleteModalIcon type={'menu'} clientId={clientData.id} message={'Confirmati stergerea acestui meniu?'} restaurantId={restaurantSelected} menuId={item.id}/>
-                              <IconButton><Edit /></IconButton>
+                              <IconButton onClick={() => setModalEditMenuType({name: item.menuName, id: item.id})}><Edit /></IconButton>
                             </Box>
                             <Box key={item.id} marginRight={3} marginBottom={3} onClick={() => setMenuType(item.id)}>
                               <MenuCard title={item.menuName} />
@@ -154,7 +119,7 @@ const Menus = ({ restaurants, menus, categories, plates, clientData, restaurantR
                         <Box>
                           <Box display={'flex'}>
                             <DeleteModalIcon type={'category'} clientId={clientData.id} message={'Confirmati stergerea acestei categorii?'} restaurantId={restaurantSelected} menuId={menuType} categoryId={item.id}/>
-                            <IconButton><Edit /></IconButton>
+                            <IconButton onClick={() => setModalEditMenuType({name: item.categoryName, id: item.id})}><Edit /></IconButton>
                           </Box>
                           <Box key={item.id} marginRight={3} marginBottom={3} onClick={() => setOnCategory(item.id)}>
                             <MenuCard title={item.categoryName} />
@@ -174,7 +139,6 @@ const Menus = ({ restaurants, menus, categories, plates, clientData, restaurantR
                         <Box>
                           <Box display={'flex'}>
                             <DeleteModalIcon  type={'plate'} clientId={clientData.id} message={'Confirmati stergerea acestui preparat?'} restaurantId={restaurantSelected} menuId={menuType} categoryId={onCategory} plateId={item.id}/>
-                            <IconButton><Edit /></IconButton>
                           </Box>
                           <Box marginRight={3} marginBottom={3} onClick={() => setPlateSelected(item.id)}>
                             <MenuCard title={item.plateName} />
@@ -190,9 +154,10 @@ const Menus = ({ restaurants, menus, categories, plates, clientData, restaurantR
               </>)}
             </Box>
           </Box>
-          <EditMenuItem isModalOpen={modalIngredientsStatus} setIsModalOpen={() => closeModal()} item={plates?.find(el=>el.id===plateSelected)} setItem={(item) => saveEdits(item)} />
           <AddMenuModal isOpen={modalAddMenuType} setIsOpen={() => setModalAddMenuType(false)} clientId={clientData.id} restaurantId={restaurantSelected} menuId={menuType} createMenuType={() => menuType.length > 0 ? getCategories(clientData.id, restaurantSelected, menuType) : getMenus(clientData.id, restaurantSelected)} />
-            <AddMenuItem isModalOpen={modalAddMenuItem} setIsModalOpen={() => setModalAddMenuItem(false)} setItem={() => { getPlates(clientData.id, restaurantSelected, menuType, onCategory) }} clientId={clientData.id} restaurantId={restaurantSelected} menuId={menuType} categoryId={onCategory} />
+          <EditMenuModal isOpen={modalEditMenuType.id.length > 0} setIsOpen={() => setModalEditMenuType({name: '', id: ''})} menuName={modalEditMenuType.name} clientId={clientData.id} restaurantId={restaurantSelected} menuId={modalEditMenuType.id} categoryId={menuType.length > 0 ? modalEditMenuType.id : ''} updateMenuType={() => menuType.length > 0 ? getCategories(clientData.id, restaurantSelected, menuType) : getMenus(clientData.id, restaurantSelected)} />
+          <AddMenuItem isModalOpen={modalAddMenuItem} setIsModalOpen={() => setModalAddMenuItem(false)} setItem={() => { getPlates(clientData.id, restaurantSelected, menuType, onCategory) }} clientId={clientData.id} restaurantId={restaurantSelected} menuId={menuType} categoryId={onCategory} />
+          <EditMenuItem isModalOpen={plateSelected.length > 0} setIsModalOpen={() => setPlateSelected('')} item={plates?.find(el=>el.id===plateSelected)} setItem={() => { getPlates(clientData.id, restaurantSelected, menuType, onCategory) }} clientId={clientData.id} restaurantId={restaurantSelected} menuId={menuType} categoryId={onCategory}  plateId={plateSelected}/>
         </>)}
       <WaiteroAlert isError={restaurantReducer.hasErrors} message={restaurantReducer.message} cleanError={() => cleanErrorMessage()} />
     </PageContainer>

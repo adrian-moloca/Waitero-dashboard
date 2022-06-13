@@ -18,6 +18,11 @@ export const GET_CATEGORIES_FAILURE = 'GET_CATEGORIES_FAILURE';
 export const GET_PLATES_REQUEST = 'GET_PLATES_REQUEST';
 export const GET_PLATES_SUCCESS = 'GET_PLATES_SUCCESS';
 export const GET_PLATES_FAILURE = 'GET_PLATES_FAILURE';
+
+export const GET_DRINKS_REQUEST = 'GET_DRINKS_REQUEST';
+export const GET_DRINKS_SUCCESS = 'GET_DRINKS_SUCCESS';
+export const GET_DRINKS_FAILURE = 'GET_DRINKS_FAILURE';
+
 // Functions
 // CLIENT fetch functions
 export const fetchRestaurantRequest = () => {
@@ -108,6 +113,26 @@ export const getPlatesSuccess = (response) => {
 export const getPlatesFailure = (error) => {
     return {
         type: GET_PLATES_FAILURE,
+        payload: error
+    };
+};
+
+export const getDrinksRequest = () => {
+    return {
+        type: GET_DRINKS_REQUEST
+    };
+};
+
+export const getDrinksSuccess = (response) => {
+    return {
+        type: GET_DRINKS_SUCCESS,
+        payload: response
+    };
+};
+
+export const getDrinksFailure = (error) => {
+    return {
+        type: GET_DRINKS_FAILURE,
         payload: error
     };
 };

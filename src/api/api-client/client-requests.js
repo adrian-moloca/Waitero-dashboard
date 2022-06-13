@@ -1,6 +1,6 @@
 import { cwaxios } from "../../utils/axios-config";
 import { addRestaurantRequest, addRestaurantSuccess, addRestaurantFailure, getRestaurantsRequest, getRestaurantsSuccess, getRestaurantsFailure } from "../../redux/types/ClientTypes";
-import { getCategoriesFailure, getCategoriesRequest, getCategoriesSuccess, getMenusFailure, getMenusRequest, getMenusSuccess, getPlatesFailure, getPlatesRequest, getPlatesSuccess } from "../../redux/types/RestaurantTypes";
+import { getCategoriesFailure, getCategoriesRequest, getCategoriesSuccess, getDrinksFailure, getDrinksRequest, getDrinksSuccess, getMenusFailure, getMenusRequest, getMenusSuccess, getPlatesFailure, getPlatesRequest, getPlatesSuccess } from "../../redux/types/RestaurantTypes";
 
 export const updateClientPassword = async (oldPassword, newPassword, clientId, loadingSetter = () => undefined, errorSetter = () => undefined, closeModalEdit = () => undefined) => {
     loadingSetter(true);
@@ -97,6 +97,20 @@ export const addMenu = async (menuName, clientId, restaurantId, loadingSetter = 
     })
 }
 
+export const updateMenu = async (menuName, clientId, restaurantId, menuId, loadingSetter = () => undefined, errorSetter = () => undefined, closeModalEdit = () => undefined) => {
+    loadingSetter(true);
+    cwaxios.patch(`${clientId}/restaurant/${restaurantId}/menu/${menuId}/update-menu`, {
+        menuName: menuName
+    }).then((res) => {
+        errorSetter({message: res?.data?.message, isError: false})
+    }).catch((error) => {
+        errorSetter({message: error?.response?.data?.message || 'cannot update',  isError: true})
+    }).finally(() => {
+        loadingSetter(false);
+        closeModalEdit();
+    })
+}
+
 export const deleteMenu = async (clientId, restaurantId, menuId, loadingSetter = () => undefined, errorSetter = () => undefined, closeModalDelete = () => undefined) => {
     loadingSetter(true);
     cwaxios.delete(`${clientId}/restaurant/${restaurantId}/menu/${menuId}/delete-menu`).then((res) => {
@@ -132,6 +146,20 @@ export const addCategory = async (categoryName, clientId, restaurantId, menuId, 
     }).finally(() => {
         loadingSetter(false);
         closeModalAdd();
+    })
+}
+
+export const updateCategory = async (categoryName, clientId, restaurantId, menuId, categoryId, loadingSetter = () => undefined, errorSetter = () => undefined, closeModalEdit = () => undefined) => {
+    loadingSetter(true);
+    cwaxios.patch(`${clientId}/restaurant/${restaurantId}/menu/${menuId}/category/${categoryId}/update-category`, {
+        categoryName: categoryName
+    }).then((res) => {
+        errorSetter({message: res?.data?.message, isError: false})
+    }).catch((error) => {
+        errorSetter({message: error?.response?.data?.message || 'cannot update',  isError: true})
+    }).finally(() => {
+        loadingSetter(false);
+        closeModalEdit();
     })
 }
 
@@ -175,6 +203,22 @@ export const addPlate = async (plateName, platePrice, plateIngredients, clientId
     })
 }
 
+export const updatePlate = async (plateName, platePrice, plateIngredients, clientId, restaurantId, menuId, categoryId, plateId, loadingSetter = () => undefined, errorSetter = () => undefined, closeModalEdit = () => undefined) => {
+    loadingSetter(true);
+    cwaxios.post(`${clientId}/restaurant/${restaurantId}/menu/${menuId}/category/${categoryId}/plate/${plateId}/update-plate`, {
+        plateName: plateName,
+        platePrice: platePrice,
+        plateIngredients: plateIngredients
+    }).then((res) => {
+        errorSetter({message: res?.data?.message, isError: false})
+    }).catch((error) => {
+        errorSetter({message: error?.response?.data?.message || 'cannot update',  isError: true})
+    }).finally(() => {
+        loadingSetter(false);
+        closeModalEdit();
+    })
+}
+
 export const deletePlate = async (clientId, restaurantId, menuId, categoryId, plateId, loadingSetter = () => undefined, errorSetter = () => undefined, closeModalDelete = () => undefined) => {
     loadingSetter(true);
     cwaxios.delete(`${clientId}/restaurant/${restaurantId}/menu/${menuId}/category/${categoryId}/plate/${plateId}/delete-plate`).then((res) => {
@@ -196,5 +240,61 @@ export const getPlateMinimumPrice = (clientId, restaurantId, setMinimum = () => 
         errorSetter({message: error?.response?.data?.message || 'cannot update',  isError: true})
     }).finally(() => {
         loadingSetter(false);
+    })
+}
+
+export const getDrinks = (clientId, restaurantId, loadingSetter = () => undefined) => {
+    loadingSetter(true)
+    return async (dispatch) => {
+        dispatch(getDrinksRequest());
+        cwaxios.get(`${clientId}/restaurant/${restaurantId}/get-drinks`).then((res) => {
+            dispatch(getDrinksSuccess(res.data));
+        }).catch((error) => {
+            dispatch(getDrinksFailure(error?.response?.data?.message));
+        }).finally(() => loadingSetter(false))
+    }
+}
+
+export const addDrink = async (drinkName, drinkPrice, drinkCategory, clientId, restaurantId, loadingSetter = () => undefined, errorSetter = () => undefined, closeModalAdd = () => undefined) => {
+    loadingSetter(true);
+    cwaxios.post(`${clientId}/restaurant/${restaurantId}/add-drink`, {
+        drinkName: drinkName,
+        drinkPrice: drinkPrice,
+        drinkCategory: drinkCategory
+    }).then((res) => {
+        errorSetter({message: res?.data?.message, isError: false})
+    }).catch((error) => {
+        errorSetter({message: error?.response?.data?.message || 'cannot update',  isError: true})
+    }).finally(() => {
+        loadingSetter(false);
+        closeModalAdd();
+    })
+}
+
+export const updateDrink = async (drinkName, drinkPrice, drinkCategory, clientId, restaurantId, drinkId, loadingSetter = () => undefined, errorSetter = () => undefined, closeModalAdd = () => undefined) => {
+    loadingSetter(true);
+    cwaxios.patch(`${clientId}/restaurant/${restaurantId}/drink/${drinkId}/update-drink`, {
+        drinkName: drinkName,
+        drinkPrice: drinkPrice,
+        drinkCategory: drinkCategory
+    }).then((res) => {
+        errorSetter({message: res?.data?.message, isError: false})
+    }).catch((error) => {
+        errorSetter({message: error?.response?.data?.message || 'cannot update',  isError: true})
+    }).finally(() => {
+        loadingSetter(false);
+        closeModalAdd();
+    })
+}
+
+export const deleteDrink = async (clientId, restaurantId, drinkId, loadingSetter = () => undefined, errorSetter = () => undefined, closeModalDelete = () => undefined) => {
+    loadingSetter(true);
+    cwaxios.delete(`${clientId}/restaurant/${restaurantId}/drink/${drinkId}/delete-drink`).then((res) => {
+        errorSetter({message: res?.data?.message, isError: false})
+    }).catch((error) => {
+        errorSetter({message: error?.response?.data?.message || 'cannot update',  isError: true})
+    }).finally(() => {
+        loadingSetter(false);
+        closeModalDelete();
     })
 }

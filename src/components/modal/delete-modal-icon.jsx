@@ -5,10 +5,10 @@ import WaiteroAlert from '../alert/alert';
 import { connect } from 'react-redux';
 import PrimaryButton from '../buttons/primaryButton/primaryButton';
 import SecondaryButton from '../buttons/secondaryButton/secondaryButton';
-import { deleteCategory, deleteMenu, deletePlate, getCategories, getMenus, getPlates } from '../../api/api-client/client-requests';
+import { deleteCategory, deleteMenu, deletePlate, deleteDrink, getCategories, getMenus, getPlates, getDrinks } from '../../api/api-client/client-requests';
 import { Delete } from '@material-ui/icons';
 
-const DeleteModalWithIcon = ({ type, message, clientId=undefined, restaurantId=undefined, menuId=undefined, categoryId=undefined, plateId=undefined, getMenus, getCategories, getPlates}) => {
+const DeleteModalWithIcon = ({ type, message, clientId=undefined, restaurantId=undefined, menuId=undefined, categoryId=undefined, plateId=undefined, drinkId=undefined, getMenus, getCategories, getPlates, getDrinks}) => {
 
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -29,6 +29,11 @@ const DeleteModalWithIcon = ({ type, message, clientId=undefined, restaurantId=u
     getPlates(clientId, restaurantId, menuId, categoryId, setLoading);
     setOpen(false);
   }
+
+  const closeModalOnDrinkDelete = () => {
+    getDrinks(clientId, restaurantId, setLoading);
+    setOpen(false);
+  }
   
   const handleDeleteClick = () => {
     if(type === 'menu'){
@@ -37,6 +42,8 @@ const DeleteModalWithIcon = ({ type, message, clientId=undefined, restaurantId=u
         deleteCategory(clientId, restaurantId, menuId, categoryId, setLoading, setError, closeModalOnCategoryDelete)
     } else if(type === 'plate'){
         deletePlate(clientId, restaurantId, menuId, categoryId, plateId, setLoading, setError, closeModalOnPlateDelete)
+    } else if (type === 'drink'){
+        deleteDrink(clientId, restaurantId, drinkId, setLoading, setError, closeModalOnDrinkDelete)        
     }
   }
 
@@ -70,7 +77,8 @@ const DeleteModalWithIcon = ({ type, message, clientId=undefined, restaurantId=u
 const mapDispatchToProps = (dispatch) => ({
     getMenus: (clientId, restaurantId, loadingSetter) => dispatch(getMenus(clientId, restaurantId, loadingSetter)),
     getCategories: (clientId, restaurantId, menuId, loadingSetter) => dispatch(getCategories(clientId, restaurantId, menuId, loadingSetter)),
-    getPlates: (clientId, restaurantId, menuId, categoryId, loadingSetter) => dispatch(getPlates(clientId, restaurantId, menuId, categoryId, loadingSetter))
+    getPlates: (clientId, restaurantId, menuId, categoryId, loadingSetter) => dispatch(getPlates(clientId, restaurantId, menuId, categoryId, loadingSetter)),
+    getDrinks: (clientId, restaurantId, loadingSetter) => dispatch(getDrinks(clientId, restaurantId, loadingSetter))
 })
 
 export default connect(null, mapDispatchToProps)(DeleteModalWithIcon);

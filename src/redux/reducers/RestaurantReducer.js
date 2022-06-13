@@ -3,7 +3,8 @@ import {
     CLEAN_ERROR_MESSAGE, CLEAN_RESTAURANT_REDUCER,
     GET_MENUS_REQUEST, GET_MENUS_SUCCESS, GET_MENUS_FAILURE,
     GET_CATEGORIES_REQUEST, GET_CATEGORIES_SUCCESS, GET_CATEGORIES_FAILURE,
-    GET_PLATES_REQUEST, GET_PLATES_SUCCESS, GET_PLATES_FAILURE
+    GET_PLATES_REQUEST, GET_PLATES_SUCCESS, GET_PLATES_FAILURE,
+    GET_DRINKS_REQUEST, GET_DRINKS_SUCCESS, GET_DRINKS_FAILURE
 } from '../types/RestaurantTypes';
 
 let initial = {
@@ -110,6 +111,29 @@ const restaurantReducer = (state = initial, action) => {
                 }
             }
         case GET_PLATES_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                hasErrors: true,
+                message: action.payload
+            }
+        case GET_DRINKS_REQUEST:
+            return {
+                ...state,
+                loading: true
+            }
+        case GET_DRINKS_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                hasErrors: false,
+                message: action.payload.message,
+                restaurant: {
+                    ...state.restaurant,
+                    drinks: action?.payload?.drinks || []
+                }
+            }
+        case GET_DRINKS_FAILURE:
             return {
                 ...state,
                 loading: false,

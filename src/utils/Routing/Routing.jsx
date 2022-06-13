@@ -11,6 +11,7 @@ import Overview from '../../pages/overview/overview';
 import Clients from '../../pages/Private/clients/clients';
 import WorkStaff from '../../pages/work-staff/work-staff';
 import Menus from '../../pages/menus/menus';
+import Drinks from '../../pages/drinks/drinks';
 import Orders from '../../pages/orders/orders';
 import Settings from '../../pages/settings/settings';
 import OnBoarding from '../../pages/onboarding/onboarding';
@@ -36,6 +37,7 @@ const Routes = ({ user }) => {
                 <ProtectedRoute exact path="/overview" component={Overview} user={user} />
                 <ProtectedRoute exact path="/work-staff" component={WorkStaff} user={user} />
                 <ProtectedRoute exact path="/menus" component={Menus} user={user} />
+                <ProtectedRoute exact path="/drinks" component={Drinks} user={user} />
                 <ProtectedRoute exact path="/orders" component={Orders} user={user} />
                 <ProtectedRoute exact path="/settings" component={Settings}  user={user} />
                 <ProtectedRoute exact path="/on-boarding" component={OnBoarding} user={user} />

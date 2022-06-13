@@ -1,22 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Modal, Fade, Grid, InputAdornment, IconButton } from '@material-ui/core';
+import { Box, Modal, Fade, Grid, InputAdornment, IconButton, CircularProgress } from '@material-ui/core';
 import useStyles from './modal-style';
 import WaiteroTextField from '../text-field/waitero-text-field';
 import { Add, Close, Delete, SaveAlt } from '@material-ui/icons';
+import { updatePlate } from '../../api/api-client/client-requests';
+import WaiteroAlert from '../alert/alert';
 
-const EditMenuItem = ({isModalOpen, setIsModalOpen, item, setItem }) => {
+const EditMenuItem = ({isModalOpen, setIsModalOpen, item, setItem, clientId, restaurantId, menuId, categoryId, plateId }) => {
     
     const classes = useStyles();
 
     const [tempItem, setTempItem] = useState(item);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState({ message: '', isError: false });
     const [newIngredient, setNewIngredient] = useState('')
 
-    function addItem() {
+    function addIngredient() {
         setTempItem({ ...tempItem, plateIngredients: tempItem?.plateIngredients?.concat([ newIngredient ]) });
         setNewIngredient('');
     }
 
-    function deleteItem(index) {
+    function deleteIngredient(index) {
         const temp = [...tempItem.plateIngredients];
         temp.splice(index, 1)
         setTempItem({...tempItem, plateIngredients: temp});
@@ -26,15 +30,19 @@ const EditMenuItem = ({isModalOpen, setIsModalOpen, item, setItem }) => {
         setIsModalOpen();
     }
 
-    const setEdits = (item, index) => {
+    const updateIngredient = (item, index) => {
         const tempIngredients = [...tempItem.plateIngredients]
         tempIngredients.splice(index, 1, item)
         setTempItem({ ...tempItem, plateIngredients: tempIngredients })    
     }
 
     function saveItem() {
-        setItem(tempItem);
+        setItem();
         setIsModalOpen();
+    }
+
+    const updateItem = () => {
+        updatePlate(tempItem.plateName, tempItem.platePrice, tempItem.plateIngredients, clientId, restaurantId, menuId, categoryId, plateId, setLoading, setError, saveItem )
     }
 
     useEffect(() => {
@@ -44,6 +52,11 @@ const EditMenuItem = ({isModalOpen, setIsModalOpen, item, setItem }) => {
 
     return (
         <>
+            <WaiteroAlert
+                isError={error.isError}
+                message={error.message}
+                cleanError={() => setError({ message: '', isError: false })}
+            />
             <Modal open={isModalOpen} onClose={()=>returnBack() } back>
                 <Fade in={isModalOpen} timeout={600}>
                     <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center"  className={classes.paper}>       
@@ -58,11 +71,11 @@ const EditMenuItem = ({isModalOpen, setIsModalOpen, item, setItem }) => {
                                 {tempItem?.plateIngredients?.map((ing, index) => {
                                     return (
                                         <Grid container item xs={5}>
-                                            <WaiteroTextField fullWidth defaultValue={ing} onChange={(t) => setEdits(t.target.value, index)}
+                                            <WaiteroTextField fullWidth defaultValue={ing} onChange={(t) => updateIngredient(t.target.value, index)}
                                                             InputProps={{
                                                                 endAdornment: (
                                                                     <InputAdornment position={"start"}>
-                                                                        <IconButton onClick={() => deleteItem(index)} size={'small'}>
+                                                                        <IconButton onClick={() => deleteIngredient(index)} size={'small'}>
                                                                             <Delete size={ 16 }/>
                                                                         </IconButton>
                                                                     </InputAdornment>    
@@ -75,12 +88,12 @@ const EditMenuItem = ({isModalOpen, setIsModalOpen, item, setItem }) => {
                                 <WaiteroTextField value={newIngredient} onChange={(e) => setNewIngredient(e.target.value)} InputProps={{
                                     endAdornment: (
                                         <InputAdornment position={"start"}>
-                                            <IconButton onClick={() => addItem()} size={'small'}>
+                                            <IconButton onClick={() => addIngredient()} size={'small'}>
                                                 <Add size={ 16 }/>
                                             </IconButton>
                                         </InputAdornment>    
                                     )
-                                }} onKeyDown={(event)=>event.key === 'Enter' ? addItem() : null} fullWidth/>
+                                }} onKeyDown={(event)=>event.key === 'Enter' ? addIngredient() : null} fullWidth/>
                                 </Grid>
                             </Grid>
                         </Box>
@@ -89,7 +102,7 @@ const EditMenuItem = ({isModalOpen, setIsModalOpen, item, setItem }) => {
                                     <IconButton onClick={returnBack}><Close color='error' size={25}/></IconButton>
                             </Box>
                             <Box ml={2}>
-                                <IconButton onClick={saveItem}><SaveAlt style={{color: 'rgba(0,110,10)', fontSize: 25}}/></IconButton>
+                                {loading ? <CircularProgress size={25}/> : <IconButton onClick={updateItem}><SaveAlt style={{color: 'rgba(0,110,10)', fontSize: 25}}/></IconButton>}
                             </Box>
                         </Box>
 
