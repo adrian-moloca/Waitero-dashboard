@@ -101,7 +101,7 @@ const Extra = ({ restaurants, extra, clientData, restaurantReducer, getExtra, cl
                     <Grid container item xs={1}>
                         <WaiteroTextField value={newExtraPrice} onChange={(e)=>setNewExtraPrice(e.target.value)} placeholder={'Pret'} fullWidth/>    
                     </Grid>
-                  <Grid container item xs={2} flexDirection={'row'}>
+                  <Grid container item xs={2}>
                         {loadingOnAdd ? <CircularProgress size={20}/> : <>
                                 <IconButton style={{marginRight: 2}} onClick={resetFields}><Close color='error'/></IconButton>
                                 <IconButton onClick={addExtraToList}><Add color='action'/></IconButton>

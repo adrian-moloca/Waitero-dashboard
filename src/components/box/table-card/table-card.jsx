@@ -1,7 +1,5 @@
-import React from "react";
+import React, {useState} from "react";
 import { Paper, Box } from "@material-ui/core";
-import { useState } from "react";
-import { Add, AddBoxTwoTone, AddCircle } from "@material-ui/icons";
 
 const TableCard = ({title, qrcode}) => {
 

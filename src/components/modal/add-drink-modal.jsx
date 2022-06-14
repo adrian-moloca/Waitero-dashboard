@@ -102,7 +102,7 @@ const AddDrinkModal = ({
                                             Selectati o categorie
                                             <Box display={'flex'} width='100%' flexWrap={'wrap'}>
                                                 {drink_categories.map((category) => {
-                                                    return <ToggleButton key={category} style={{marginRight: 10, marginTop: 10, fontSize: 14}} disabled={drinkCategory.length > 0 && drinkCategory !== category}  selected={drinkCategory === category} onChange={() => onCategoryClick(category)}>
+                                                    return <ToggleButton key={category} value={category} style={{marginRight: 10, marginTop: 10, fontSize: 14}} disabled={drinkCategory.length > 0 && drinkCategory !== category}  selected={drinkCategory === category} onChange={() => onCategoryClick(category)}>
                                                         {category}        
                                                     </ToggleButton>
                                                 })}

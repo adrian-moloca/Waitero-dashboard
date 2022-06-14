@@ -52,14 +52,14 @@ const EditAddressModal = ({addressObject, setAddressObject = () => undefined, cl
         <Fade in={open} timeout={600}>
           <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" className={classes.paper}>
             <Box display="flex" mt={3}>
-                <Grid container spacing={1}>
-              <Grid container item xs ={8}>
+                <Grid container spacing={2} justifyContent={'flex-end'}>
+              <Grid container item xs ={5}>
                 <WaiteroTextField value={country} onChange={(e) => setCountry(e.target.value)} fullWidth placeholder='Tara' />
               </Grid>
-              <Grid container item xs ={8}>
+              <Grid container item xs ={5}>
                 <WaiteroTextField value={city} onChange={(e) => setCity(e.target.value)} fullWidth  placeholder='Oras' />
               </Grid>
-              <Grid container item xs ={6}>
+              <Grid container item xs ={5}>
                 <WaiteroTextField value={street} onChange={(e) => setStreet(e.target.value)} fullWidth placeholder='Strada' />
               </Grid>
               <Grid container item xs ={2}>

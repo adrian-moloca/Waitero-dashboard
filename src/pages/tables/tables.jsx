@@ -12,6 +12,8 @@ import DeleteModalIcon from '../../components/modal/delete-modal-icon.jsx';
 import WaiteroTextField from '../../components/text-field/waitero-text-field.jsx';
 import TableCard from '../../components/box/table-card/table-card.jsx';
 import AddTableModal from '../../components/modal/add-table-modal.jsx';
+import FileSaver, { saveAs } from 'file-saver';
+import { dataURLtoFile } from '../../utils/functions/base64Image.js';
 
 const Tables = ({ restaurants, tables, clientData, restaurantReducer, getTables, cleanErrorMessage }) => {
 
@@ -22,6 +24,11 @@ const Tables = ({ restaurants, tables, clientData, restaurantReducer, getTables,
 
   const goBackMenuSelection = () => {
     setRestaurantSelected('')
+  }
+
+  const downloadCode = async (base64, table) => {
+    const file = await dataURLtoFile(base64, 'qrcode'+table.toString())
+    saveAs(file)
   }
 
   useEffect(() => {
@@ -66,7 +73,7 @@ const Tables = ({ restaurants, tables, clientData, restaurantReducer, getTables,
                             <Box display={'flex'}>
                               <DeleteModalIcon type={'table'} clientId={clientData.id} message={'Confirmati stergerea acestei mese?'} restaurantId={restaurantSelected} tableId={item.id}/>
                              </Box>
-                            <Box key={item.id} marginRight={4} marginBottom={3} onClick={() => undefined}>
+                            <Box key={item.id} marginRight={4} marginBottom={3} onClick={() => downloadCode(item.qrCode, item.tableNumber)}>
                             <TableCard title={item.tableNumber} qrcode={item.qrCode} />
                             </Box>
                         </Box>

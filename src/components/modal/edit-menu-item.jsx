@@ -57,7 +57,7 @@ const EditMenuItem = ({isModalOpen, setIsModalOpen, item, setItem, clientId, res
                 message={error.message}
                 cleanError={() => setError({ message: '', isError: false })}
             />
-            <Modal open={isModalOpen} onClose={()=>returnBack() } back>
+            <Modal open={isModalOpen} onClose={()=>returnBack() }>
                 <Fade in={isModalOpen} timeout={600}>
                     <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center"  className={classes.paper}>       
                         <Box mr={2} width={400}>

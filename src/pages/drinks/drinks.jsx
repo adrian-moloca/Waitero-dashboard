@@ -26,11 +26,11 @@ const Drinks = ({ restaurants, drinks, clientData, restaurantReducer, getDrinks,
   }
 
   function groupBy(arr, property) {
-    return arr.reduce(function (memo, x) {
+    return arr?.reduce(function (memo, x) {
       if (!memo[x[property]]) { memo[x[property]] = []; }
       memo[x[property]].push(x);
       return memo;
-    }, {});
+    }, {}) || [];
   }
 
   useEffect(() => {
@@ -54,7 +54,7 @@ const Drinks = ({ restaurants, drinks, clientData, restaurantReducer, getDrinks,
             ALEGETI RESTAURANTUL
           </Box>
           <>
-            {restaurants.map((el) => {
+            {restaurants?.map((el) => {
               return (
                 <PrimaryButton key={el.id} variant='contained' style={{ marginBottom: 5, width: '50%' }} onClick={() => setRestaurantSelected(el.id)}>
                   {el.restaurantName}
@@ -77,7 +77,7 @@ const Drinks = ({ restaurants, drinks, clientData, restaurantReducer, getDrinks,
                 <MenuCard title={<AddContent title={'Adauga bautura'} />} />
               </Box>
               {restaurantReducer.loading ? <CircularProgress /> : (<>
-                {Object.keys(groupedByCategory).map((key) => {
+                {Object.keys(groupedByCategory)?.map((key) => {
                   return <Fragment key={key}>
                     <Box  fontSize={30} borderBottom={1}>
                       {key}
