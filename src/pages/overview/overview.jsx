@@ -5,7 +5,7 @@ import PageContainer from '../../components/container/page-container/page-contai
 import BoxWithShadow from '../../components/box/box-with-shadow/box-with-shadow.jsx';
 import { Redirect, useHistory } from 'react-router-dom';
 import EditLabelModal from '../../components/modal/edit-label-modal.jsx';
-import { Forum, Money, RestaurantMenu } from '@material-ui/icons';
+import { Forum, Money, RestaurantMenu, Room } from '@material-ui/icons';
 import EditStringArrayModal from '../../components/modal/edit-string-array-modal.jsx';
 import AddBoxOverview from '../../components/box/add-box-overview/add-box-overview.jsx';
 import GeneralStatisticsBox from '../../components/box/general-statistics-box/general-statistics-box.jsx';
@@ -17,14 +17,16 @@ import { getPlateMinimumPrice, getRestaurants, updateRestaurantField } from '../
 import { useRef } from 'react';
 import WaiteroAlert from '../../components/alert/alert.jsx';
 import { getBase64Image } from '../../utils/functions/base64Image.js';
+import EditAddressModal from '../../components/modal/edit-address-modal.jsx';
 
 const Overview = ({ restaurants, clientData, getRestaurants }) => { 
 
   const [selectedRestaurant, setSelectedRestaurant] = useState(restaurants.length > 0 ? restaurants[0]?.id : '')
   const [coverPhoto, setCoverPhoto] = useState(restaurants.length > 0 ? restaurants[0]?.coverPicture : '');
   const [photoChanged, setPhotoChanged] = useState(false);
-  const [restaurantName, setRestaurantName] = useState(restaurants.length > 0 ? restaurants[0]?.restaurantName : '');  
-  const [showEditResName, setShowEditResName] = useState(false);
+  const [restaurantName, setRestaurantName] = useState(restaurants.length > 0 ? restaurants[0]?.restaurantName : '');
+  const [restaurantAddress, setRestaurantAddress] = useState(restaurants.length > 0 ? restaurants[0]?.location?.address : '');  
+  const [showEditResAddress, setShowEditResAddress] = useState(false);
   const [showEditDescription, setShowEditDescription] = useState(false);
   const [showEditCusines, setShowEditCusines] = useState(false);
   const [resDescription, setResDescription] = useState(restaurants.length > 0 ?  restaurants[0]?.description : '')
@@ -80,7 +82,8 @@ const Overview = ({ restaurants, clientData, getRestaurants }) => {
       {restaurants.length > 0 ? (
       <Box display='flex' width={'90%'} flexDirection={'row'} alignItems={'flex-start'} justifyContent={'flex-start'}>
         <Box width='32%' display='flex' flexDirection='column' justifyContent='center'>
-          <WaiteroSelect value={selectedRestaurant} onChange={ handleChangeRestaurant } style={{fontSize: 35}}>
+          <Box display={'flex'} width={'100%'}>
+          <WaiteroSelect  variant={'outlined'} value={selectedRestaurant} fullWidth onChange={ handleChangeRestaurant } style={{fontSize: 25}}>
             {restaurants.map((restaurant, index) => {
               return (
                 <MenuItem key={restaurant.id + index} value={ restaurant.id }>
@@ -89,11 +92,14 @@ const Overview = ({ restaurants, clientData, getRestaurants }) => {
               )
             } ) }
           </WaiteroSelect>
+          <EditLabelModal labelName={'restaurantName'} label={restaurantName} setLabel={(label) => setRestaurantName(label)} clientId={clientData.id} restaurantId={selectedRestaurant} />
+          </Box>
           <Box paddingTop='8%'>
               <BoxWithShadow name = {'cover-photo'} source={coverPhoto} setSource={ createCoverPhoto }
                   overlayText={'EDITEAZA COPERTA'} height={250} width={'92%'} isButton />
-              <Box onMouseEnter={() => setShowEditResName(true)} onMouseLeave={() => setShowEditResName(false)}
-              style={{ fontSize: 35, fontWeight: '-moz-initial', paddingTop: '20px', width: 426, fontStyle: 'oblique' }}>{restaurantName}{showEditResName ? <EditLabelModal labelName={'restaurantName'} label={restaurantName} setLabel={(label) => setRestaurantName(label)} clientId={clientData.id} restaurantId={selectedRestaurant} /> : null}</Box>
+              <Box onMouseEnter={() => setShowEditResAddress(true)} onMouseLeave={() => setShowEditResAddress(false)}
+                  style={{ fontSize: 25, fontWeight: '-moz-initial', paddingTop: '20px', width: 426, fontStyle: 'oblique' }}><Room size={25} color={'inherit'}/>{restaurantAddress?.street ? restaurantAddress?.street+' '+restaurantAddress?.number+', ' : ''}{restaurantAddress?.city ? restaurantAddress?.city+', ' : ''}{restaurantAddress?.country}
+                  {showEditResAddress ? <EditAddressModal addressObject={restaurantAddress} setAddressObject={(obj) => setRestaurantAddress(obj)} clientId={clientData.id} restaurantId={selectedRestaurant} />   : null}</Box>
           </Box>
           <Box>
           <Box width={'92%'}  display={'flex'} justifyContent={'flex-end'}> <Rating readOnly defaultValue={0} precision={0.1} size='large'/></Box>

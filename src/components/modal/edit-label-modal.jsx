@@ -25,7 +25,7 @@ const EditLabelModal = ({ labelName, label, setLabel = () => undefined, clientId
 
   return (
     <>
-      <IconButton onClick={() => setOpen(true)} size={'small'} style={{ marginLeft: 15 }}><Edit size={14} /></IconButton>
+      <IconButton onClick={(e) =>{ setOpen(true); e.stopPropagation()}} size={'small'} style={{ marginLeft: 15 }}><Edit size={14} /></IconButton>
       <WaiteroAlert isError={error.isError} message={error.message} cleanError={() => setError({message: '', isError: false})} />
       <Modal open={open} onClose={() => setOpen(false)}>
         <Fade in={open} timeout={600}>
