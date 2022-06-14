@@ -1,6 +1,6 @@
 export function addressValidator(address){
     const addressFormat = /^[a-zA-Z0-9ĂăÂâÎîȘșȚț].{3,20}$/
-    if(addressFormat.test(address) || String(address).length==0)
+    if(addressFormat.test(address) || String(address).length===0)
     {
         return false;
     }
@@ -12,7 +12,7 @@ export function addressValidator(address){
 
 export function mailValidator(mail){
     const mailFormat = /^[a-zA-Z0-9._]+@[a-zA-Z0-9]+\.[A-Za-z]+$/
-    if(mailFormat.test(mail) || String(mail).length==0)
+    if(mailFormat.test(mail) || String(mail).length===0)
     {
         return false;
     }
@@ -24,7 +24,7 @@ export function mailValidator(mail){
 
 export function nameValidator(name){
     const nameFormat = /^[a-zA-ZĂăÂâÎîȘșȚț].{2,50}$/
-    if(nameFormat.test(name) || String(name).length==0)
+    if(nameFormat.test(name) || String(name).length===0)
     {
         return false;
     }
@@ -36,7 +36,7 @@ export function nameValidator(name){
 
 export function passwordValidator(password){
     const passwordFormat =  /^(?=.*\W)(?=.*[a-z])(?=.*[0-9])(?=.*[A-Z]).{8,32}$/
-    if(passwordFormat.test(password) || String(password).length==0)
+    if(passwordFormat.test(password) || String(password).length===0)
     {
         return false;
     }
@@ -48,7 +48,7 @@ export function passwordValidator(password){
 
 export function phoneValidator(phone){
     const phoneFormat =  /^[0-9].{9}$/
-    if(phoneFormat.test(phone) || String(phone).length==0)
+    if(phoneFormat.test(phone) || String(phone).length===0)
     {
         return false;
     }

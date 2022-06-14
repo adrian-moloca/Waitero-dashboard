@@ -5,64 +5,28 @@ import { withRouter } from 'react-router-dom';
 import { Add, ArrowBack, Close, Edit, SaveAlt } from '@material-ui/icons';
 import { connect } from 'react-redux';
 import PrimaryButton from '../../components/buttons/primaryButton/primaryButton.jsx';
-import { addExtra, getExtra, updateExtra } from '../../api/api-client/client-requests.js';
+import { addExtra, getExtra, getTables, updateExtra } from '../../api/api-client/client-requests.js';
 import { cleanErrorMessageRestaurant } from '../../redux/types/RestaurantTypes.js';
 import WaiteroAlert from '../../components/alert/alert.jsx';
 import DeleteModalIcon from '../../components/modal/delete-modal-icon.jsx';
 import WaiteroTextField from '../../components/text-field/waitero-text-field.jsx';
 import TableCard from '../../components/box/table-card/table-card.jsx';
+import AddTableModal from '../../components/modal/add-table-modal.jsx';
 
-const Tables = ({ restaurants, tables, clientData, restaurantReducer, getExtra, cleanErrorMessage }) => {
+const Tables = ({ restaurants, tables, clientData, restaurantReducer, getTables, cleanErrorMessage }) => {
 
   const [restaurantSelected, setRestaurantSelected] = useState(''); 
-  const [newExtraName, setNewExtraName] = useState(''); 
-  const [newExtraPrice, setNewExtraPrice] = useState('');
-  const [itemOnEditValues, setItemOnEditValues] = useState({extraName: '', extraPrice: ''})
 
-  const [loadingOnAdd, setLoadingOnAdd] = useState(false);
   const [error, setError] = useState({ message: '', isError: false });
-  const [onEditItem, setOnEditItem] = useState({index: -1, loading: false});
+  const [onAddItem, setOnAddItem] = useState(false);
 
   const goBackMenuSelection = () => {
     setRestaurantSelected('')
   }
 
-  const resetFields = () => {
-    setNewExtraName('')
-    setNewExtraPrice('')
-  } 
-
-  const resetExistentExtra = () => {
-    setOnEditItem({index: -1, loading: false});
-    setItemOnEditValues({extraName: '', extraPrice: ''})
-  }
-
-  const refreshMyExtras = () => {
-    resetFields();
-    getExtra(clientData.id, restaurantSelected)
-  }
-
-  const refreshMyExtrasOnUpdate = () => {
-    resetExistentExtra();
-    getExtra(clientData.id, restaurantSelected)
-  }
-
-  const addExtraToList = () => {
-    addExtra(newExtraName, parseFloat(newExtraPrice), clientData.id, restaurantSelected, setLoadingOnAdd, setError, refreshMyExtras)
-  }
-
-  const updateExtraFromList = (extraId) => {
-    updateExtra(itemOnEditValues.extraName, parseFloat(itemOnEditValues.extraPrice), clientData.id, restaurantSelected, extraId,(stat) => setOnEditItem({...onEditItem, loading: stat}), setError, refreshMyExtrasOnUpdate)
-  }
-
-  const clickedEditOnItem = (index, defaultNameValue, defaultPriceValue) => {
-    setOnEditItem({index: index, loading: false})
-    setItemOnEditValues({extraName: defaultNameValue, extraPrice: defaultPriceValue})
-  }
-
   useEffect(() => {
     if (restaurantSelected.length > 0)
-      getExtra(clientData.id, restaurantSelected)
+      getTables(clientData.id, restaurantSelected)
   }, [restaurantSelected])
 
   return (
@@ -92,29 +56,28 @@ const Tables = ({ restaurants, tables, clientData, restaurantReducer, getExtra, 
               QR MESE
             </Box>
             <Box width={'100%'} display={'flex'} marginTop={'2%'} flexWrap='wrap'>
-              {restaurantReducer.loading ? <CircularProgress /> : (<>
-                    <Box marginRight={3} marginTop={6} onClick={() => setModalAddMenuType(true)}>
-                    <TableCard title={<AddContent title={'Adauga meniu'} />} />
+                {restaurantReducer.loading ? <CircularProgress /> : (<>
+                  <Box marginRight={3} marginTop={6} onClick={() => setOnAddItem(true)}>
+                    <TableCard title={'Adauga masa'} />
                   </Box>
-                    {
-                      tables?.map((item) => {
-                        return (
+                  {tables?.map((item) => {
+                      return (
                           <Box key={item.id}>
                             <Box display={'flex'}>
                               <DeleteModalIcon type={'menu'} clientId={clientData.id} message={'Confirmati stergerea acestui meniu?'} restaurantId={restaurantSelected} menuId={item.id}/>
-                              <IconButton onClick={() => /* setModalEditMenuType({name: item.menuName, id: item.id} */)}><Edit /></IconButton>
+                              <IconButton onClick={() => undefined}><Edit /></IconButton>
                             </Box>
-                            <Box key={item.id} marginRight={3} marginBottom={3} onClick={() => setMenuType(item.id)}>
-                              <TableCard title={item.menuName} />
+                            <Box key={item.id} marginRight={3} marginBottom={3} onClick={() => undefined}>
+                            <TableCard title={item.tableNumber} qrcode={item.qrCode} />
                             </Box>
-                          </Box>
-                        )
-                      })}
+                        </Box>
+                      )})}
                   </>
                 )}
             </Box>
           </Box>
         </>)}
+      <AddTableModal isOpen={onAddItem} setIsOpen={setOnAddItem} clientId={clientData.id} restaurantId={restaurantSelected} tableAdded={()=>getTables(clientData.id, restaurantSelected) } />
       <WaiteroAlert isError={restaurantReducer.hasErrors} message={restaurantReducer.message} cleanError={() => cleanErrorMessage()} />
       <WaiteroAlert isError={error.isError} message={error.message} cleanError={() => setError({ message: '', isError: false })} />
     </PageContainer>
@@ -129,7 +92,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  getExtra: (clientId, restaurantId, loadingSetter) => dispatch(getExtra(clientId, restaurantId, loadingSetter)),
+  getTables: (clientId, restaurantId, loadingSetter) => dispatch(getTables(clientId, restaurantId, loadingSetter)),
   cleanErrorMessage: () => dispatch(cleanErrorMessageRestaurant())
 })
 

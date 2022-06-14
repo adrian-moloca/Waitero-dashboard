@@ -1,6 +1,6 @@
 import { cwaxios } from "../../utils/axios-config";
 import { addRestaurantRequest, addRestaurantSuccess, addRestaurantFailure, getRestaurantsRequest, getRestaurantsSuccess, getRestaurantsFailure } from "../../redux/types/ClientTypes";
-import { getCategoriesFailure, getCategoriesRequest, getCategoriesSuccess, getDrinksFailure, getDrinksRequest, getDrinksSuccess, getExtraFailure, getExtraRequest, getExtraSuccess, getMenusFailure, getMenusRequest, getMenusSuccess, getPlatesFailure, getPlatesRequest, getPlatesSuccess } from "../../redux/types/RestaurantTypes";
+import { getCategoriesFailure, getCategoriesRequest, getCategoriesSuccess, getDrinksFailure, getDrinksRequest, getDrinksSuccess, getExtraFailure, getExtraRequest, getExtraSuccess, getMenusFailure, getMenusRequest, getMenusSuccess, getPlatesFailure, getPlatesRequest, getPlatesSuccess, getTablesFailure, getTablesRequest, getTablesSuccess } from "../../redux/types/RestaurantTypes";
 
 export const updateClientPassword = async (oldPassword, newPassword, clientId, loadingSetter = () => undefined, errorSetter = () => undefined, closeModalEdit = () => undefined) => {
     loadingSetter(true);
@@ -350,5 +350,31 @@ export const deleteExtra = async (clientId, restaurantId, extraId, loadingSetter
     }).finally(() => {
         loadingSetter(false);
         closeModalDelete();
+    })
+}
+
+export const getTables = (clientId, restaurantId, loadingSetter = () => undefined) => {
+    loadingSetter(true)
+    return async (dispatch) => {
+        dispatch(getTablesRequest());
+        cwaxios.get(`${clientId}/restaurant/${restaurantId}/table/get-tables`).then((res) => {
+            dispatch(getTablesSuccess(res.data));
+        }).catch((error) => {
+            dispatch(getTablesFailure(error?.response?.data?.message));
+        }).finally(() => loadingSetter(false))
+    }
+}
+
+export const addTable = async ( tableNumber, clientId, restaurantId, loadingSetter = () => undefined, errorSetter = () => undefined, onTableAdded = () => undefined) => {
+    loadingSetter(true);
+    cwaxios.post(`${clientId}/restaurant/${restaurantId}/add-table`, {
+        tableNumber: tableNumber
+    }).then((res) => {
+        errorSetter({message: res?.data?.message, isError: false})
+    }).catch((error) => {
+        errorSetter({message: error?.response?.data?.message || 'cannot update',  isError: true})
+    }).finally(() => {
+        loadingSetter(false);
+        onTableAdded();
     })
 }

@@ -101,7 +101,7 @@ const Extra = ({ restaurants, extra, clientData, restaurantReducer, getExtra, cl
                     <Grid container item xs={1}>
                         <WaiteroTextField value={newExtraPrice} onChange={(e)=>setNewExtraPrice(e.target.value)} placeholder={'Pret'} fullWidth/>    
                     </Grid>
-                    <Grid container item xs={1}>
+                  <Grid container item xs={2} flexDirection={'row'}>
                         {loadingOnAdd ? <CircularProgress size={20}/> : <>
                                 <IconButton style={{marginRight: 2}} onClick={resetFields}><Close color='error'/></IconButton>
                                 <IconButton onClick={addExtraToList}><Add color='action'/></IconButton>
@@ -123,7 +123,7 @@ const Extra = ({ restaurants, extra, clientData, restaurantReducer, getExtra, cl
                                 <Grid container item xs={1}>
                                     <WaiteroTextField value={onEditItem.index === index ? itemOnEditValues.extraPrice : item.extraPrice} onChange={(e)=>setItemOnEditValues({extraName: itemOnEditValues.extraName, extraPrice: e.target.value})} fullWidth disabled={onEditItem.index !== index }/>
                                 </Grid>
-                                <Grid container item xs={1}>
+                                <Grid container item xs={2}>
                                     {onEditItem.index === index && onEditItem.loading ? <CircularProgress size={20}/> : <>
                                         {onEditItem.index === index ? (<>
                                             <IconButton style={{marginRight: 2}} onClick={resetExistentExtra}><Close color='error'/></IconButton>
