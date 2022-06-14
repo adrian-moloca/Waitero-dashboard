@@ -70,7 +70,7 @@ const EditMenuItem = ({isModalOpen, setIsModalOpen, item, setItem, clientId, res
                             <Grid container justifyContent='space-between'>
                                 {tempItem?.plateIngredients?.map((ing, index) => {
                                     return (
-                                        <Grid container item xs={5}>
+                                        <Grid key={ing} container item xs={5}>
                                             <WaiteroTextField fullWidth defaultValue={ing} onChange={(t) => updateIngredient(t.target.value, index)}
                                                             InputProps={{
                                                                 endAdornment: (

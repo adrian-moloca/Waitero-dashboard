@@ -64,9 +64,9 @@ const ClientsTable = ({ clients, searched }) => {
                 <Table stickyHeader>
                     <TableHead>
                         <TableRow>
-                            {columns.map((column) => (
+                            {columns.map((column, index) => (
                                 <TableCell
-                                    key={column.id}
+                                    key={column.id + index.toString()}
                                     align={column.align}
                                     style={{
                                         width: column.minWidth,
@@ -96,9 +96,9 @@ const ClientsTable = ({ clients, searched }) => {
                                 page * rowsPerPage,
                                 page * rowsPerPage + rowsPerPage
                             )
-                            .map((row) => {
+                            .map((row, index) => {
                                 return (
-                                    <TableRow key={row.code}>
+                                    <TableRow key={row.phone+index.toString()}>
                                         {columns.map((column) => {
                                             const value = row[column.id];
                                             return (

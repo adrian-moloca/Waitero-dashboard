@@ -13,12 +13,12 @@ const Settings = ({ client }) => {
 
   return (
     <PageContainer>
-        <Box display='flex' width={'90%'} flexDirection={'column'} alignItems={'center'} justifyContent={'flex-start'}>
+        <Box display='flex' width={'90%'} flexDirection={'column'} alignItems={'flex-start'} justifyContent={'flex-start'}>
             <Box textAlign='left' width={'100%'}  fontSize='35px'>
                 Setari
             </Box>
-            <Box display='flex' justifyContent={'flex-start'} width>  
-                <Box marginTop='2%' marginRight={'2%'} onClick={()=>setCurrent(1)}>
+            <Box display='flex' justifyContent={'flex-start'}>  
+                <Box marginTop={3} marginRight={3} onClick={()=>setCurrent(1)} width={'300px'}>
                     <AddBoxOverview
                         overlayText={'Reset Password'} backgroundColor={'#ffffff'} color={'#00000090'} height={180} width={'300px'} alignItems={'center'} iconPassword boxShadow={'0px 6px 6px rgba(0, 0, 0, 0.25)'}/>
                 </Box>

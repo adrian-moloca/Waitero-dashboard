@@ -40,7 +40,7 @@ const EditStringArrayModal = ({ labelName, array, setArray = () =>undefined, cli
             <Box display="flex" mt={3}>
               <Box mr={2} width={800}>
                 {restaurant_categories.map((category) => {
-                        return <ToggleButton style={{marginRight: 10, marginTop: 10, fontSize: 16}} selected={itemT.includes(category)} onChange={() => onCategoryClick(category)}>
+                        return <ToggleButton key={category} style={{marginRight: 10, marginTop: 10, fontSize: 16}} selected={itemT.includes(category)} onChange={() => onCategoryClick(category)}>
                             {category}        
                         </ToggleButton>
                 })}

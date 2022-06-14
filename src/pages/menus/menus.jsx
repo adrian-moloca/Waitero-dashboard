@@ -96,7 +96,7 @@ const Menus = ({ restaurants, menus, categories, plates, clientData, restaurantR
                     {
                       menus?.map((item) => {
                         return (
-                          <Box>
+                          <Box key={item.id}>
                             <Box display={'flex'}>
                               <DeleteModalIcon type={'menu'} clientId={clientData.id} message={'Confirmati stergerea acestui meniu?'} restaurantId={restaurantSelected} menuId={item.id}/>
                               <IconButton onClick={() => setModalEditMenuType({name: item.menuName, id: item.id})}><Edit /></IconButton>
@@ -116,7 +116,7 @@ const Menus = ({ restaurants, menus, categories, plates, clientData, restaurantR
                   <>
                     {categories?.map((item) => {
                       return (
-                        <Box>
+                        <Box key={item.id}>
                           <Box display={'flex'}>
                             <DeleteModalIcon type={'category'} clientId={clientData.id} message={'Confirmati stergerea acestei categorii?'} restaurantId={restaurantSelected} menuId={menuType} categoryId={item.id}/>
                             <IconButton onClick={() => setModalEditMenuType({name: item.categoryName, id: item.id})}><Edit /></IconButton>
@@ -136,7 +136,7 @@ const Menus = ({ restaurants, menus, categories, plates, clientData, restaurantR
                   <>
                     {plates?.map((item) => {
                       return (
-                        <Box>
+                        <Box key={item.id}>
                           <Box display={'flex'}>
                             <DeleteModalIcon  type={'plate'} clientId={clientData.id} message={'Confirmati stergerea acestui preparat?'} restaurantId={restaurantSelected} menuId={menuType} categoryId={onCategory} plateId={item.id}/>
                           </Box>

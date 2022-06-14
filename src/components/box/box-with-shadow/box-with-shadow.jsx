@@ -33,7 +33,7 @@ const BoxWithShadow = ({name, source, overlayText, isButton, height, width, setS
                     width: width,
                 cursor: 'pointer'
                 }} onMouseEnter={() => setOnHover(true)} onMouseLeave={() => setOnHover(false)}>
-                    {onHover ? <label for={`select-${name})`} style={{height: '100%', width: '100%', backdropFilter: 'brightness(40%)', borderRadius: 5, cursor: 'pointer'}} onClick={(e)=>console.log('LABEL ', e)}>
+                    {onHover ? <label htmlFor={`select-${name})`} style={{height: '100%', width: '100%', backdropFilter: 'brightness(40%)', borderRadius: 5, cursor: 'pointer'}} onClick={(e)=>console.log('LABEL ', e)}>
                          <Box fontSize={height / 4} fontWeight={'bold'} marginX={2} color={'white'}>{overlayText}</Box>
                     </label> : null}
             </MyPaper>) : (

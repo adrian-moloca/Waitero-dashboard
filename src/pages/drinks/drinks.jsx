@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { Box, CircularProgress, IconButton } from '@material-ui/core';
 import PageContainer from '../../components/container/page-container/page-container.jsx';
 import { withRouter } from 'react-router-dom';
@@ -78,14 +78,14 @@ const Drinks = ({ restaurants, drinks, clientData, restaurantReducer, getDrinks,
               </Box>
               {restaurantReducer.loading ? <CircularProgress /> : (<>
                 {Object.keys(groupedByCategory).map((key) => {
-                  return <>
-                    <Box fontSize={30} borderBottom={1}>
+                  return <Fragment key={key}>
+                    <Box  fontSize={30} borderBottom={1}>
                       {key}
                     </Box>
                     <Box display={'flex'} flexWrap={'wrap'}>
                       {groupedByCategory[key].map((item) => {
                         return (
-                          <Box>
+                          <Box key={item.id}>
                             <Box display={'flex'}>
                               <DeleteModalIcon type={'drink'} clientId={clientData.id} message={'Confirmati stergerea acestei bauturi?'} restaurantId={restaurantSelected} drinkId={item.id} />
                             </Box>
@@ -97,7 +97,7 @@ const Drinks = ({ restaurants, drinks, clientData, restaurantReducer, getDrinks,
                       }
                       )}
                     </Box>
-                  </>
+                  </Fragment>
                 })}
               </>
               )}

@@ -31,7 +31,7 @@ const SubscriptionBox = (props) =>{
     return(
 
         <MyBox>
-            <Grid container xs={12} justifyContent='center'>
+            <Grid container justifyContent='center'>
                 <MyGrid container item xs={6}>
                     {props.name}
                 </MyGrid>

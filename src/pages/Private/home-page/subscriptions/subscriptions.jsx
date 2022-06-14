@@ -18,9 +18,9 @@ const subscriptions = [
 const ActiveSubscriptions = ()=>{
     return(
 
-        <Grid container xs={12} direction='row' spacing={3}>
-            {subscriptions.map((el)=>
-                <Grid container item xs={6} justifyContent='center'>
+        <Grid container direction='row' spacing={3}>
+            {subscriptions.map((el, index)=>
+                <Grid key={el.name+index.toString()} container item xs={6} justifyContent='center'>
                     <SubscriptionBox name={el.name} location={el.location} subscriptionType={el.subscriptionType}
                              renewDate={el.renewDate} partnerFrom={el.partnerFrom} rate={el.rate}/>
                 </Grid>  

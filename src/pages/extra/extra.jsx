@@ -116,7 +116,7 @@ const Extra = ({ restaurants, extra, clientData, restaurantReducer, getExtra, cl
                     {
                       extra?.map((item, index) => {
                         return (
-                            <Grid container spacing={3}>
+                            <Grid key={item.id} container spacing={3}>
                                 <Grid container item xs={3}>
                                     <WaiteroTextField value={onEditItem.index === index ? itemOnEditValues.extraName : item.extraName} onChange={(e)=>setItemOnEditValues({extraName: e.target.value, extraPrice: itemOnEditValues.extraPrice})} fullWidth disabled={onEditItem.index !== index }/>
                                 </Grid>

@@ -66,10 +66,10 @@ const DeleteModalWithIcon = ({ type, message, clientId=undefined, restaurantId=u
               </Box>
               <Box mr={2} width={400} my={2}>
                 <Grid container justifyContent='space-between'>                                
-                    <Grid container intem xs={5}>
+                    <Grid container item xs={5}>
                         <SecondaryButton variant={'outlined'} onClick={()=>setOpen(false)} fullWidth>INAPOI</SecondaryButton>
                     </Grid>
-                    <Grid container intem xs={5}>
+                    <Grid container item xs={5}>
                         <PrimaryButton variant={'contained'} onClick={()=>handleDeleteClick()} fullWidth>{loading ? <CircularProgress  style={{color: '#fff'}}/> : 'STERGE'}</PrimaryButton>
                     </Grid>
                 </Grid>

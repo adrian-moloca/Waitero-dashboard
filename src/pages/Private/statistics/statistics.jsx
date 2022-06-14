@@ -19,7 +19,7 @@ const StatisticsPage = () => {
                 Alege data pentru a vedea statistici
               </Box>
               <Box paddingTop='1%' fontSize='18px' fontStyle='italic' width='250px'>
-                <CarroDatePicker dateValue={dateValue} handleDateSelect={(date)=>setDateValue(date)} disableFuture/>
+                <CarroDatePicker value={dateValue} onChange={(date)=>setDateValue(date)} disableFuture/>
               </Box>
             </Box>
             <Box width='90%' marginTop='20px' display='flex' flexDirection='column' justifyContent='center'>

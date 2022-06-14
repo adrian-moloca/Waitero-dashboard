@@ -32,8 +32,8 @@ const GeneralStatistics = () =>{
 
     return (
         <MyGrid container>
-            {general_statistics.map((box)=>
-                <Grid container item justifyContent='center'>
+            {general_statistics.map((box, index)=>
+                <Grid key={box.title+index.toString()} container item justifyContent='center'>
                     <GeneralStatisticsBox title = {box.title} content={box.content} subInfo={box.subInfo}/>
                 </Grid>
             ) } 
