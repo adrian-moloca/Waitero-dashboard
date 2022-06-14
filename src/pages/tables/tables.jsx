@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Box, CircularProgress, IconButton, Grid } from '@material-ui/core';
 import PageContainer from '../../components/container/page-container/page-container.jsx';
 import { withRouter } from 'react-router-dom';
-import { Add, ArrowBack, Close, Edit, SaveAlt } from '@material-ui/icons';
+import { Add, AddCircleTwoTone, ArrowBack, Close, Edit, SaveAlt } from '@material-ui/icons';
 import { connect } from 'react-redux';
 import PrimaryButton from '../../components/buttons/primaryButton/primaryButton.jsx';
 import { addExtra, getExtra, getTables, updateExtra } from '../../api/api-client/client-requests.js';
@@ -55,19 +55,18 @@ const Tables = ({ restaurants, tables, clientData, restaurantReducer, getTables,
               </IconButton>
               QR MESE
             </Box>
-            <Box width={'100%'} display={'flex'} marginTop={'2%'} flexWrap='wrap'>
+            <Box width={'100%'} display={'flex'} marginTop={'2%'} alignItems={'center'} flexWrap='wrap'>
                 {restaurantReducer.loading ? <CircularProgress /> : (<>
-                  <Box marginRight={3} marginTop={6} onClick={() => setOnAddItem(true)}>
-                    <TableCard title={'Adauga masa'} />
+                  <Box marginRight={5} marginTop={6}>
+                    <IconButton size={"large"}  onClick={() => setOnAddItem(true)}> <AddCircleTwoTone  style={{fontSize: '100px'}}/></IconButton>
                   </Box>
                   {tables?.map((item) => {
                       return (
                           <Box key={item.id}>
                             <Box display={'flex'}>
-                              <DeleteModalIcon type={'menu'} clientId={clientData.id} message={'Confirmati stergerea acestui meniu?'} restaurantId={restaurantSelected} menuId={item.id}/>
-                              <IconButton onClick={() => undefined}><Edit /></IconButton>
-                            </Box>
-                            <Box key={item.id} marginRight={3} marginBottom={3} onClick={() => undefined}>
+                              <DeleteModalIcon type={'table'} clientId={clientData.id} message={'Confirmati stergerea acestei mese?'} restaurantId={restaurantSelected} tableId={item.id}/>
+                             </Box>
+                            <Box key={item.id} marginRight={4} marginBottom={3} onClick={() => undefined}>
                             <TableCard title={item.tableNumber} qrcode={item.qrCode} />
                             </Box>
                         </Box>

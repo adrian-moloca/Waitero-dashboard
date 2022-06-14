@@ -378,3 +378,15 @@ export const addTable = async ( tableNumber, clientId, restaurantId, loadingSett
         onTableAdded();
     })
 }
+
+export const deleteTable = async (clientId, restaurantId, tableId, loadingSetter = () => undefined, errorSetter = () => undefined, closeModalDelete = () => undefined) => {
+    loadingSetter(true);
+    cwaxios.delete(`${clientId}/restaurant/${restaurantId}/table/${tableId}/delete-table`).then((res) => {
+        errorSetter({message: res?.data?.message, isError: false})
+    }).catch((error) => {
+        errorSetter({message: error?.response?.data?.message || 'cannot update',  isError: true})
+    }).finally(() => {
+        loadingSetter(false);
+        closeModalDelete();
+    })
+}
