@@ -1,13 +1,29 @@
-import React from "react";
+import React, {useRef, useState, useEffect} from "react";
 import { Box } from "@material-ui/core";
 import PageContainer from "../../../components/container/page-container/page-container.jsx";
-import PrimaryButton from "../../../components/buttons/primaryButton/primaryButton.jsx";
 import WaiteroTextField from "../../../components/text-field/waitero-text-field.jsx";
 import SearchIcon from '@material-ui/icons/Search';
-import UsersTable from "../../../components/UsersTable/UsersTable"
+import UsersTable from "../../../components/table/users-table.jsx"
 import { InputAdornment } from "@material-ui/core";
+import { getUsers } from "../../../api/api-admin/admin-requests.js";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+import { cleanErrorMessage } from "../../../redux/types/AdminTypes.js";
+import WaiteroAlert from "../../../components/alert/alert.jsx";
 
-const UsersPage = () => {
+const UsersPage = ({ adminReducer, cleanErrorMessage, getUsers }) => {
+
+  const isScreenMounted = useRef(true)
+
+  const [searched, setSearched] = useState('')
+  
+  useEffect(() => {
+    if (!isScreenMounted.current) return;
+    else {
+        getUsers()
+    }
+    return () => isScreenMounted.current = false;
+}, [])
   return (
     <PageContainer>
       <Box
@@ -38,17 +54,22 @@ const UsersPage = () => {
           }} />
         </Box>
       </Box>
-      <Box
-        width="90%"
-        display="flex"
-        flexDirection="column"
-        justifyContent="center"
-        paddingTop="2%"
-      >
-        <UsersTable/>
-      </Box>
+      <Box width="90%" display="flex" flexDirection="column" justifyContent="center" paddingTop="2%" >
+            <UsersTable searched={searched} />
+        </Box>
+        <WaiteroAlert isError={adminReducer.hasErrors} message={adminReducer.message} cleanError={() => cleanErrorMessage()} />
     </PageContainer>
   );
 };
 
-export default UsersPage;
+const mapStateToProps = (state) => ({
+  adminReducer: state.adminReducer,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  cleanErrorMessage: () => dispatch(cleanErrorMessage()),
+  getUsers: (loadingSetter) => dispatch(getUsers(loadingSetter))
+});
+
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(UsersPage))

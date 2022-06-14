@@ -19,6 +19,10 @@ export const CLEAN_ERROR_MESSAGE = 'CLEAN_ERROR_MESSAGE';
 
 export const CLEAN_ADMIN_REDUCER = 'CLEAN_ADMIN_REDUCER';
 
+export const GET_USERS_REQUEST = 'GET_USERS_REQUEST';
+export const GET_USERS_SUCCESS = 'GET_USERS_SUCCESS';
+export const GET_USERS_FAILURE = 'GET_USERS_FAILURE';
+
 // Functions
 // USER fetch functions
 export const fetchAdminRequest = () => {
@@ -98,4 +102,24 @@ export const cleanAdmin = () => {
     return {
         type: CLEAN_ADMIN_REDUCER
     }
+}
+
+export const getUsersRequest = () => {
+    return {
+        type: GET_USERS_REQUEST
+    };
+}
+
+export const getUsersSuccess = (response) => {
+    return {
+        type: GET_USERS_SUCCESS,
+        payload: response
+    };
+}
+
+export const getUsersFailure = (error) => {
+    return {
+        type: GET_USERS_FAILURE,
+        payload: error
+    };
 }

@@ -2,7 +2,8 @@ import {
     GET_ADMIN_REQUEST, GET_ADMIN_SUCCESS, GET_ADMIN_FAILURE,
     REMEMBER_ME_TOGGLE, CLEAN_ERROR_MESSAGE, CLEAN_ADMIN_REDUCER, 
     ADD_CLIENT_REQUEST, ADD_CLIENT_SUCCESS, ADD_CLIENT_FAILURE,
-    GET_CLIENTS_REQUEST, GET_CLIENTS_SUCCESS, GET_CLIENTS_FAILURE
+    GET_CLIENTS_REQUEST, GET_CLIENTS_SUCCESS, GET_CLIENTS_FAILURE,
+    GET_USERS_REQUEST, GET_USERS_SUCCESS, GET_USERS_FAILURE
 } from '../types/AdminTypes';
 
 let initial = {
@@ -20,7 +21,8 @@ let initial = {
         role: "",
         _id: ""
     },
-    clients: []
+    clients: [],
+    users: []
 }
 
 const adminReducer = (state = initial, action) => {
@@ -95,6 +97,26 @@ const adminReducer = (state = initial, action) => {
                 clients: action.payload.clients
             }
         case GET_CLIENTS_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                hasErrors: true,
+                message: action.payload
+            }
+        case GET_USERS_REQUEST:
+            return {
+                ...state,
+                loading: true
+            }
+        case GET_USERS_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                hasErrors: false,
+                message: state.message.length === 0 ? action.payload.message : state.message,
+                users: action.payload.users
+            }
+        case GET_USERS_FAILURE:
             return {
                 ...state,
                 loading: false,

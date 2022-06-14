@@ -4,7 +4,7 @@ import { Box } from '@material-ui/core';
 import PageContainer from '../../../components/container/page-container/page-container.jsx';
 import WaiteroTextField from '../../../components/text-field/waitero-text-field.jsx';
 import SearchIcon from '@material-ui/icons/Search';
-import ClientsTable from '../../../components/ClientsTable/clients-table.jsx';
+import ClientsTable from '../../../components/table/clients-table.jsx';
 import { InputAdornment } from '@material-ui/core';
 import AddClientModal from '../../../components/modal/add-client-modal.jsx';
 import { withRouter } from 'react-router-dom';
