@@ -90,7 +90,10 @@ const Extra = ({ restaurants, extra, clientData, restaurantReducer, getExtra, cl
               </IconButton>
               EXTRA
             </Box>
-            <Box width={'100%'} marginTop={'2%'} flexWrap='wrap'>
+            <Box width={'100%'} flexWrap='wrap'>
+                <Box fontSize={20} marginTop={2} marginBottom={2}  >
+                    Adauga Extra
+                </Box>
                 <Grid container spacing={3}>
                     <Grid container item xs={3}>
                         <WaiteroTextField value={newExtraName} onChange={(e)=>setNewExtraName(e.target.value)} placeholder={'Nume'} fullWidth/>

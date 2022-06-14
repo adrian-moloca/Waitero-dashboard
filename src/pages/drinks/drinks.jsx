@@ -18,20 +18,28 @@ const Drinks = ({ restaurants, drinks, clientData, restaurantReducer, getDrinks,
 
   const [restaurantSelected, setRestaurantSelected] = useState('');
   const [drinkSelected, setDrinkSelected] = useState('')
-  const [modalAddDrinkType, setModalAddDrinkType] = useState(false); 
+  const [modalAddDrinkType, setModalAddDrinkType] = useState(false);
+  const [groupedByCategory, setGroupedByCategory] = useState({});
 
   const goBackMenuSelection = () => {
     setRestaurantSelected('')
   }
 
-  const drinkCardText = (name, category) => {
-    return(
-        <Box>
-            <Box>{name}</Box>
-            <Box>{category}</Box>
-        </Box>
-    )
+  function groupBy(arr, property) {
+    return arr.reduce(function (memo, x) {
+      if (!memo[x[property]]) { memo[x[property]] = []; }
+      memo[x[property]].push(x);
+      return memo;
+    }, {});
   }
+
+  useEffect(() => {
+    async function createGroupedDrinks() {
+      const o = await groupBy(drinks, 'drinkCategory')
+      return o
+    }
+    createGroupedDrinks().then((grouped) => setGroupedByCategory(grouped))
+  }, [drinks])
 
   useEffect(() => {
     if (restaurantSelected.length > 0)
@@ -64,30 +72,39 @@ const Drinks = ({ restaurants, drinks, clientData, restaurantReducer, getDrinks,
               </IconButton>
               BAUTURI
             </Box>
-            <Box width={'100%'} display={'flex'} marginTop={'2%'} flexWrap='wrap'>
+            <Box width={'100%'} /* display={'flex'}  */ marginTop={'2%'} flexWrap='wrap'>
+              <Box marginRight={3} marginTop={3} marginBottom={3} onClick={() => setModalAddDrinkType(true)}>
+                <MenuCard title={<AddContent title={'Adauga bautura'} />} />
+              </Box>
               {restaurantReducer.loading ? <CircularProgress /> : (<>
-                    {
-                      drinks?.map((item) => {
+                {Object.keys(groupedByCategory).map((key) => {
+                  return <>
+                    <Box fontSize={30} borderBottom={1}>
+                      {key}
+                    </Box>
+                    <Box display={'flex'} flexWrap={'wrap'}>
+                      {groupedByCategory[key].map((item) => {
                         return (
                           <Box>
                             <Box display={'flex'}>
-                              <DeleteModalIcon type={'drink'} clientId={clientData.id} message={'Confirmati stergerea acestei bauturi?'} restaurantId={restaurantSelected} drinkId={item.id}/>
+                              <DeleteModalIcon type={'drink'} clientId={clientData.id} message={'Confirmati stergerea acestei bauturi?'} restaurantId={restaurantSelected} drinkId={item.id} />
                             </Box>
                             <Box key={item.id} marginRight={3} marginBottom={3} onClick={() => setDrinkSelected(item.id)}>
-                              <MenuCard title={drinkCardText(item.drinkName, item.drinkCategory)} />
+                              <MenuCard title={item.drinkName} />
                             </Box>
                           </Box>
                         )
-                      })}
-                      <Box marginRight={3} marginTop={6} onClick={() => setModalAddDrinkType(true)}>
-                      <MenuCard title={<AddContent title={'Adauga bautura'} />} />
+                      }
+                      )}
                     </Box>
                   </>
-                )}
+                })}
+              </>
+              )}
             </Box>
           </Box>
           <AddDrinkModal isOpen={modalAddDrinkType} setIsOpen={() => setModalAddDrinkType(false)} clientId={clientData.id} restaurantId={restaurantSelected} createDrinkType={() => getDrinks(clientData.id, restaurantSelected)} />
-          <EditDrinkModal isOpen={drinkSelected.length > 0} setIsOpen={() => setDrinkSelected('')} item={drinks?.find(el=>el.id===drinkSelected)} clientId={clientData.id} restaurantId={restaurantSelected} drinkId={drinkSelected} updateDrinkType={() => getDrinks(clientData.id, restaurantSelected)} />
+          <EditDrinkModal isOpen={drinkSelected.length > 0} setIsOpen={() => setDrinkSelected('')} item={drinks?.find(el => el.id === drinkSelected)} clientId={clientData.id} restaurantId={restaurantSelected} drinkId={drinkSelected} updateDrinkType={() => getDrinks(clientData.id, restaurantSelected)} />
         </>)}
       <WaiteroAlert isError={restaurantReducer.hasErrors} message={restaurantReducer.message} cleanError={() => cleanErrorMessage()} />
     </PageContainer>
