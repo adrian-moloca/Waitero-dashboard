@@ -35,7 +35,7 @@ const adminReducer = (state = initial, action) => {
             return{
                 ...state,
                 admin: action.payload.admin,
-                message: action.payload.message, 
+                message: state.message.length === 0 ? action.payload.message : state.message, 
                 token: action.payload.token,
                 loading: false,
                 hasErrors: false
@@ -72,7 +72,7 @@ const adminReducer = (state = initial, action) => {
                 ...state,
                 loading: false,
                 hasErrors: false,
-                message: action.payload.message
+                message: state.message.length === 0 ? action.payload.message : state.message,
             }
         case ADD_CLIENT_FAILURE:
             return {
@@ -91,7 +91,7 @@ const adminReducer = (state = initial, action) => {
                 ...state,
                 loading: false,
                 hasErrors: false,
-                message: action.payload.message,
+                message: state.message.length === 0 ? action.payload.message : state.message,
                 clients: action.payload.clients
             }
         case GET_CLIENTS_FAILURE:

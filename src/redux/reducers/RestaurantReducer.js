@@ -28,7 +28,7 @@ const restaurantReducer = (state = initial, action) => {
             return{
                 ...state,
                 restaurant: action.payload.restaurant,
-                message: action.payload.message, 
+                message: state.message.length === 0 ? action.payload.message : state.message,
                 loading: false,
                 hasErrors: false
             }
@@ -59,7 +59,7 @@ const restaurantReducer = (state = initial, action) => {
                 ...state,
                 loading: false,
                 hasErrors: false,
-                message: action.payload.message,
+                message: state.message.length === 0 ? action.payload.message : state.message,
                 restaurant: {
                     ...state.restaurant,
                     menus: action?.payload?.menus || []
@@ -82,7 +82,7 @@ const restaurantReducer = (state = initial, action) => {
                 ...state,
                 loading: false,
                 hasErrors: false,
-                message: action.payload.message,
+                message: state.message.length === 0 ? action.payload.message : state.message,
                 restaurant: {
                     ...state.restaurant,
                     categories: action?.payload?.categories || []
@@ -105,7 +105,7 @@ const restaurantReducer = (state = initial, action) => {
                 ...state,
                 loading: false,
                 hasErrors: false,
-                message: action.payload.message,
+                message: state.message.length === 0 ? action.payload.message : state.message,
                 restaurant: {
                     ...state.restaurant,
                     plates: action?.payload?.plates || []
@@ -128,7 +128,7 @@ const restaurantReducer = (state = initial, action) => {
                 ...state,
                 loading: false,
                 hasErrors: false,
-                message: action.payload.message,
+                message: state.message.length === 0 ? action.payload.message : state.message,
                 restaurant: {
                     ...state.restaurant,
                     drinks: action?.payload?.drinks || []
@@ -151,7 +151,7 @@ const restaurantReducer = (state = initial, action) => {
                 ...state,
                 loading: false,
                 hasErrors: false,
-                message: action.payload.message,
+                message: state.message.length === 0 ? action.payload.message : state.message,
                 restaurant: {
                     ...state.restaurant,
                     extra: action?.payload?.extras || []

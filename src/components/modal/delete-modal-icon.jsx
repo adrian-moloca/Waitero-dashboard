@@ -7,8 +7,9 @@ import PrimaryButton from '../buttons/primaryButton/primaryButton';
 import SecondaryButton from '../buttons/secondaryButton/secondaryButton';
 import { deleteCategory, deleteMenu, deletePlate, deleteDrink, deleteExtra, getCategories, getMenus, getPlates, getDrinks, getExtra } from '../../api/api-client/client-requests';
 import { Delete } from '@material-ui/icons';
+import { deleteClient, getClients } from '../../api/api-admin/admin-requests';
 
-const DeleteModalWithIcon = ({ type, message, clientId=undefined, restaurantId=undefined, menuId=undefined, categoryId=undefined, plateId=undefined, drinkId=undefined, extraId=undefined, getMenus, getCategories, getPlates, getDrinks, getExtra}) => {
+const DeleteModalWithIcon = ({ type, message, clientId=undefined, restaurantId=undefined, menuId=undefined, categoryId=undefined, plateId=undefined, drinkId=undefined, extraId=undefined, getMenus, getCategories, getPlates, getDrinks, getExtra, getClients}) => {
 
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -40,6 +41,11 @@ const DeleteModalWithIcon = ({ type, message, clientId=undefined, restaurantId=u
     setOpen(false);
   }
 
+  const closeModalOnClientDelete = () => {
+    getClients(setLoading);
+    setOpen(false);
+  }
+
   const handleDeleteClick = () => {
     if(type === 'menu'){
         deleteMenu(clientId, restaurantId, menuId, setLoading, setError, closeModalOnMenuDelete)        
@@ -51,6 +57,8 @@ const DeleteModalWithIcon = ({ type, message, clientId=undefined, restaurantId=u
         deleteDrink(clientId, restaurantId, drinkId, setLoading, setError, closeModalOnDrinkDelete)        
     } else if (type === 'extra'){
         deleteExtra(clientId, restaurantId, extraId, setLoading, setError, closeModalOnExtraDelete)        
+    } else if (type === 'client'){
+        deleteClient(clientId, setLoading, setError, closeModalOnClientDelete)
     }
   }
 
@@ -87,6 +95,7 @@ const mapDispatchToProps = (dispatch) => ({
     getPlates: (clientId, restaurantId, menuId, categoryId, loadingSetter) => dispatch(getPlates(clientId, restaurantId, menuId, categoryId, loadingSetter)),
     getDrinks: (clientId, restaurantId, loadingSetter) => dispatch(getDrinks(clientId, restaurantId, loadingSetter)),
     getExtra: (clientId, restaurantId, loadingSetter) => dispatch(getExtra(clientId, restaurantId, loadingSetter)),
+    getClients: (loadingSetter) => dispatch(getClients(loadingSetter))
 })
 
 export default connect(null, mapDispatchToProps)(DeleteModalWithIcon);

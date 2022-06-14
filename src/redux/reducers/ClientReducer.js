@@ -36,7 +36,7 @@ const clientReducer = (state = initial, action) => {
             return{
                 ...state,
                 client: action.payload.client,
-                message: action.payload.message, 
+                message: state.message.length === 0 ? action.payload.message : state.message,
                 token: action.payload.token,
                 loading: false,
                 hasErrors: false
@@ -72,7 +72,7 @@ const clientReducer = (state = initial, action) => {
             return{
                 ...state,
                 client: {...action.payload.client, loggedIn: true},
-                message: action.payload.message, 
+                message: state.message.length === 0 ? action.payload.message : state.message, 
                 token: action.payload.token,
                 loading: false,
                 hasErrors: false
@@ -94,7 +94,7 @@ const clientReducer = (state = initial, action) => {
                 ...state,
                 loading: true,
                 hasErrors: false,
-                message: action.payload.message,
+                message: state.message.length === 0 ? action.payload.message : state.message,
                 client: {
                     ...state.client,
                     restaurants: state.client.restaurants.concat([action?.payload?.restaurant])
@@ -117,7 +117,7 @@ const clientReducer = (state = initial, action) => {
                 ...state,
                 loading: true,
                 hasErrors: false,
-                message: action.payload.message,
+                message: state.message.length === 0 ? action.payload.message : state.message,
                 client: {
                     ...state.client,
                     restaurants: action?.payload?.restaurants || []

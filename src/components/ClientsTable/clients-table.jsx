@@ -13,7 +13,7 @@ import {
     TableRow,
 } from '@material-ui/core';
 import Edit from '@material-ui/icons/Edit';
-import Delete from '@material-ui/icons/Delete';
+import DeleteModalWithIcon from '../modal/delete-modal-icon.jsx'
 
 const columns = [
     { id: 'name', label: 'Nume', minWidth: 40 },
@@ -121,20 +121,7 @@ const ClientsTable = ({ clients, searched }) => {
                                             key={'actions'}
                                             align={'center'}
                                         >
-                                            <IconButton
-                                                onClick={console.log('edited')}
-                                            >
-                                                <Edit
-                                                    style={{ color: '#00B4D8' }}
-                                                />
-                                            </IconButton>
-                                            <IconButton
-                                                onClick={console.log('delete')}
-                                            >
-                                                <Delete
-                                                    style={{ color: '#F50057' }}
-                                                />
-                                            </IconButton>
+                                            <DeleteModalWithIcon type={'client'} message={'Sunteti sigur de stergerea acestui client?'} clientId ={row.id}/>
                                         </TableCell>
                                     </TableRow>
                                 );
