@@ -29,16 +29,16 @@ const SideMenuContainer = (props) => {
     return(
         <MyContainer>
             <Box maxWidth='100%' paddingTop={15} display='flex' justifyContent='center'
-                fontSize={50} color={'white' }>
+                fontSize={35} color={'white' }>
                 WAITERO
             </Box>
-            {props.userRole ? (<Box width={'100%'} paddingTop={1} display={'flex'} justifyContent={'center'} fontSize={30} color={'white'}>
+            {props.userRole ? (<Box width={'100%'} paddingTop={1} display={'flex'} justifyContent={'center'} fontSize={25} color={'white'}>
                                     {props.userRole?.toUpperCase()}
                                 </Box>) : null}
-            <Box width='100%' display='flex' alignSelf='center'>
+            <Box width='100%' display='flex' alignSelf='center' >
                 {props.children}
             </Box>
-            <Box position='absolute' bottom={0} width='50%' height='5%' borderTop={2} paddingTop={1} color='white' 
+            <Box position='absolute' backgroundColor={'rgba(255, 90, 95, 1)'} bottom={0} width='50%' height='5%' borderTop={2} paddingTop={1} color='white' 
                 textAlign='center' fontWeight={500}>
                 2022 WAITERO
             </Box>

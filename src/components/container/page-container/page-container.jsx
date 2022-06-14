@@ -11,7 +11,7 @@ const PageContainer = withStyles({
         bottom: 0,
         margin: 0,
         marginTop: 0,
-        paddingLeft:'17%',
+        paddingLeft:'14%',
         padding: 0,
         paddingTop: '80px',
         paddingBottom: '20px',

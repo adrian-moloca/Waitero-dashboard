@@ -83,7 +83,7 @@ const Overview = ({ restaurants, clientData, getRestaurants }) => {
       <Box display='flex' width={'90%'} flexDirection={'row'} alignItems={'flex-start'} justifyContent={'flex-start'}>
         <Box width='32%' display='flex' flexDirection='column' justifyContent='center'>
           <Box display={'flex'} width={'100%'}>
-          <WaiteroSelect  variant={'outlined'} value={selectedRestaurant} fullWidth onChange={ handleChangeRestaurant } style={{fontSize: 25}}>
+          <WaiteroSelect  value={selectedRestaurant} fullWidth onChange={ handleChangeRestaurant } style={{fontSize: 25}}>
             {restaurants.map((restaurant, index) => {
               return (
                 <MenuItem key={restaurant.id + index} value={ restaurant.id }>

@@ -10,11 +10,13 @@ import { connect } from 'react-redux';
 const MyDrawer = withStyles({
 
     root:{
-        width: '18%',
+        width: '14%',
+        minWidth:'200px'
     },
 
     paper:{
-        width:'18%',
+        width:'14%',
+        minWidth:'200px',
         border: 0,
         boxShadow: ' 5px 0 0 rgba(0, 0, 0, 0.31)',
     },
@@ -28,12 +30,13 @@ const MyButton = withStyles({
         width: '100%',
         color:'white',
         border:'none',
+        overflow: 'auto'
     },
 
     label:{
         alignItems:'center',
         justifyContent:'start',
-        fontSize:'25px',
+        fontSize:'20px',
         fontWeight:'Bold',
     },
 

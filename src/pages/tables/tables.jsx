@@ -65,7 +65,7 @@ const Tables = ({ restaurants, tables, clientData, restaurantReducer, getTables,
             <Box width={'100%'} display={'flex'} marginTop={'2%'} alignItems={'center'} flexWrap='wrap'>
                 {restaurantReducer.loading ? <CircularProgress /> : (<>
                   <Box marginRight={5} marginTop={6}>
-                    <IconButton size={"large"}  onClick={() => setOnAddItem(true)}> <AddCircleTwoTone  style={{fontSize: '100px'}}/></IconButton>
+                    <IconButton  onClick={() => setOnAddItem(true)}> <AddCircleTwoTone  style={{fontSize: '100px'}}/></IconButton>
                   </Box>
                   {tables?.map((item) => {
                       return (
