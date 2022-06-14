@@ -11,6 +11,7 @@ import WaiteroAlert from '../../components/alert/alert';
 import { cleanErrorMessageClient } from '../../redux/types/ClientTypes';
 import SecondaryButton from '../../components/buttons/secondaryButton/secondaryButton';
 import { registerClient } from '../../api/api-client/register-client';
+import { mailValidator, passwordValidator } from '../../utils/functions/input-validators';
 
 const Register = ({ registerClient, cleanErrorMessageClient, clientData }) => { 
 
@@ -46,15 +47,21 @@ const Register = ({ registerClient, cleanErrorMessageClient, clientData }) => {
               </Grid>
               <Grid container item xl={12} lg={12} md={12}>
                 <WaiteroTextField defaultValue = {email} onBlur = {(e)=> setEmail(e.target.value)} 
-                                label='Email' variant='outlined' fullWidth/>
+                                label='Email' variant='outlined' error={mailValidator(email)} fullWidth/>
               </Grid>
               <Grid container item xl={12} lg={12} md={12}>
                 <WaiteroTextField defaultValue= {password} onBlur = {(e)=> setPassword(e.target.value)} 
-                                label='Parola' variant='outlined' type='password' fullWidth/>
+                                label='Parola' variant='outlined' type='password' error={passwordValidator(password)} fullWidth/>
           </Grid>
           <Grid container item xl={12} lg={12} md={12}>
                 <WaiteroTextField defaultValue= {phone} onBlur = {(e)=> setPhone(e.target.value)} 
                                 label='Telefon' variant='outlined' fullWidth/>
+              </Grid>
+              <Grid container item xl={12} lg={12} md={12} >
+                <Box justifyContent={'center'} color={'#FF9494'} width={'100%'}>
+                {mailValidator(email) && 'Va rugam sa introduceti o adresa e-mail valida.'}
+                {passwordValidator(password) && ' Parola introdusa trebuie sa contina cel putin: 1 litera mare, 1 litera mica, 1 numar si 1 caracter special. (8-32) '}
+                </Box>
               </Grid>
               <Grid container item xl={12} lg={12} md={12} >
                   <PrimaryButton variant='contained' onClick={() => registerHandler()} fullWidth>{loading ? <CircularProgress  style={{color: '#fff'}} size={30}/> : 'INREGISTRARE'}</PrimaryButton>

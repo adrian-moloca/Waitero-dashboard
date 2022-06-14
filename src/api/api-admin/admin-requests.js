@@ -16,7 +16,7 @@ export const getClients = (loadingSetter = () => undefined) => {
 export const deleteClient = async (clientId, loadingSetter = () => undefined, errorSetter = () => undefined, closeModalDelete = () => undefined) => {
     loadingSetter(true);
     awaxios.delete(`/delete-client`, {
-        clientId: clientId
+        data: { clientId: clientId }
     }).then((res) => {
         errorSetter({message: res?.data?.message, isError: false})
     }).catch((error) => {

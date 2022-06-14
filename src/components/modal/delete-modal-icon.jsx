@@ -78,7 +78,7 @@ const DeleteModalWithIcon = ({ type, message, clientId=undefined, restaurantId=u
                         <SecondaryButton variant={'outlined'} onClick={()=>setOpen(false)} fullWidth>INAPOI</SecondaryButton>
                     </Grid>
                     <Grid container item xs={5}>
-                        <PrimaryButton variant={'contained'} onClick={()=>handleDeleteClick()} fullWidth>{loading ? <CircularProgress  style={{color: '#fff'}}/> : 'STERGE'}</PrimaryButton>
+                        <PrimaryButton variant={'contained'} onClick={()=>handleDeleteClick()} fullWidth>{loading ? <CircularProgress size={20}/> : 'STERGE'}</PrimaryButton>
                     </Grid>
                 </Grid>
                 </Box>

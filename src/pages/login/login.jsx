@@ -15,6 +15,7 @@ import { withRouter } from 'react-router-dom';
 import WaiteroAlert from '../../components/alert/alert';
 import { cleanErrorMessageClient, rememberMeToggleClient } from '../../redux/types/ClientTypes';
 import { loginC } from '../../api/api-client/login-client';
+import { mailValidator, passwordValidator } from '../../utils/functions/input-validators';
 
 const Login = ({ loginAdmin, loginClient, rememberMeToggleAdmin, rememberMeToggleClient, cleanErrorMessageAdmin, cleanErrorMessageClient, rememberMeAdmin,  rememberMeClient, adminData, clientData }) => { 
 
@@ -69,11 +70,17 @@ const Login = ({ loginAdmin, loginClient, rememberMeToggleAdmin, rememberMeToggl
           <Grid container item xl={7} lg={7} md={7} spacing={2}>
               <Grid container item xl={12} lg={12} md={12}>
                 <WaiteroTextField defaultValue = {email} onBlur = {(e)=> setEmail(e.target.value)} 
-                                label='email' variant='outlined' fullWidth/>
+                                label='email' variant='outlined' error={ mailValidator(email) } fullWidth/>
               </Grid>
               <Grid container item xl={12} lg={12} md={12}>
                 <WaiteroTextField defaultValue= {password} onBlur = {(e)=> setPassword(e.target.value)} 
-                                label='Parola' variant='outlined' type='password' fullWidth/>
+                                label='Parola' variant='outlined' type='password' error={passwordValidator(password)} fullWidth/>
+              </Grid>
+              <Grid container item xl={12} lg={12} md={12} >
+                <Box justifyContent={'center'} color={'#FF9494'} width={'100%'}>
+                {mailValidator(email) && 'Va rugam sa introduceti o adresa e-mail valida.'}
+                {passwordValidator(password) && 'Parola introdusa e in formatul gresit.'}
+                </Box>
               </Grid>
               <Grid container item xl={12} lg={6} md={6}>
             <FormControlLabel defaultChecked={adminLog ? rememberMeAdmin : rememberMeClient} onChange={(e)=>rememberMeToggleHandler(e.target.checked) }control={<WaiteroCheckbox/>} 
@@ -86,7 +93,7 @@ const Login = ({ loginAdmin, loginClient, rememberMeToggleAdmin, rememberMeToggl
               </Grid>
               <Grid container item xl={12} lg={12} md={12} >
                   <PrimaryButton variant='contained' onClick={() => loginHandler()} fullWidth>{loading ? <CircularProgress style={{color: '#fff'}} size={26}/> : 'AUTENTIFICARE'}</PrimaryButton>
-          </Grid>
+              </Grid>
           <Grid container item xl={12} lg={12} md={12} justifyContent={'center'} >
             <Link to='/register' style={{color:'rgba(255, 90, 95, 1)', fontSize: '14px', textAlign: 'center'}}>
               Vreau sa ma inregistrez

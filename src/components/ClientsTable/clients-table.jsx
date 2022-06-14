@@ -47,12 +47,13 @@ const ClientsTable = ({ clients, searched }) => {
 
     const getRows = (clientsData) => {
         const newdata = clientsData.filter((el)=> el.name.includes(searched) || el.email.includes(searched) || el.phone.includes(searched) ).map((client) => {
-            const { name, email, phone, restaurants } = client;
+            const { name, email, phone, restaurants, id } = client;
             return {
                 name: name,
                 email: email,
                 phone: phone,
                 restaurants: restaurants.length,
+                id: id
             };
         });
         return newdata;
