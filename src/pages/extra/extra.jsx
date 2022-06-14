@@ -106,16 +106,19 @@ const Extra = ({ restaurants, extra, clientData, restaurantReducer, getExtra, cl
                         }
                     </Grid>
                 </Grid>
+                <Box fontSize={20} marginTop={2} marginBottom={2}  >
+                    Extra adaugati
+                </Box>
               {restaurantReducer.loading ? <CircularProgress /> : (<>
                     {
                       extra?.map((item, index) => {
                         return (
                             <Grid container spacing={3}>
                                 <Grid container item xs={3}>
-                                    <WaiteroTextField value={onEditItem.index === index && itemOnEditValues.extraName.length > 0 ? itemOnEditValues.extraName : item.extraName} onChange={(e)=>setItemOnEditValues({extraName: e.target.value, extraPrice: itemOnEditValues.extraPrice})} fullWidth disabled={onEditItem.index !== index }/>
+                                    <WaiteroTextField value={onEditItem.index === index ? itemOnEditValues.extraName : item.extraName} onChange={(e)=>setItemOnEditValues({extraName: e.target.value, extraPrice: itemOnEditValues.extraPrice})} fullWidth disabled={onEditItem.index !== index }/>
                                 </Grid>
                                 <Grid container item xs={1}>
-                                    <WaiteroTextField value={onEditItem.index === index && itemOnEditValues.extraPrice.length > 0 ? itemOnEditValues.extraPrice : item.extraPrice} onChange={(e)=>setItemOnEditValues({extraName: itemOnEditValues.extraName, extraPrice: e.target.value})} fullWidth disabled={onEditItem.index !== index }/>
+                                    <WaiteroTextField value={onEditItem.index === index ? itemOnEditValues.extraPrice : item.extraPrice} onChange={(e)=>setItemOnEditValues({extraName: itemOnEditValues.extraName, extraPrice: e.target.value})} fullWidth disabled={onEditItem.index !== index }/>
                                 </Grid>
                                 <Grid container item xs={1}>
                                     {onEditItem.index === index && onEditItem.loading ? <CircularProgress size={20}/> : <>
