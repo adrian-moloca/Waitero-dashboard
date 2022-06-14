@@ -42,7 +42,7 @@ const EditMenuItem = ({isModalOpen, setIsModalOpen, item, setItem, clientId, res
     }
 
     const updateItem = () => {
-        updatePlate(tempItem.plateName, tempItem.platePrice, tempItem.plateIngredients, clientId, restaurantId, menuId, categoryId, plateId, setLoading, setError, saveItem )
+        updatePlate(tempItem.plateName, parseFloat(tempItem.platePrice), newIngredient.length > 0 ? tempItem.plateIngredients.concat([newIngredient]) : tempItem.plateIngredients, clientId, restaurantId, menuId, categoryId, plateId, setLoading, setError, saveItem )
     }
 
     useEffect(() => {
