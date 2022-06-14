@@ -13,6 +13,7 @@ import WorkStaff from '../../pages/work-staff/work-staff';
 import Menus from '../../pages/menus/menus';
 import Drinks from '../../pages/drinks/drinks';
 import Extra from '../../pages/extra/extra';
+import Tables from '../../pages/tables/tables';
 import Orders from '../../pages/orders/orders';
 import Settings from '../../pages/settings/settings';
 import OnBoarding from '../../pages/onboarding/onboarding';
@@ -40,6 +41,7 @@ const Routes = ({ user }) => {
                 <ProtectedRoute exact path="/menus" component={Menus} user={user} />
                 <ProtectedRoute exact path="/drinks" component={Drinks} user={user} />
                 <ProtectedRoute exact path="/extra" component={Extra} user={user} />
+                <ProtectedRoute exact path="/tables" component={Tables} user={user} />
                 <ProtectedRoute exact path="/orders" component={Orders} user={user} />
                 <ProtectedRoute exact path="/settings" component={Settings}  user={user} />
                 <ProtectedRoute exact path="/on-boarding" component={OnBoarding} user={user} />
