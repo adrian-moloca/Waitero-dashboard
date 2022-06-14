@@ -98,7 +98,7 @@ const Overview = ({ restaurants, clientData, getRestaurants }) => {
               <BoxWithShadow name = {'cover-photo'} source={coverPhoto} setSource={ createCoverPhoto }
                   overlayText={'EDITEAZA COPERTA'} height={250} width={'92%'} isButton />
               <Box onMouseEnter={() => setShowEditResAddress(true)} onMouseLeave={() => setShowEditResAddress(false)}
-                  style={{ fontSize: 25, fontWeight: '-moz-initial', paddingTop: '20px', width: 426, fontStyle: 'oblique' }}><Room size={25} color={'inherit'}/>{restaurantAddress?.street ? restaurantAddress?.street+' '+restaurantAddress?.number+', ' : ''}{restaurantAddress?.city ? restaurantAddress?.city+', ' : ''}{restaurantAddress?.country}
+                  style={{ fontSize: 25, fontWeight: '-moz-initial', paddingTop: '20px', width: 426, fontStyle: 'oblique' }}><Room size={25} color={'inherit'} style={{marginRight: 3}}/>{restaurantAddress?.street ? restaurantAddress?.street+' '+restaurantAddress?.number+', ' : ''}{restaurantAddress?.city ? restaurantAddress?.city+', ' : ''}{restaurantAddress?.country}<Box>{restaurantAddress?.postalCode}</Box>
                   {showEditResAddress ? <EditAddressModal addressObject={restaurantAddress} setAddressObject={(obj) => setRestaurantAddress(obj)} clientId={clientData.id} restaurantId={selectedRestaurant} />   : null}</Box>
           </Box>
           <Box>
