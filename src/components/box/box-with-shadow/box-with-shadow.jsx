@@ -1,5 +1,5 @@
 import React, { useState} from 'react';
-import {Box, Paper} from '@material-ui/core';
+import {Box, Paper, Fade} from '@material-ui/core';
 import { withStyles } from '@material-ui/styles';
 
 const MyPaper = withStyles({
@@ -18,7 +18,7 @@ const MyPaper = withStyles({
 
 const BoxWithShadow = ({name, source, overlayText, isButton, height, width, setSource, justifyContent, multiple}) =>{
 
-    const [onHover, setOnHover] = useState(false);
+    const [onHover, setOnHover] = useState(4);
 
     return(
     <>
@@ -27,15 +27,18 @@ const BoxWithShadow = ({name, source, overlayText, isButton, height, width, setS
             <MyPaper style={{
                 backgroundImage: `url(${source})`,
                 backgroundSize: 'cover',
-                    filter: onHover ? `grayscale(1)` : '',
+                    filter: onHover > 4 ? `grayscale(1)` : '',
                     justifyContent: justifyContent ? justifyContent : 'center',
                 height: height,
                     width: width,
                 cursor: 'pointer'
-                }} onMouseEnter={() => setOnHover(true)} onMouseLeave={() => setOnHover(false)}>
-                    {onHover ? <label htmlFor={`select-${name})`} style={{height: '100%', width: '100%', backdropFilter: 'brightness(40%)', borderRadius: 5, cursor: 'pointer'}} onClick={(e)=>console.log('LABEL ', e)}>
+                }} onMouseEnter={() => setOnHover(24)} onMouseLeave={() => setOnHover(4)} elevation={onHover}>
+                    <Fade in={onHover > 4}>
+                    <label htmlFor={`select-${name})`} style={{height: '100%', width: '100%', backdropFilter: 'brightness(40%)', borderRadius: 5, cursor: 'pointer'}}>
+
                          <Box fontSize={height / 4} fontWeight={'bold'} marginX={2} color={'white'}>{overlayText}</Box>
-                    </label> : null}
+                    </label>
+                    </Fade>
             </MyPaper>) : (
                 <MyPaper style={{
                 backgroundImage: `url(${source})`,
@@ -43,7 +46,7 @@ const BoxWithShadow = ({name, source, overlayText, isButton, height, width, setS
                 justifyContent: justifyContent ? justifyContent : 'center',
                 height: height,
                 width: width,
-            }} onMouseEnter={() => setOnHover(true)} onMouseLeave={() => setOnHover(false)}>
+            }} onMouseEnter={() => setOnHover(24)} onMouseLeave={() => setOnHover(4)} elevation={onHover}>
             { onHover ? <Box fontSize={height / 4} fontWeight={'bold'} marginX={2} color={'white'}>{ overlayText }</Box> : null}
             </MyPaper> ) }
     </>
