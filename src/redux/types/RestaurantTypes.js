@@ -23,6 +23,10 @@ export const GET_DRINKS_REQUEST = 'GET_DRINKS_REQUEST';
 export const GET_DRINKS_SUCCESS = 'GET_DRINKS_SUCCESS';
 export const GET_DRINKS_FAILURE = 'GET_DRINKS_FAILURE';
 
+export const GET_EXTRA_REQUEST = 'GET_EXTRA_REQUEST';
+export const GET_EXTRA_SUCCESS = 'GET_EXTRA_SUCCESS';
+export const GET_EXTRA_FAILURE = 'GET_EXTRA_FAILURE';
+
 // Functions
 // CLIENT fetch functions
 export const fetchRestaurantRequest = () => {
@@ -133,6 +137,26 @@ export const getDrinksSuccess = (response) => {
 export const getDrinksFailure = (error) => {
     return {
         type: GET_DRINKS_FAILURE,
+        payload: error
+    };
+};
+
+export const getExtraRequest = () => {
+    return {
+        type: GET_EXTRA_REQUEST
+    };
+};
+
+export const getExtraSuccess = (response) => {
+    return {
+        type: GET_EXTRA_SUCCESS,
+        payload: response
+    };
+};
+
+export const getExtraFailure = (error) => {
+    return {
+        type: GET_EXTRA_FAILURE,
         payload: error
     };
 };

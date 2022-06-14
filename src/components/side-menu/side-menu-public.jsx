@@ -3,7 +3,7 @@ import {useHistory, withRouter } from "react-router-dom";
 import {Drawer, Grid, Box} from '@material-ui/core';
 import SideMenuContainer from '../container/side-menu/side-menu-container';
 import { withStyles } from '@material-ui/core';
-import {History, RestaurantMenu, SupervisorAccount, Settings, ViewQuilt, LocalBar} from '@material-ui/icons';
+import {History, RestaurantMenu, SupervisorAccount, Settings, ViewQuilt, LocalBar, LocalPizza} from '@material-ui/icons';
 import {ToggleButton , ToggleButtonGroup} from '@material-ui/lab';
 import { connect } from 'react-redux';
 
@@ -82,6 +82,14 @@ const SideMenuPublic = ({currentPage, restaurants}) =>{
                             </Grid>
                             <Grid container item xs={5}  justifyContent='flex-start'>
                                 BAUTURI
+                            </Grid>
+                        </MyButton>
+                        <MyButton value='/extra' onClick={()=>history.push('/extra')}>
+                            <Grid container item xs={4} justifyContent='center'>
+                                <LocalPizza fontSize='large'/>
+                            </Grid>
+                            <Grid container item xs={5}  justifyContent='flex-start'>
+                                EXTRA
                             </Grid>
                         </MyButton>
                         <MyButton value='/orders' onClick={()=>history.push('/orders')}>

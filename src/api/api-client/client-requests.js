@@ -1,6 +1,6 @@
 import { cwaxios } from "../../utils/axios-config";
 import { addRestaurantRequest, addRestaurantSuccess, addRestaurantFailure, getRestaurantsRequest, getRestaurantsSuccess, getRestaurantsFailure } from "../../redux/types/ClientTypes";
-import { getCategoriesFailure, getCategoriesRequest, getCategoriesSuccess, getDrinksFailure, getDrinksRequest, getDrinksSuccess, getMenusFailure, getMenusRequest, getMenusSuccess, getPlatesFailure, getPlatesRequest, getPlatesSuccess } from "../../redux/types/RestaurantTypes";
+import { getCategoriesFailure, getCategoriesRequest, getCategoriesSuccess, getDrinksFailure, getDrinksRequest, getDrinksSuccess, getExtraFailure, getExtraRequest, getExtraSuccess, getMenusFailure, getMenusRequest, getMenusSuccess, getPlatesFailure, getPlatesRequest, getPlatesSuccess } from "../../redux/types/RestaurantTypes";
 
 export const updateClientPassword = async (oldPassword, newPassword, clientId, loadingSetter = () => undefined, errorSetter = () => undefined, closeModalEdit = () => undefined) => {
     loadingSetter(true);
@@ -205,7 +205,7 @@ export const addPlate = async (plateName, platePrice, plateIngredients, clientId
 
 export const updatePlate = async (plateName, platePrice, plateIngredients, clientId, restaurantId, menuId, categoryId, plateId, loadingSetter = () => undefined, errorSetter = () => undefined, closeModalEdit = () => undefined) => {
     loadingSetter(true);
-    cwaxios.post(`${clientId}/restaurant/${restaurantId}/menu/${menuId}/category/${categoryId}/plate/${plateId}/update-plate`, {
+    cwaxios.patch(`${clientId}/restaurant/${restaurantId}/menu/${menuId}/category/${categoryId}/plate/${plateId}/update-plate`, {
         plateName: plateName,
         platePrice: platePrice,
         plateIngredients: plateIngredients
@@ -290,6 +290,60 @@ export const updateDrink = async (drinkName, drinkPrice, drinkCategory, clientId
 export const deleteDrink = async (clientId, restaurantId, drinkId, loadingSetter = () => undefined, errorSetter = () => undefined, closeModalDelete = () => undefined) => {
     loadingSetter(true);
     cwaxios.delete(`${clientId}/restaurant/${restaurantId}/drink/${drinkId}/delete-drink`).then((res) => {
+        errorSetter({message: res?.data?.message, isError: false})
+    }).catch((error) => {
+        errorSetter({message: error?.response?.data?.message || 'cannot update',  isError: true})
+    }).finally(() => {
+        loadingSetter(false);
+        closeModalDelete();
+    })
+}
+
+export const getExtra = (clientId, restaurantId, loadingSetter = () => undefined) => {
+    loadingSetter(true)
+    return async (dispatch) => {
+        dispatch(getExtraRequest());
+        cwaxios.get(`${clientId}/restaurant/${restaurantId}/extras/get-extras`).then((res) => {
+            dispatch(getExtraSuccess(res.data));
+        }).catch((error) => {
+            dispatch(getExtraFailure(error?.response?.data?.message));
+        }).finally(() => loadingSetter(false))
+    }
+}
+
+export const addExtra = async (extraName, extraPrice, clientId, restaurantId, loadingSetter = () => undefined, errorSetter = () => undefined, extraAdded = () => undefined) => {
+    loadingSetter(true);
+    cwaxios.post(`${clientId}/restaurant/${restaurantId}/add-extra`, {
+        extraName: extraName,
+        extraPrice: extraPrice
+    }).then((res) => {
+        errorSetter({message: res?.data?.message, isError: false})
+    }).catch((error) => {
+        errorSetter({message: error?.response?.data?.message || 'cannot update',  isError: true})
+    }).finally(() => {
+        loadingSetter(false);
+        extraAdded();
+    })
+}
+
+export const updateExtra = async (extraName, extraPrice, clientId, restaurantId, extraId, loadingSetter = () => undefined, errorSetter = () => undefined, extraUpdated = () => undefined) => {
+    loadingSetter(true);
+    cwaxios.patch(`${clientId}/restaurant/${restaurantId}/extras/${extraId}/update-extra`, {
+        extraName: extraName,
+        extraPrice: extraPrice
+    }).then((res) => {
+        errorSetter({message: res?.data?.message, isError: false})
+    }).catch((error) => {
+        errorSetter({message: error?.response?.data?.message || 'cannot update',  isError: true})
+    }).finally(() => {
+        loadingSetter(false);
+        extraUpdated();
+    })
+}
+
+export const deleteExtra = async (clientId, restaurantId, extraId, loadingSetter = () => undefined, errorSetter = () => undefined, closeModalDelete = () => undefined) => {
+    loadingSetter(true);
+    cwaxios.delete(`${clientId}/restaurant/${restaurantId}/extras/${extraId}/delete-extra`).then((res) => {
         errorSetter({message: res?.data?.message, isError: false})
     }).catch((error) => {
         errorSetter({message: error?.response?.data?.message || 'cannot update',  isError: true})
