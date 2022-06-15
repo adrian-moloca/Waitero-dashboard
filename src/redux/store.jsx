@@ -21,10 +21,10 @@ const loadFromStorage = () => {
     }
 }
 
-const persistedState = loadFromStorage();
+const persistedState = () => loadFromStorage();
 
 const store = configureStore({
-    reducer: RootReducer, middleware: (getDefaultMiddleware) => getDefaultMiddleware(), devTools: true, preloadedState: persistedState
+    reducer: RootReducer, middleware: (getDefaultMiddleware) => getDefaultMiddleware(), devTools: true, preloadedState: persistedState()
 });
 
 store.subscribe(() =>saveToStorage(store.getState()));
