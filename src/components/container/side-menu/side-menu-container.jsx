@@ -10,7 +10,7 @@ const MyContainer = withStyles({
         flexDirection:'column',
         alignContent: 'center',
         alignItems: 'center',
-        backgroundColor:'rgba(255, 90, 95, 1)',
+        backgroundColor: 'rgba(255, 90, 95, 1)',
         //minHeight:'100vh',
         height: '100%',
         width: '100%',
@@ -38,7 +38,7 @@ const SideMenuContainer = (props) => {
             <Box width='100%' display='flex' alignSelf='center' >
                 {props.children}
             </Box>
-            <Box position='absolute' backgroundColor={'rgba(255, 90, 95, 1)'} bottom={0} width='50%' height='5%' borderTop={2} paddingTop={1} color='white' 
+            <Box position='absolute' bottom={0} width='50%' height='5%' borderTop={2} paddingTop={1} color='white' 
                 textAlign='center' fontWeight={500}>
                 2022 WAITERO
             </Box>

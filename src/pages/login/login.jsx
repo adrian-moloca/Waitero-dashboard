@@ -70,11 +70,10 @@ const Login = ({ loginAdmin, loginClient, rememberMeToggleAdmin, rememberMeToggl
           <Grid container item xl={7} lg={7} md={7} spacing={2}>
               <Grid container item xl={12} lg={12} md={12}>
                 <WaiteroTextField defaultValue = {email} onBlur = {(e)=> setEmail(e.target.value)} 
-                                label='email' variant='outlined' error={ mailValidator(email) } fullWidth/>
+                                label='email' variant='outlined' error={ mailValidator(email) } fullWidth type="email" name="secret-email-not-showed" />
               </Grid>
               <Grid container item xl={12} lg={12} md={12}>
-                <WaiteroTextField defaultValue= {password} onBlur = {(e)=> setPassword(e.target.value)} 
-                                label='Parola' variant='outlined' type='password' error={passwordValidator(password)} fullWidth/>
+                <WaiteroTextField defaultValue= {password} onBlur = {(e)=> setPassword(e.target.value)} label='Parola' variant='outlined' type='password' error={passwordValidator(password)} fullWidth/>
               </Grid>
               <Grid container item xl={12} lg={12} md={12} >
                 <Box justifyContent={'center'} color={'#FF9494'} width={'100%'}>
