@@ -14,9 +14,14 @@ const DeleteModal = ({ label, message, clientId, restaurantId=undefined, getRest
   const [error, setError] = useState({message: '', isError: false});
   const classes = useStyles();
 
+  const closeModal = () => {
+    getRestaurants(clientId, setLoading);
+    setOpen(false)
+  }
+
   const handleDeleteClick = () => {
-    deleteRestaurant(clientId, restaurantId, setLoading, setError, ()=>setOpen(false))
-    getRestaurants(clientId, setLoading)
+    deleteRestaurant(clientId, restaurantId, setLoading, setError, closeModal)
+    
   }
 
   return (

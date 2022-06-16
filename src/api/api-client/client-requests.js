@@ -235,9 +235,9 @@ export const getPlateMinimumPrice = (clientId, restaurantId, setMinimum = () => 
     loadingSetter(true);
     cwaxios.get(`${clientId}/restaurant/${restaurantId}/get-minimum-price-plate`).then((res) => {
         setMinimum(res?.data?.plates?.platePrice)
-        errorSetter(res?.data?.message)
+        errorSetter({message: res?.data?.message,  isError: false})
     }).catch((error) => {
-        errorSetter({message: error?.response?.data?.message || 'cannot update',  isError: true})
+        errorSetter({message: error?.response?.data?.message || 'cannot update', isError: true})
     }).finally(() => {
         loadingSetter(false);
     })

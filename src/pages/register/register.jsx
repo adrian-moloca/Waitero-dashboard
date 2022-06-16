@@ -11,7 +11,7 @@ import WaiteroAlert from '../../components/alert/alert';
 import { cleanErrorMessageClient } from '../../redux/types/ClientTypes';
 import SecondaryButton from '../../components/buttons/secondaryButton/secondaryButton';
 import { registerClient } from '../../api/api-client/register-client';
-import { mailValidator, passwordValidator } from '../../utils/functions/input-validators';
+import { mailValidator, passwordValidator, phoneValidator } from '../../utils/functions/input-validators';
 
 const Register = ({ registerClient, cleanErrorMessageClient, clientData }) => { 
 
@@ -55,7 +55,7 @@ const Register = ({ registerClient, cleanErrorMessageClient, clientData }) => {
           </Grid>
           <Grid container item xl={12} lg={12} md={12}>
                 <WaiteroTextField defaultValue= {phone} onBlur = {(e)=> setPhone(e.target.value)} 
-                                label='Telefon' variant='outlined' fullWidth/>
+                                label='Telefon' variant='outlined' error={phoneValidator(phone)} fullWidth/>
               </Grid>
               <Grid container item xl={12} lg={12} md={12} >
                 <Box justifyContent={'center'} color={'#FF9494'} width={'100%'}>
@@ -64,7 +64,8 @@ const Register = ({ registerClient, cleanErrorMessageClient, clientData }) => {
                 </Box>
               </Grid>
               <Grid container item xl={12} lg={12} md={12} >
-                  <PrimaryButton variant='contained' onClick={() => registerHandler()} fullWidth>{loading ? <CircularProgress  style={{color: '#fff'}} size={30}/> : 'INREGISTRARE'}</PrimaryButton>
+                  <PrimaryButton variant='contained' onClick={() => registerHandler()}  disabled={!name.length || !email.length || mailValidator(email) || !password.length || passwordValidator(password) || !phone.length || phoneValidator(phone) } fullWidth>{loading ? <CircularProgress  style={{color: '#fff'}} size={30}/> : 'INREGISTRARE'}</PrimaryButton>
+
           </Grid>
           <Grid container item xl={12} lg={12} md={12} >
                   <SecondaryButton variant='outlined' onClick={() => setNavigation('/login')} fullWidth>AM DEJA CONT, VREAU SA MA LOGHEZ</SecondaryButton>

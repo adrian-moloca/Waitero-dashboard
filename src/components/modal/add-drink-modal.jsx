@@ -13,6 +13,7 @@ import { addDrink } from '../../api/api-client/client-requests';
 import WaiteroAlert from '../alert/alert';
 import { drink_categories } from '../../utils/costants/constants';
 import { ToggleButton } from '@material-ui/lab';
+import { numberValidator } from '../../utils/functions/input-validators';
 
 const AddDrinkModal = ({
     isOpen,
@@ -116,13 +117,14 @@ const AddDrinkModal = ({
                                     </Box>
                                     <Box ml={2}>
                                         <IconButton
+                                            disabled={!name.length || numberValidator(price) || !drinkCategory.length}    
                                             onClick={() => {
                                                 createDrinkTypeAction();
                                             }}
                                         >
                                             <SaveAlt
                                                 style={{
-                                                    color: 'rgba(0,110,10)',
+                                                    color: !name.length || numberValidator(price) || !drinkCategory.length ? 'rgba(0, 0, 0, 0.2)' : 'rgba(0,110,10)',
                                                     fontSize: 25,
                                                 }}
                                             />

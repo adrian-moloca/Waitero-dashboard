@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { cleanErrorMessage } from '../../redux/types/AdminTypes';
 import { getClients } from '../../api/api-admin/admin-requests';
+import { mailValidator, passwordValidator, phoneValidator } from '../../utils/functions/input-validators';
 
 const AddClientModal = ({addClientA, getClients}) => {
     
@@ -68,7 +69,7 @@ const AddClientModal = ({addClientA, getClients}) => {
                     <Box marginTop={6}>
                         <Grid container justifyContent='space-between' spacing={3}>
                             <Grid container item xs={5}>
-                                <PrimaryButton onClick={()=> addClientHandler()} variant={'contained'} style={{fontWeight: "600", width:250}}>
+                                    <PrimaryButton onClick={() => addClientHandler()} variant={'contained'} style={{ fontWeight: "600", width: 250 }} disabled={!name.length || !email.length || mailValidator(email) || !password.length || passwordValidator(password) || !phone.length || phoneValidator(phone) }>
                                         {loading ? <CircularProgress size={22} style={{color: '#fff'}} /> : 'ADAUGA CLIENT'}
                                 </PrimaryButton>
                             </Grid>

@@ -7,6 +7,7 @@ import { withRouter } from 'react-router-dom';
 import { addTable } from '../../api/api-client/client-requests';
 import WaiteroAlert from '../alert/alert';
 import { Close, SaveAlt } from '@material-ui/icons';
+import { numberValidator } from '../../utils/functions/input-validators';
 
 const AddTableModal = ({isOpen, setIsOpen, clientId, restaurantId, tableAdded }) => {
     
@@ -54,14 +55,14 @@ const AddTableModal = ({isOpen, setIsOpen, clientId, restaurantId, tableAdded })
                                     </IconButton>
                                 </Box>
                                 <Box ml={2}>
-                                    <IconButton
+                                        <IconButton disabled={ numberValidator(number) }
                                         onClick={() => {
                                             addTableHandlerHandler();
                                         }}
                                     >
                                         <SaveAlt
                                             style={{
-                                                color: 'rgba(0,110,10)',
+                                                color: numberValidator(number) ? 'rgba(0,0,0,0.2)' : 'rgba(0,110,10)',
                                                 fontSize: 25,
                                             }}
                                         />
