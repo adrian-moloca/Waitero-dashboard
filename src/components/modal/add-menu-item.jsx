@@ -5,6 +5,7 @@ import WaiteroTextField from '../text-field/waitero-text-field';
 import { Add, Close, Delete, SaveAlt } from '@material-ui/icons';
 import { addPlate } from '../../api/api-client/client-requests';
 import WaiteroAlert from '../alert/alert';
+import { numberValidator } from '../../utils/functions/input-validators';
 
 const AddMenuItem = ({isModalOpen, setIsModalOpen, setItem, clientId, restaurantId, menuId, categoryId}) => {
     
@@ -102,7 +103,11 @@ const AddMenuItem = ({isModalOpen, setIsModalOpen, setItem, clientId, restaurant
                                     <IconButton onClick={returnBack}><Close color='error' size={25} /></IconButton>
                                 </Box>
                                 <Box ml={2}>
-                                    <IconButton onClick={saveItem}><SaveAlt style={{ color: 'rgba(0,110,10)', fontSize: 25 }} /></IconButton>
+                                    <IconButton onClick={saveItem}
+                                        disabled={!tempItem.plateName.length || numberValidator(tempItem.platePrice) || !tempItem.plateIngredients.length}
+                                    >
+                                        <SaveAlt style={{ color: !tempItem.plateName.length || numberValidator(tempItem.platePrice) || !tempItem.plateIngredients.length ? 'rgba(0,0,0,0.2)' : 'rgba(0,110,10)', fontSize: 25 }} />
+                                    </IconButton>
                                 </Box>
                             </Box>
                         </>)}

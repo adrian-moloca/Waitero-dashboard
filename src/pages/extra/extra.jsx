@@ -10,6 +10,7 @@ import { cleanErrorMessageRestaurant } from '../../redux/types/RestaurantTypes.j
 import WaiteroAlert from '../../components/alert/alert.jsx';
 import DeleteModalIcon from '../../components/modal/delete-modal-icon.jsx';
 import WaiteroTextField from '../../components/text-field/waitero-text-field.jsx';
+import { numberValidator } from '../../utils/functions/input-validators.js';
 
 const Extra = ({ restaurants, extra, clientData, restaurantReducer, getExtra, cleanErrorMessage }) => {
 
@@ -104,7 +105,10 @@ const Extra = ({ restaurants, extra, clientData, restaurantReducer, getExtra, cl
                   <Grid container item xs={2}>
                         {loadingOnAdd ? <CircularProgress size={20}/> : <>
                                 <IconButton style={{marginRight: 2}} onClick={resetFields}><Close color='error'/></IconButton>
-                                <IconButton onClick={addExtraToList}><Add color='action'/></IconButton>
+                      <IconButton disabled={ !newExtraName.length || !newExtraPrice.length || numberValidator(newExtraPrice) }
+                        onClick={addExtraToList}>
+                        <Add color={ !newExtraName.length || !newExtraPrice.length || numberValidator(newExtraPrice) ? 'disabled' : 'action'} />
+                      </IconButton>
                             </>
                         }
                     </Grid>

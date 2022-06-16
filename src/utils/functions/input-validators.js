@@ -47,8 +47,8 @@ export function passwordValidator(password){
 }
 
 export function phoneValidator(phone){
-    const phoneFormat =  /^[0-9].{9}$/
-    if(phoneFormat.test(phone) || String(phone).length===0)
+    const phoneFormat =  /^[0-9].{9,12}$/
+    if(phoneFormat.test(phone) || phone === '')
     {
         return false;
     }
@@ -59,8 +59,8 @@ export function phoneValidator(phone){
 }
 
 export function numberValidator(number){
-    const numberFormat = /^[0-9,].{0,5}$/
-    if(numberFormat.test(number) || String(number)==='')
+    const numberFormat = /^[0-9,.].{0,5}$/
+    if(numberFormat.test(number))
     {
         return false;
     }

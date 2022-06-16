@@ -92,14 +92,14 @@ const AddMenuModal = ({
                                         </IconButton>
                                     </Box>
                                     <Box ml={2}>
-                                        <IconButton
+                                        <IconButton disabled={!name.length}
                                             onClick={() => {
                                                 createMenuTypeAction();
                                             }}
                                         >
                                             <SaveAlt
                                                 style={{
-                                                    color: 'rgba(0,110,10)',
+                                                    color: !name.length ? 'rgba(0,0,0,0.2)' : 'rgba(0,110,10)',
                                                     fontSize: 25,
                                                 }}
                                             />
