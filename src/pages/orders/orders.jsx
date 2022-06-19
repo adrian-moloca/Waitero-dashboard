@@ -37,17 +37,16 @@ const Orders = () => {
         _id: Math.floor(Math. random() * 100).toString() + Date.now(),
         tableNumber: (Math.random() * 100).toFixed(2) ,
         timer: 0
-      },
-      {
-        _id: Math.floor(Math. random() * 99).toString(),
-        tableNumber: (Math.random()* 100).toFixed(2) ,
-        timer: 0
       }
     ]
     const temp = [...orders.arr]
     neworders.map(el=> temp.push(el))
     return setOrders({arr: [...temp] })
   }
+
+  useEffect(()=>{
+    getOrdersStart()
+  },[])
 
   useInterval(getOrdersStart, 20000)
 

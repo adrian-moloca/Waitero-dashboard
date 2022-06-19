@@ -111,14 +111,14 @@ const SideMenuPublic = ({currentPage, restaurants}) =>{
                                 COMENZI
                             </Grid>
                         </MyButton>
-                        <MyButton value='/work-staff' onClick={()=>history.push('/work-staff')}>
+                        {/* <MyButton value='/work-staff' onClick={()=>history.push('/work-staff')}>
                             <Grid container item xs={4} justifyContent='center'>
                                 <SupervisorAccount fontSize='large'/>
                             </Grid>
                             <Grid container item xs={5}  justifyContent='flex-start'>
                                 PERSONAL
                             </Grid>
-                        </MyButton>
+                        </MyButton> */}
                         <MyButton value='/settings' onClick={()=>history.push('/settings')}>
                         <Grid container item xs={4} justifyContent='center'>
                                 <Settings fontSize='large'/>

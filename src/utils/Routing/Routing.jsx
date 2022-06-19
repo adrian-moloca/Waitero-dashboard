@@ -37,7 +37,7 @@ const Routes = ({ user }) => {
                 <ProtectedRoute exact path="/users" component={UsersPage} user={user} />
                 <ProtectedRoute exact path="/clients" component={Clients} user={user} />
                 <ProtectedRoute exact path="/overview" component={Overview} user={user} />
-                <ProtectedRoute exact path="/work-staff" component={WorkStaff} user={user} />
+                {/* <ProtectedRoute exact path="/work-staff" component={WorkStaff} user={user} /> */}
                 <ProtectedRoute exact path="/menus" component={Menus} user={user} />
                 <ProtectedRoute exact path="/drinks" component={Drinks} user={user} />
                 <ProtectedRoute exact path="/extra" component={Extra} user={user} />
