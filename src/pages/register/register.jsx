@@ -42,19 +42,19 @@ const Register = ({ registerClient, cleanErrorMessageClient, clientData }) => {
         </Box>
         <Grid container item xl={7} lg={7} md={7} spacing={2}>
               <Grid container item xl={12} lg={12} md={12}>
-                <WaiteroTextField defaultValue = {name} onBlur = {(e)=> setName(e.target.value)} 
+                <WaiteroTextField defaultValue = {name} onChange = {(e)=> setName(e.target.value)} 
                                 label='Nume' variant='outlined' fullWidth/>
               </Grid>
               <Grid container item xl={12} lg={12} md={12}>
-                <WaiteroTextField defaultValue = {email} onBlur = {(e)=> setEmail(e.target.value)} 
+                <WaiteroTextField defaultValue = {email} onChange = {(e)=> setEmail(e.target.value)} 
                                 label='Email' variant='outlined' error={mailValidator(email)} fullWidth/>
               </Grid>
               <Grid container item xl={12} lg={12} md={12}>
-                <WaiteroTextField defaultValue= {password} onBlur = {(e)=> setPassword(e.target.value)} 
+                <WaiteroTextField defaultValue= {password} onChange = {(e)=> setPassword(e.target.value)} 
                                 label='Parola' variant='outlined' type='password' error={passwordValidator(password)} fullWidth/>
           </Grid>
           <Grid container item xl={12} lg={12} md={12}>
-                <WaiteroTextField defaultValue= {phone} onBlur = {(e)=> setPhone(e.target.value)} 
+                <WaiteroTextField defaultValue= {phone} onChange = {(e)=> setPhone(e.target.value)} 
                                 label='Telefon' variant='outlined' error={phoneValidator(phone)} fullWidth/>
               </Grid>
               <Grid container item xl={12} lg={12} md={12} >

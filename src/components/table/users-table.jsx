@@ -47,13 +47,13 @@ const UsersTable = ({ users, searched }) => {
 
     const getRows = (usersData) => {
         const newdata = usersData?.filter((el)=> el.name.includes(searched) || el.email.includes(searched) || el.phone.includes(searched) ).map((user) => {
-            const { name, email, phone, createdAt, id } = user;
+            const { name, email, phone, createdAt, _id } = user;
             return {
                 name: name,
                 email: email,
                 phone: phone,
                 createdAt: createdAt,
-                id: id
+                id: _id
             };
         });
         return newdata;

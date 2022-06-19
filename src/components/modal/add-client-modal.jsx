@@ -53,16 +53,16 @@ const AddClientModal = ({addClientA, getClients}) => {
                     <Box marginTop={10}>
                         <Grid container justifyContent='space-around' spacing={3}>
                             <Grid container item xs={5}>
-                                <WaiteroTextField placeholder='Nume' fullWidth defaultValue={name} onBlur={(t) => setName(t.target.value)} />
+                                <WaiteroTextField placeholder='Nume' fullWidth defaultValue={name} onChange={(t) => setName(t.target.value)} />
                             </Grid>
                             <Grid container item xs={5}>
-                                <WaiteroTextField placeholder='Email' fullWidth defaultValue={email} onBlur={(t) => setEmail(t.target.value)} />
+                                <WaiteroTextField placeholder='Email' fullWidth defaultValue={email} onChange={(t) => setEmail(t.target.value)} />
                             </Grid>
                             <Grid container item xs={5}>
-                                <WaiteroTextField placeholder='Password' type={'password'} fullWidth defaultValue={password} onBlur={(t) => setPassword(t.target.value)} />
+                                <WaiteroTextField placeholder='Password' type={'password'} fullWidth defaultValue={password} onChange={(t) => setPassword(t.target.value)} />
                             </Grid>
                             <Grid container item xs={5}>
-                                <WaiteroTextField placeholder='Phone number' fullWidth defaultValue={phone} onBlur={(t) => setPhone(t.target.value)} />
+                                <WaiteroTextField placeholder='Phone number' fullWidth defaultValue={phone} onChange={(t) => setPhone(t.target.value)} />
                             </Grid>
                         </Grid>
                         </Box>

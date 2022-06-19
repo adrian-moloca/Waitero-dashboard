@@ -19,7 +19,8 @@ const columns = [
     { id: 'name', label: 'Nume', minWidth: 40 },
     { id: 'email', label: 'Email', minWidth: 30 },
     { id: 'phone', label: 'Numar de telefon', minWidth: 30 },
-    { id: 'restaurants', label: 'Restaurante', minWidth: 20 },
+    { id: 'restaurants', label: 'Restaurante', minWidth: 10 },
+    { id: 'restaurantName', label: 'Nume restaurant', minWidth: 40 },
 ];
 
 const useStyles = makeStyles({
@@ -47,13 +48,14 @@ const ClientsTable = ({ clients, searched }) => {
 
     const getRows = (clientsData) => {
         const newdata = clientsData.filter((el)=> el.name.includes(searched) || el.email.includes(searched) || el.phone.includes(searched) ).map((client) => {
-            const { name, email, phone, restaurants, id } = client;
+            const { name, email, phone, restaurants, _id } = client;
             return {
                 name: name,
                 email: email,
                 phone: phone,
                 restaurants: restaurants.length,
-                id: id
+                restaurantName: restaurants[0]?.restaurantName || '',
+                id: _id
             };
         });
         return newdata;

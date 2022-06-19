@@ -3,7 +3,7 @@ import { Box, Modal, Fade, IconButton } from '@material-ui/core';
 import { ToggleButton } from '@material-ui/lab';
 import useStyles from './modal-style';
 import { Close, Edit, SaveAlt } from '@material-ui/icons';
-import { restaurant_categories, entertainment_types } from '../../utils/costants/constants';
+import { restaurant_categories, entertainment_types, payment_options } from '../../utils/costants/constants';
 import { updateRestaurantField } from '../../api/api-client/client-requests';
 import WaiteroAlert from '../alert/alert';
 
@@ -45,6 +45,11 @@ const EditStringArrayModal = ({ labelName, array, setArray = () =>undefined, cli
                         </ToggleButton>
                 })}
                 {labelName === 'entertainment' && entertainment_types.map((category) => {
+                        return <ToggleButton key={category} style={{marginRight: 10, marginTop: 10, fontSize: 16}} selected={itemT.includes(category)} onChange={() => onCategoryClick(category)}>
+                            {category}        
+                        </ToggleButton>
+                })}
+                {labelName === 'paymentOptions' && payment_options.map((category) => {
                         return <ToggleButton key={category} style={{marginRight: 10, marginTop: 10, fontSize: 16}} selected={itemT.includes(category)} onChange={() => onCategoryClick(category)}>
                             {category}        
                         </ToggleButton>
