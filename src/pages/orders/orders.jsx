@@ -60,6 +60,8 @@ const Orders = () => {
             <Box className={classes.container}>
                 {orders.arr?.map((order, index, array)=>{
                   return (<Order key={order?._id} order={order} remove={()=>removeOrder(index)}/>)})}
+              </Box>
+            <Box className={classes.container}>
                 {ordersCooked.arr?.map((order, index, array)=>{
                   return (<Order key={order?._id} cooked order={order}/>)})}
               </Box>
