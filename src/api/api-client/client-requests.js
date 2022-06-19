@@ -390,3 +390,17 @@ export const deleteTable = async (clientId, restaurantId, tableId, loadingSetter
         closeModalDelete();
     })
 }
+
+export const updateRestaurantContant = (contactObject, clientId, restaurantId, contactId, loadingSetter, errorSetter, contactUpdated) => {
+    loadingSetter(true);
+    cwaxios.patch(`${clientId}/restaurant/${restaurantId}/contact/${contactId}/update-contact`, {
+        contactObject
+    }).then((res) => {
+        errorSetter({message: res?.data?.message, isError: false})
+    }).catch((error) => {
+        errorSetter({message: error?.response?.data?.message || 'cannot update',  isError: true})
+    }).finally(() => {
+        loadingSetter(false);
+        contactUpdated();
+    })  
+} 

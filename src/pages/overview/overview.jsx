@@ -5,7 +5,7 @@ import PageContainer from '../../components/container/page-container/page-contai
 import BoxWithShadow from '../../components/box/box-with-shadow/box-with-shadow.jsx';
 import { Redirect, useHistory } from 'react-router-dom';
 import EditLabelModal from '../../components/modal/edit-label-modal.jsx';
-import { Forum, Money, RestaurantMenu, Room } from '@material-ui/icons';
+import { Facebook, Forum, Instagram, Language, Money, Phone, RestaurantMenu, Room, Schedule } from '@material-ui/icons';
 import EditStringArrayModal from '../../components/modal/edit-string-array-modal.jsx';
 import AddBoxOverview from '../../components/box/add-box-overview/add-box-overview.jsx';
 import GeneralStatisticsBox from '../../components/box/general-statistics-box/general-statistics-box.jsx';
@@ -18,6 +18,7 @@ import { useRef } from 'react';
 import WaiteroAlert from '../../components/alert/alert.jsx';
 import { getBase64Image } from '../../utils/functions/base64Image.js';
 import EditAddressModal from '../../components/modal/edit-address-modal.jsx';
+import EditContactModal from '../../components/modal/edit-contact-modal.jsx';
 
 const Overview = ({ restaurants, clientData, getRestaurants }) => { 
 
@@ -28,10 +29,12 @@ const Overview = ({ restaurants, clientData, getRestaurants }) => {
   const [restaurantAddress, setRestaurantAddress] = useState(restaurants.length > 0 ? restaurants[0]?.location?.address : '');  
   const [showEditResAddress, setShowEditResAddress] = useState(false);
   const [showEditDescription, setShowEditDescription] = useState(false);
+  const [showEditContact, setShowEditContact] = useState(false);
   const [showEditCusines, setShowEditCusines] = useState(false);
   const [resDescription, setResDescription] = useState(restaurants.length > 0 ?  restaurants[0]?.description : '')
   const [cusines, setCusines] = useState(restaurants.length > 0 ? restaurants[0]?.cuisines : '')
-  const [error, setError] = useState({message: '', isError: false})
+  const [error, setError] = useState({message: '', isError: false});
+  const [restaurantContact, setRestaurantContact] = useState(restaurants.length > 0 ? restaurants[0]?.contact : '')
   const [plateMinimumPrice, setPlateMinimumPrice] = useState(0);
   const [loadingMinPrice, setLoadMinPrice] = useState(false);
   const history = useHistory()
@@ -124,8 +127,15 @@ const Overview = ({ restaurants, clientData, getRestaurants }) => {
                   overlayText={'Adauga meniu'} backgroundColor={'#00000099'} height={250} width={'100%'} alignItems={'center'} justifyContent={'flex-end'} iconAdd/>
           </Box>
           <Box paddingTop='2%' width={'48%'}>
-            <AddBoxOverview onClick={()=>history.push('/work-staff')}
-              overlayText={'Tabel personal'} flexDirection={'column'} justifyContent={'space-between'} backgroundColor={'#000000'} height={250} width={'100%'} iconList/>
+            <Box height={250} width={'100%'} onMouseEnter={ () => setShowEditContact(true) } onMouseLeave={()=>setShowEditContact(false)}>
+              <Box fontSize={22} paddingTop={1}>Informati contact</Box>
+              <Box width={'92%'} display={'flex'} fontSize={22} flexDirection={'row'} paddingTop={1}> <Phone size={21} color={'inherit'} style={{ paddingRight: 20 }} /> <Box>{restaurantContact?.phoneNumber}</Box></Box>    
+              <Box width={'92%'} display={'flex'} fontSize={22} flexDirection={'row'} paddingTop={1}> <Language size={21} color={'inherit'} style={{ paddingRight: 20 }} /> <Box>{restaurantContact?.website}</Box></Box>    
+              <Box width={'92%'} display={'flex'} fontSize={22} flexDirection={'row'} paddingTop={1}> <Schedule size={21} color={'inherit'} style={{ paddingRight: 20 }} /> <Box>Lun-Vin {restaurantContact?.orar?.mondayToFriday?.openAt}-{restaurantContact?.orar?.mondayToFriday?.closeAt} | Sam {restaurantContact?.orar?.saturday?.openAt}-{restaurantContact?.orar?.saturday?.closeAt} | Dum {restaurantContact?.orar?.sunday?.openAt}-{restaurantContact?.orar?.sunday?.closeAt} </Box></Box>    
+              <Box width={'92%'} display={'flex'} fontSize={22} flexDirection={'row'} paddingTop={1}> <Facebook size={21} color={'inherit'} style={{ paddingRight: 20 }} /> <Box>{restaurantContact?.socialMedia?.facebookLink}</Box></Box>    
+              <Box width={'92%'} display={'flex'} fontSize={22} flexDirection={'row'} paddingTop={1}> <Instagram size={21} color={'inherit'} style={{ paddingRight: 20 }} /> <Box>{restaurantContact?.socialMedia?.instagramLink}</Box></Box>
+              {showEditContact && <EditContactModal/>}    
+            </Box>
           </Box>
           </Box>
           <Box height={200} width={'100%'} marginTop={4}>
