@@ -42,8 +42,8 @@ const Drinks = ({ restaurants, drinks, clientData, restaurantReducer, getDrinks,
   }, [drinks])
 
   useEffect(() => {
-    if (restaurantSelected.length > 0)
-      getDrinks(clientData.id, restaurantSelected)
+    if (restaurantSelected?.length > 0)
+      getDrinks(clientData?._id, restaurantSelected)
   }, [restaurantSelected])
 
   return (
@@ -56,7 +56,7 @@ const Drinks = ({ restaurants, drinks, clientData, restaurantReducer, getDrinks,
           <>
             {restaurants?.map((el) => {
               return (
-                <PrimaryButton key={el.id} variant='contained' style={{ marginBottom: 5, width: '50%' }} onClick={() => setRestaurantSelected(el.id)}>
+                <PrimaryButton key={el?._id} variant='contained' style={{ marginBottom: 5, width: '50%' }} onClick={() => setRestaurantSelected(el?._id)}>
                   {el.restaurantName}
                 </PrimaryButton>
               )
@@ -85,11 +85,11 @@ const Drinks = ({ restaurants, drinks, clientData, restaurantReducer, getDrinks,
                     <Box display={'flex'} flexWrap={'wrap'}>
                       {groupedByCategory[key].map((item) => {
                         return (
-                          <Box key={item.id}>
+                          <Box key={item?._id}>
                             <Box display={'flex'}>
-                              <DeleteModalIcon type={'drink'} clientId={clientData.id} message={'Confirmati stergerea acestei bauturi?'} restaurantId={restaurantSelected} drinkId={item.id} />
+                              <DeleteModalIcon type={'drink'} clientId={clientData?._id} message={'Confirmati stergerea acestei bauturi?'} restaurantId={restaurantSelected} drinkId={item?._id} />
                             </Box>
-                            <Box key={item.id} marginRight={3} marginBottom={3} onClick={() => setDrinkSelected(item.id)}>
+                            <Box key={item?._id} marginRight={3} marginBottom={3} onClick={() => setDrinkSelected(item?._id)}>
                               <MenuCard title={item.drinkName} />
                             </Box>
                           </Box>
@@ -103,8 +103,8 @@ const Drinks = ({ restaurants, drinks, clientData, restaurantReducer, getDrinks,
               )}
             </Box>
           </Box>
-          <AddDrinkModal isOpen={modalAddDrinkType} setIsOpen={() => setModalAddDrinkType(false)} clientId={clientData.id} restaurantId={restaurantSelected} createDrinkType={() => getDrinks(clientData.id, restaurantSelected)} />
-          <EditDrinkModal isOpen={drinkSelected.length > 0} setIsOpen={() => setDrinkSelected('')} item={drinks?.find(el => el.id === drinkSelected)} clientId={clientData.id} restaurantId={restaurantSelected} drinkId={drinkSelected} updateDrinkType={() => getDrinks(clientData.id, restaurantSelected)} />
+          <AddDrinkModal isOpen={modalAddDrinkType} setIsOpen={() => setModalAddDrinkType(false)} clientId={clientData?._id} restaurantId={restaurantSelected} createDrinkType={() => getDrinks(clientData?._id, restaurantSelected)} />
+          <EditDrinkModal isOpen={drinkSelected?.length > 0} setIsOpen={() => setDrinkSelected('')} item={drinks?.find(el => el?._id === drinkSelected)} clientId={clientData?._id} restaurantId={restaurantSelected} drinkId={drinkSelected} updateDrinkType={() => getDrinks(clientData?._id, restaurantSelected)} />
         </>)}
       <WaiteroAlert isError={restaurantReducer.hasErrors} message={restaurantReducer.message} cleanError={() => cleanErrorMessage()} />
     </PageContainer>

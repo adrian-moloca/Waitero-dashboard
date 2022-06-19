@@ -32,8 +32,8 @@ const Tables = ({ restaurants, tables, clientData, restaurantReducer, getTables,
   }
 
   useEffect(() => {
-    if (restaurantSelected.length > 0)
-      getTables(clientData.id, restaurantSelected)
+    if (restaurantSelected?.length > 0)
+      getTables(clientData?._id, restaurantSelected)
   }, [restaurantSelected])
 
   return (
@@ -46,7 +46,7 @@ const Tables = ({ restaurants, tables, clientData, restaurantReducer, getTables,
           <>
             {restaurants.map((el) => {
               return (
-                <PrimaryButton key={el.id} variant='contained' style={{ marginBottom: 5, width: '50%' }} onClick={() => setRestaurantSelected(el.id)}>
+                <PrimaryButton key={el?._id} variant='contained' style={{ marginBottom: 5, width: '50%' }} onClick={() => setRestaurantSelected(el?._id)}>
                   {el.restaurantName}
                 </PrimaryButton>
               )
@@ -69,11 +69,11 @@ const Tables = ({ restaurants, tables, clientData, restaurantReducer, getTables,
                   </Box>
                   {tables?.map((item) => {
                       return (
-                          <Box key={item.id}>
+                          <Box key={item?._id}>
                             <Box display={'flex'}>
-                              <DeleteModalIcon type={'table'} clientId={clientData.id} message={'Confirmati stergerea acestei mese?'} restaurantId={restaurantSelected} tableId={item.id}/>
+                              <DeleteModalIcon type={'table'} clientId={clientData?._id} message={'Confirmati stergerea acestei mese?'} restaurantId={restaurantSelected} tableId={item?._id}/>
                              </Box>
-                            <Box key={item.id} marginRight={4} marginBottom={3} onClick={() => downloadCode(item.qrCode, item.tableNumber)}>
+                            <Box key={item?._id} marginRight={4} marginBottom={3} onClick={() => downloadCode(item.qrCode, item.tableNumber)}>
                             <TableCard title={item.tableNumber} qrcode={item.qrCode} />
                             </Box>
                         </Box>
@@ -83,7 +83,7 @@ const Tables = ({ restaurants, tables, clientData, restaurantReducer, getTables,
             </Box>
           </Box>
         </>)}
-      <AddTableModal isOpen={onAddItem} setIsOpen={setOnAddItem} clientId={clientData.id} restaurantId={restaurantSelected} tableAdded={()=>getTables(clientData.id, restaurantSelected) } />
+      <AddTableModal isOpen={onAddItem} setIsOpen={setOnAddItem} clientId={clientData?._id} restaurantId={restaurantSelected} tableAdded={()=>getTables(clientData?._id, restaurantSelected) } />
       <WaiteroAlert isError={restaurantReducer.hasErrors} message={restaurantReducer.message} cleanError={() => cleanErrorMessage()} />
       <WaiteroAlert isError={error.isError} message={error.message} cleanError={() => setError({ message: '', isError: false })} />
     </PageContainer>

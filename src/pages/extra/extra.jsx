@@ -39,20 +39,20 @@ const Extra = ({ restaurants, extra, clientData, restaurantReducer, getExtra, cl
 
   const refreshMyExtras = () => {
     resetFields();
-    getExtra(clientData.id, restaurantSelected)
+    getExtra(clientData?._id, restaurantSelected)
   }
 
   const refreshMyExtrasOnUpdate = () => {
     resetExistentExtra();
-    getExtra(clientData.id, restaurantSelected)
+    getExtra(clientData?._id, restaurantSelected)
   }
 
   const addExtraToList = () => {
-    addExtra(newExtraName, parseFloat(newExtraPrice), clientData.id, restaurantSelected, setLoadingOnAdd, setError, refreshMyExtras)
+    addExtra(newExtraName, parseFloat(newExtraPrice), clientData?._id, restaurantSelected, setLoadingOnAdd, setError, refreshMyExtras)
   }
 
   const updateExtraFromList = (extraId) => {
-    updateExtra(itemOnEditValues.extraName, parseFloat(itemOnEditValues.extraPrice), clientData.id, restaurantSelected, extraId,(stat) => setOnEditItem({...onEditItem, loading: stat}), setError, refreshMyExtrasOnUpdate)
+    updateExtra(itemOnEditValues.extraName, parseFloat(itemOnEditValues.extraPrice), clientData?._id, restaurantSelected, extraId,(stat) => setOnEditItem({...onEditItem, loading: stat}), setError, refreshMyExtrasOnUpdate)
   }
 
   const clickedEditOnItem = (index, defaultNameValue, defaultPriceValue) => {
@@ -61,8 +61,8 @@ const Extra = ({ restaurants, extra, clientData, restaurantReducer, getExtra, cl
   }
 
   useEffect(() => {
-    if (restaurantSelected.length > 0)
-      getExtra(clientData.id, restaurantSelected)
+    if (restaurantSelected?.length > 0)
+      getExtra(clientData?._id, restaurantSelected)
   }, [restaurantSelected])
 
   return (
@@ -75,7 +75,7 @@ const Extra = ({ restaurants, extra, clientData, restaurantReducer, getExtra, cl
           <>
             {restaurants.map((el) => {
               return (
-                <PrimaryButton key={el.id} variant='contained' style={{ marginBottom: 5, width: '50%' }} onClick={() => setRestaurantSelected(el.id)}>
+                <PrimaryButton key={el?._id} variant='contained' style={{ marginBottom: 5, width: '50%' }} onClick={() => setRestaurantSelected(el?._id)}>
                   {el.restaurantName}
                 </PrimaryButton>
               )
@@ -105,9 +105,9 @@ const Extra = ({ restaurants, extra, clientData, restaurantReducer, getExtra, cl
                   <Grid container item xs={2}>
                         {loadingOnAdd ? <CircularProgress size={20}/> : <>
                                 <IconButton style={{marginRight: 2}} onClick={resetFields}><Close color='error'/></IconButton>
-                      <IconButton disabled={ !newExtraName.length || !newExtraPrice.length || numberValidator(newExtraPrice) }
+                      <IconButton disabled={ !newExtraName?.length || !newExtraPrice?.length || numberValidator(newExtraPrice) }
                         onClick={addExtraToList}>
-                        <Add color={ !newExtraName.length || !newExtraPrice.length || numberValidator(newExtraPrice) ? 'disabled' : 'action'} />
+                        <Add color={ !newExtraName?.length || !newExtraPrice?.length || numberValidator(newExtraPrice) ? 'disabled' : 'action'} />
                       </IconButton>
                             </>
                         }
@@ -120,7 +120,7 @@ const Extra = ({ restaurants, extra, clientData, restaurantReducer, getExtra, cl
                     {
                       extra?.map((item, index) => {
                         return (
-                            <Grid key={item.id} container spacing={3}>
+                            <Grid key={item?._id} container spacing={3}>
                                 <Grid container item xs={3}>
                                     <WaiteroTextField value={onEditItem.index === index ? itemOnEditValues.extraName : item.extraName} onChange={(e)=>setItemOnEditValues({extraName: e.target.value, extraPrice: itemOnEditValues.extraPrice})} fullWidth disabled={onEditItem.index !== index }/>
                                 </Grid>
@@ -131,10 +131,10 @@ const Extra = ({ restaurants, extra, clientData, restaurantReducer, getExtra, cl
                                     {onEditItem.index === index && onEditItem.loading ? <CircularProgress size={20}/> : <>
                                         {onEditItem.index === index ? (<>
                                             <IconButton style={{marginRight: 2}} onClick={resetExistentExtra}><Close color='error'/></IconButton>
-                                            <IconButton onClick={()=>updateExtraFromList(item.id)}><SaveAlt color='action'/></IconButton>
+                                            <IconButton onClick={()=>updateExtraFromList(item?._id)}><SaveAlt color='action'/></IconButton>
                                         </>) : (<>
                                             <IconButton onClick={()=>clickedEditOnItem(index, item.extraName, item.extraPrice)}><Edit color='action'/></IconButton>
-                                            <DeleteModalIcon type={'extra'} clientId={clientData.id} message={'Confirmati stergerea acestui extra?'} restaurantId={restaurantSelected} drinkId={item.id} extraId={item.id}/>
+                                            <DeleteModalIcon type={'extra'} clientId={clientData?._id} message={'Confirmati stergerea acestui extra?'} restaurantId={restaurantSelected} drinkId={item?._id} extraId={item?._id}/>
                                         </>)}
                                     </>}
                                 </Grid>

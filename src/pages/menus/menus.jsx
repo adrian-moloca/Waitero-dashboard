@@ -27,40 +27,40 @@ const Menus = ({ restaurants, menus, categories, plates, clientData, restaurantR
   const [modalEditMenuType, setModalEditMenuType] = useState({name: '', id: ''}); 
 
   const getTitle = () => {
-    if (menuType.length === 0)
+    if (menuType?.length === 0)
       return 'Meniuri'
-    else if (onCategory.length === 0)
+    else if (onCategory?.length === 0)
       return 'Categorii'
-    else if (menuType.length > 0 && onCategory.length > 0)
+    else if (menuType?.length > 0 && onCategory?.length > 0)
       return 'Preparate'
   }
 
   const goBackMenuSelection = () => {
-    if (onCategory.length > 0) {
+    if (onCategory?.length > 0) {
       setOnCategory('');
       return;
-    } else if (menuType.length > 0 && onCategory.length === 0) {
+    } else if (menuType?.length > 0 && onCategory?.length === 0) {
       setMenuType('')
       return;
-    } else if (menuType.length === 0) {
+    } else if (menuType?.length === 0) {
       setRestaurantSelected('')
       return;
     }
   }
 
   useEffect(() => {
-    if (restaurantSelected.length > 0)
-      getMenus(clientData.id, restaurantSelected)
+    if (restaurantSelected?.length > 0)
+      getMenus(clientData._id, restaurantSelected)
   }, [restaurantSelected])
 
   useEffect(() => {
-    if (menuType.length > 0)
-      getCategories(clientData.id, restaurantSelected, menuType)
+    if (menuType?.length > 0)
+      getCategories(clientData._id, restaurantSelected, menuType)
   }, [menuType])
 
   useEffect(() => {
-    if (onCategory.length > 0)
-      getPlates(clientData.id, restaurantSelected, menuType, onCategory)
+    if (onCategory?.length > 0)
+      getPlates(clientData._id, restaurantSelected, menuType, onCategory)
   }, [onCategory])
 
   return (
@@ -73,7 +73,7 @@ const Menus = ({ restaurants, menus, categories, plates, clientData, restaurantR
           <>
             {restaurants.map((el) => {
               return (
-                <PrimaryButton key={el.id} variant='contained' style={{ marginBottom: 5, width: '50%' }} onClick={() => setRestaurantSelected(el.id)}>
+                <PrimaryButton key={el._id} variant='contained' style={{ marginBottom: 5, width: '50%' }} onClick={() => setRestaurantSelected(el._id)}>
                   {el.restaurantName}
                 </PrimaryButton>
               )
@@ -91,17 +91,17 @@ const Menus = ({ restaurants, menus, categories, plates, clientData, restaurantR
             </Box>
             <Box width={'100%'} display={'flex'} marginTop={'2%'} flexWrap='wrap'>
               {restaurantReducer.loading ? <CircularProgress /> : (<>
-                {menuType.length === 0 && (
+                {menuType?.length === 0 && (
                   <>
                     {
                       menus?.map((item) => {
                         return (
-                          <Box key={item.id}>
+                          <Box key={item._id}>
                             <Box display={'flex'}>
-                              <DeleteModalIcon type={'menu'} clientId={clientData.id} message={'Confirmati stergerea acestui meniu?'} restaurantId={restaurantSelected} menuId={item.id}/>
-                              <IconButton onClick={() => setModalEditMenuType({name: item.menuName, id: item.id})}><Edit /></IconButton>
+                              <DeleteModalIcon type={'menu'} clientId={clientData._id} message={'Confirmati stergerea acestui meniu?'} restaurantId={restaurantSelected} menuId={item._id}/>
+                              <IconButton onClick={() => setModalEditMenuType({name: item.menuName, id: item._id})}><Edit /></IconButton>
                             </Box>
-                            <Box key={item.id} marginRight={3} marginBottom={3} onClick={() => setMenuType(item.id)}>
+                            <Box key={item._id} marginRight={3} marginBottom={3} onClick={() => setMenuType(item._id)}>
                               <MenuCard title={item.menuName} />
                             </Box>
                           </Box>
@@ -112,16 +112,16 @@ const Menus = ({ restaurants, menus, categories, plates, clientData, restaurantR
                     </Box>
                   </>
                 )}
-                {menuType.length > 0 && onCategory.length === 0 && (
+                {menuType?.length > 0 && onCategory?.length === 0 && (
                   <>
                     {categories?.map((item) => {
                       return (
-                        <Box key={item.id}>
+                        <Box key={item._id}>
                           <Box display={'flex'}>
-                            <DeleteModalIcon type={'category'} clientId={clientData.id} message={'Confirmati stergerea acestei categorii?'} restaurantId={restaurantSelected} menuId={menuType} categoryId={item.id}/>
-                            <IconButton onClick={() => setModalEditMenuType({name: item.categoryName, id: item.id})}><Edit /></IconButton>
+                            <DeleteModalIcon type={'category'} clientId={clientData._id} message={'Confirmati stergerea acestei categorii?'} restaurantId={restaurantSelected} menuId={menuType} categoryId={item._id}/>
+                            <IconButton onClick={() => setModalEditMenuType({name: item.categoryName, id: item._id})}><Edit /></IconButton>
                           </Box>
-                          <Box key={item.id} marginRight={3} marginBottom={3} onClick={() => setOnCategory(item.id)}>
+                          <Box key={item._id} marginRight={3} marginBottom={3} onClick={() => setOnCategory(item._id)}>
                             <MenuCard title={item.categoryName} />
                           </Box>
                         </Box>
@@ -132,15 +132,15 @@ const Menus = ({ restaurants, menus, categories, plates, clientData, restaurantR
                     </Box>
                   </>
                 )}
-                {onCategory.length > 0 && (
+                {onCategory?.length > 0 && (
                   <>
                     {plates?.map((item) => {
                       return (
-                        <Box key={item.id}>
+                        <Box key={item._id}>
                           <Box display={'flex'}>
-                            <DeleteModalIcon  type={'plate'} clientId={clientData.id} message={'Confirmati stergerea acestui preparat?'} restaurantId={restaurantSelected} menuId={menuType} categoryId={onCategory} plateId={item.id}/>
+                            <DeleteModalIcon  type={'plate'} clientId={clientData._id} message={'Confirmati stergerea acestui preparat?'} restaurantId={restaurantSelected} menuId={menuType} categoryId={onCategory} plateId={item._id}/>
                           </Box>
-                          <Box marginRight={3} marginBottom={3} onClick={() => setPlateSelected(item.id)}>
+                          <Box marginRight={3} marginBottom={3} onClick={() => setPlateSelected(item._id)}>
                             <MenuCard title={item.plateName} />
                         </Box>
                         </Box>
@@ -154,10 +154,10 @@ const Menus = ({ restaurants, menus, categories, plates, clientData, restaurantR
               </>)}
             </Box>
           </Box>
-          <AddMenuModal isOpen={modalAddMenuType} setIsOpen={() => setModalAddMenuType(false)} clientId={clientData.id} restaurantId={restaurantSelected} menuId={menuType} createMenuType={() => menuType.length > 0 ? getCategories(clientData.id, restaurantSelected, menuType) : getMenus(clientData.id, restaurantSelected)} />
-          <EditMenuModal isOpen={modalEditMenuType.id.length > 0} setIsOpen={() => setModalEditMenuType({name: '', id: ''})} menuName={modalEditMenuType.name} clientId={clientData.id} restaurantId={restaurantSelected} menuId={modalEditMenuType.id} categoryId={menuType.length > 0 ? modalEditMenuType.id : ''} updateMenuType={() => menuType.length > 0 ? getCategories(clientData.id, restaurantSelected, menuType) : getMenus(clientData.id, restaurantSelected)} />
-          <AddMenuItem isModalOpen={modalAddMenuItem} setIsModalOpen={() => setModalAddMenuItem(false)} setItem={() => { getPlates(clientData.id, restaurantSelected, menuType, onCategory) }} clientId={clientData.id} restaurantId={restaurantSelected} menuId={menuType} categoryId={onCategory} />
-          <EditMenuItem isModalOpen={plateSelected.length > 0} setIsModalOpen={() => setPlateSelected('')} item={plates?.find(el=>el.id===plateSelected)} setItem={() => { getPlates(clientData.id, restaurantSelected, menuType, onCategory) }} clientId={clientData.id} restaurantId={restaurantSelected} menuId={menuType} categoryId={onCategory}  plateId={plateSelected}/>
+          <AddMenuModal isOpen={modalAddMenuType} setIsOpen={() => setModalAddMenuType(false)} clientId={clientData._id} restaurantId={restaurantSelected} menuId={menuType} createMenuType={() => menuType?.length > 0 ? getCategories(clientData._id, restaurantSelected, menuType) : getMenus(clientData._id, restaurantSelected)} />
+          <EditMenuModal isOpen={modalEditMenuType._id?.length > 0} setIsOpen={() => setModalEditMenuType({name: '', id: ''})} menuName={modalEditMenuType.name} clientId={clientData._id} restaurantId={restaurantSelected} menuId={modalEditMenuType._id} categoryId={menuType?.length > 0 ? modalEditMenuType._id : ''} updateMenuType={() => menuType?.length > 0 ? getCategories(clientData._id, restaurantSelected, menuType) : getMenus(clientData._id, restaurantSelected)} />
+          <AddMenuItem isModalOpen={modalAddMenuItem} setIsModalOpen={() => setModalAddMenuItem(false)} setItem={() => { getPlates(clientData._id, restaurantSelected, menuType, onCategory) }} clientId={clientData._id} restaurantId={restaurantSelected} menuId={menuType} categoryId={onCategory} />
+          <EditMenuItem isModalOpen={plateSelected?.length > 0} setIsModalOpen={() => setPlateSelected('')} item={plates?.find(el=>el._id===plateSelected)} setItem={() => { getPlates(clientData._id, restaurantSelected, menuType, onCategory) }} clientId={clientData._id} restaurantId={restaurantSelected} menuId={menuType} categoryId={onCategory}  plateId={plateSelected}/>
         </>)}
       <WaiteroAlert isError={restaurantReducer.hasErrors} message={restaurantReducer.message} cleanError={() => cleanErrorMessage()} />
     </PageContainer>
