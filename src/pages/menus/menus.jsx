@@ -141,7 +141,7 @@ const Menus = ({ restaurants, menus, categories, plates, clientData, restaurantR
                             <DeleteModalIcon  type={'plate'} clientId={clientData._id} message={'Confirmati stergerea acestui preparat?'} restaurantId={restaurantSelected} menuId={menuType} categoryId={onCategory} plateId={item._id}/>
                           </Box>
                           <Box marginRight={3} marginBottom={3} onClick={() => setPlateSelected(item._id)}>
-                            <MenuCard title={item.plateName} />
+                            <MenuCard title={<Box><Box width={'100%'}>{item.plateName}</Box><Box width={'100%'}>{item.platePrice} RON</Box></Box>} />
                         </Box>
                         </Box>
                       )

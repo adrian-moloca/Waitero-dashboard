@@ -90,7 +90,7 @@ const Drinks = ({ restaurants, drinks, clientData, restaurantReducer, getDrinks,
                               <DeleteModalIcon type={'drink'} clientId={clientData?._id} message={'Confirmati stergerea acestei bauturi?'} restaurantId={restaurantSelected} drinkId={item?._id} />
                             </Box>
                             <Box key={item?._id} marginRight={3} marginBottom={3} onClick={() => setDrinkSelected(item?._id)}>
-                              <MenuCard title={item.drinkName} />
+                              <MenuCard title={<Box><Box width={'100%'}>{item.drinkName}</Box><Box width={'100%'}>{item.drinkPrice} RON</Box></Box>} />
                             </Box>
                           </Box>
                         )

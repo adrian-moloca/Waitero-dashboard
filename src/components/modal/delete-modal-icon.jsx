@@ -8,13 +8,17 @@ import SecondaryButton from '../buttons/secondaryButton/secondaryButton';
 import { deleteCategory, deleteMenu, deletePlate, deleteDrink, deleteExtra, getCategories, getMenus, getPlates, getDrinks, getExtra, getTables, deleteTable } from '../../api/api-client/client-requests';
 import { Delete } from '@material-ui/icons';
 import { deleteClient, deleteUser, getClients, getUsers } from '../../api/api-admin/admin-requests';
+import { useEffect } from 'react';
+import { cleanRestaurant } from '../../redux/types/RestaurantTypes';
+import { useRef } from 'react';
 
-const DeleteModalWithIcon = ({ type, message, clientId=undefined, userId= undefined, restaurantId=undefined, menuId=undefined, categoryId=undefined, plateId=undefined, drinkId=undefined, extraId=undefined, tableId=undefined, getMenus, getCategories, getPlates, getDrinks, getExtra, getClients, getUsers, getTables}) => {
+const DeleteModalWithIcon = ({ type, message, clientId=undefined, userId= undefined, restaurantId=undefined, menuId=undefined, categoryId=undefined, plateId=undefined, drinkId=undefined, extraId=undefined, tableId=undefined, getMenus, getCategories, getPlates, getDrinks, getExtra, getClients, getUsers, getTables, cleanRestaurant}) => {
 
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState({message: '', isError: false});
   const classes = useStyles();
+  const isMounted = useRef()
 
   const closeModalOnMenuDelete = () => {
     getMenus(clientId, restaurantId, setLoading);
@@ -56,26 +60,35 @@ const DeleteModalWithIcon = ({ type, message, clientId=undefined, userId= undefi
     setOpen(false);
   }
 
+  
   const handleDeleteClick = () => {
     if(type === 'menu'){
         deleteMenu(clientId, restaurantId, menuId, setLoading, setError, closeModalOnMenuDelete)        
     } else if(type === 'category'){
         deleteCategory(clientId, restaurantId, menuId, categoryId, setLoading, setError, closeModalOnCategoryDelete)
-    } else if(type === 'plate'){
+      } else if(type === 'plate'){
         deletePlate(clientId, restaurantId, menuId, categoryId, plateId, setLoading, setError, closeModalOnPlateDelete)
     } else if (type === 'drink'){
-        deleteDrink(clientId, restaurantId, drinkId, setLoading, setError, closeModalOnDrinkDelete)        
+      deleteDrink(clientId, restaurantId, drinkId, setLoading, setError, closeModalOnDrinkDelete)        
     } else if (type === 'extra'){
         deleteExtra(clientId, restaurantId, extraId, setLoading, setError, closeModalOnExtraDelete)        
     } else if (type === 'client'){
         deleteClient(clientId, setLoading, setError, closeModalOnClientDelete)
     } else if (type === 'user'){
-        deleteUser(userId, setLoading, setError, closeModalOnUserDelete)
+      deleteUser(userId, setLoading, setError, closeModalOnUserDelete)
     } else if (type === 'table'){
-        deleteTable(clientId, restaurantId, tableId, setLoading, setError, closeModalOnTableDelete)
+      deleteTable(clientId, restaurantId, tableId, setLoading, setError, closeModalOnTableDelete)
     }
   }
+  
+  useEffect(()=>{
+    isMounted.current=true;
 
+    return ()=>{
+      isMounted.current = false
+    }
+  }, [deleteMenu, deleteCategory, deletePlate, deleteDrink, deleteExtra,deleteClient, deleteUser, deleteTable])
+  
   return (
     <>
       <IconButton onClick={ ()=>setOpen(true) }><Delete color='error'/></IconButton>
@@ -112,6 +125,7 @@ const mapDispatchToProps = (dispatch) => ({
     getClients: (loadingSetter) => dispatch(getClients(loadingSetter)),
     getUsers: (loadingSetter) => dispatch(getUsers(loadingSetter)),
     getTables: (clientId, restaurantId, loadingSetter) => dispatch(getTables(clientId, restaurantId, loadingSetter)),
+    cleanRestaurant: () => dispatch(cleanRestaurant())
 })
 
 export default connect(null, mapDispatchToProps)(DeleteModalWithIcon);
