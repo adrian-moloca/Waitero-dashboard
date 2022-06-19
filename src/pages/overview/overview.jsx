@@ -100,7 +100,7 @@ const Overview = ({ restaurants, clientData, getRestaurants }) => {
           <Box paddingTop='8%'>
               <BoxWithShadow name = {'cover-photo'} source={coverPhoto} setSource={ createCoverPhoto }
                   overlayText={'EDITEAZA COPERTA'} height={250} width={'92%'} isButton />
-              <Box onMouseEnter={() => setShowEditResAddress(true)} onMouseLeave={() => setShowEditResAddress(false)}
+              <Box onMouseEnter={() => setShowEditResAddress(true)} onMouseLeave={(e) => e.relatedTarget.lastChild ? setShowEditResAddress(false) : null}
                   style={{ fontSize: 25, fontWeight: '-moz-initial', paddingTop: '20px', width: 426, fontStyle: 'oblique' }}><Room size={25} color={'inherit'} style={{marginRight: 3}}/>
                   {restaurantAddress?.street ? restaurantAddress?.street+' '+restaurantAddress?.number+', ' : ''}{restaurantAddress?.city ? restaurantAddress?.city+', ' : ''}{restaurantAddress?.country}
                   <Box>{restaurantAddress?.postalCode}{showEditResAddress && <EditAddressModal addressObject={restaurantAddress} setAddressObject={(obj) => setRestaurantAddress(obj)} clientId={clientData._id} restaurantId={selectedRestaurant} />}</Box>
@@ -110,13 +110,13 @@ const Overview = ({ restaurants, clientData, getRestaurants }) => {
           <Box width={'92%'}  display={'flex'} justifyContent={'flex-end'}> <Rating readOnly defaultValue={0} precision={0.1} size='large'/></Box>
           <Box width={'92%'} display={'flex'} fontSize={20} flexDirection={'row'}> <Forum size={20} color={'inherit'} style={{ paddingRight: 20 }} /> <Box>0 recenzii</Box></Box>    
           <Box width={'92%'} display={'flex'} fontSize={20} flexDirection={'row'}> <Money size={20} color={'inherit'} style={{ paddingRight: 20 }} /> <Box>{loadingMinPrice ? <CircularProgress size={16}/> : plateMinimumPrice} RON pret minim</Box></Box>      
-          <Box width={'92%'} display={'flex'} fontSize={20} flexDirection={'row'}> <RestaurantMenu size={20} color={'inherit'} style={{ paddingRight: 20 }} /><Box onMouseEnter={() => setShowEditCusines(true)} onMouseLeave={() => setShowEditCusines(false)}>{cusines.length ? cusines.join(', ') : ''}{showEditCusines ? <EditStringArrayModal labelName={'cuisines'} array={cusines} setArray={(cuisines) => setCusines(cuisines) }  clientId={clientData._id} restaurantId={selectedRestaurant}/> : null}</Box></Box>      
+          <Box width={'92%'} display={'flex'} fontSize={20} flexDirection={'row'}> <RestaurantMenu size={20} color={'inherit'} style={{ paddingRight: 20 }} /><Box onMouseEnter={() => setShowEditCusines(true)} onMouseLeave={(e) => e.relatedTarget.lastChild ? setShowEditCusines(false) : null}>{cusines.length ? cusines.join(', ') : ''}{showEditCusines ? <EditStringArrayModal labelName={'cuisines'} array={cusines} setArray={(cuisines) => setCusines(cuisines) }  clientId={clientData._id} restaurantId={selectedRestaurant}/> : null}</Box></Box>      
         </Box>
-        <Box width={'92%'} display={'flex'} fontSize={19} marginTop={2} onMouseEnter={ () => setShowEditDescription(true) } onMouseLeave={()=>setShowEditDescription(false)}>
+        <Box width={'92%'} display={'flex'} fontSize={19} marginTop={2} onMouseEnter={ () => setShowEditDescription(true) } onMouseLeave={(e)=>e.relatedTarget.lastChild ? setShowEditDescription(false) : null}>
           { resDescription }
           { showEditDescription ? <EditLabelModal labelName={'description'} label ={resDescription} setLabel={(label) => setResDescription(label)}  clientId={clientData._id} restaurantId={selectedRestaurant} /> : null}
         </Box>
-        <Box width={'92%'} display={'flex'} fontSize={19} marginTop={2} onMouseEnter={ () => setShowEditDescription(true) } onMouseLeave={()=>setShowEditDescription(false)}>
+        <Box width={'92%'} display={'flex'} fontSize={19} marginTop={2}>
           <DeleteModal label={'Sterge restaurantul'} message={'Confirmati stergerea acestui restaurant?'} clientId={clientData._id} restaurantId={selectedRestaurant}/>
         </Box>
         </Box>
@@ -127,7 +127,7 @@ const Overview = ({ restaurants, clientData, getRestaurants }) => {
                   overlayText={'Adauga meniu'} backgroundColor={'#00000099'} height={250} width={'100%'} alignItems={'center'} justifyContent={'flex-end'} iconAdd/>
           </Box>
           <Box paddingTop='2%' width={'48%'}>
-            <Box height={250} width={'100%'} onMouseEnter={ () => setShowEditContact(true) } onMouseLeave={(e)=> setShowEditContact(false)}>
+            <Box height={250} width={'100%'} onMouseEnter={ () => setShowEditContact(true) } onMouseLeave={(e)=> e.relatedTarget.lastChild ? setShowEditContact(false) : null}>
               <Box fontSize={22} paddingTop={1}>Informati contact</Box>
               <Box width={'92%'} display={'flex'} fontSize={22} flexDirection={'row'} paddingTop={1}> <Phone size={21} color={'inherit'} style={{ paddingRight: 20 }} /> <Box>{restaurantContact?.phoneNumber}</Box></Box>    
               <Box width={'92%'} display={'flex'} fontSize={22} flexDirection={'row'} paddingTop={1}> <Language size={21} color={'inherit'} style={{ paddingRight: 20 }} /> <Box>{restaurantContact?.website}</Box></Box>    
