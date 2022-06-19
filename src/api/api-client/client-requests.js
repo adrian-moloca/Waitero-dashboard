@@ -49,7 +49,7 @@ export const updateRestaurantField = async (fieldObject, clientId, restaurantId,
     loadingSetter(true);
     cwaxios.patch(`${clientId}/restaurant/${restaurantId}/update-restaurant`, fieldObject
     ).then((res) => {
-        fieldSetter(res.data.updatedField)
+        fieldSetter(res?.data?.updatedField)
         errorSetter({message: res?.data?.message, isError: false})
     }).catch((error) => {
         errorSetter({message: error?.response?.data?.message || 'cannot update',  isError: true})

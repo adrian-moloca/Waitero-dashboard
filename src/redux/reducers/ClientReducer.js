@@ -35,8 +35,8 @@ const clientReducer = (state = initial, action) => {
         case GET_CLIENT_SUCCESS:
             return{
                 ...state,
-                client: action.payload.client,
-                message: state.message.length === 0 ? action.payload.message : state.message,
+                client: action?.payload?.client,
+                message: action?.payload?.message,
                 token: action.payload.token,
                 loading: false,
                 hasErrors: false
@@ -45,13 +45,13 @@ const clientReducer = (state = initial, action) => {
             return{
                 ...state,
                 hasErrors: true,
-                message: action.payload,
+                message: action?.payload,
                 loading: false
             }
         case REMEMBER_ME_TOGGLE:
             return {
                 ...state,
-                rememberMe: action.payload
+                rememberMe: action?.payload
             }
         case CLEAN_ERROR_MESSAGE: 
             return {
@@ -71,9 +71,9 @@ const clientReducer = (state = initial, action) => {
         case REGISTER_CLIENT_SUCCESS:
             return{
                 ...state,
-                client: {...action.payload.client, loggedIn: true},
-                message: state.message.length === 0 ? action.payload.message : state.message, 
-                token: action.payload.token,
+                client: {...action?.payload?.client, loggedIn: true},
+                message: action?.payload?.message, 
+                token: action?.payload?.token,
                 loading: false,
                 hasErrors: false
             }
@@ -81,7 +81,7 @@ const clientReducer = (state = initial, action) => {
             return{
                 ...state,
                 hasErrors: true,
-                message: action.payload,
+                message: action?.payload,
                 loading: false
             }
         case ADD_RESTAURANT_REQUEST:
@@ -94,10 +94,10 @@ const clientReducer = (state = initial, action) => {
                 ...state,
                 loading: true,
                 hasErrors: false,
-                message: state.message.length === 0 ? action.payload.message : state.message,
+                message: action?.payload?.message,
                 client: {
                     ...state.client,
-                    restaurants: state.client.restaurants.concat([action?.payload?.restaurant])
+                    restaurants: [action?.payload?.restaurant]
                 }
             }
         case ADD_RESTAURANT_FAILURE:
@@ -105,7 +105,7 @@ const clientReducer = (state = initial, action) => {
                 ...state,
                 loading: false,
                 hasErrors: true,
-                message: action.payload
+                message: action?.payload
             }
         case GET_RESTAURANTS_REQUEST:
             return {
@@ -117,7 +117,7 @@ const clientReducer = (state = initial, action) => {
                 ...state,
                 loading: true,
                 hasErrors: false,
-                message: state.message.length === 0 ? action.payload.message : state.message,
+                message: action?.payload?.message,
                 client: {
                     ...state.client,
                     restaurants: action?.payload?.restaurants || []
@@ -128,7 +128,7 @@ const clientReducer = (state = initial, action) => {
                 ...state,
                 loading: false,
                 hasErrors: true,
-                message: action.payload
+                message: action?.payload?.message
             }
         default: 
             return  {

@@ -25,7 +25,7 @@ const OnBoarding = ({ clientReducer, addRestaurant }) => {
 
 
     const submitHandler = () => {
-        addRestaurant(restaurantName, restaurantCuisines, clientReducer.client.id, setLoading, setNavigation)
+        addRestaurant(restaurantName, restaurantCuisines, clientReducer.client._id, setLoading, setNavigation)
     }
 
     const onCategoryClick = (category) => {
