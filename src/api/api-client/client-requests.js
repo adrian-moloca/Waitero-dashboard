@@ -55,7 +55,7 @@ export const updateRestaurantField = async (fieldObject, clientId, restaurantId,
         errorSetter({message: error?.response?.data?.message || 'cannot update',  isError: true})
     }).finally(() => {
         loadingSetter(false);
-        closeModalEdit();
+        closeModalEdit(false);
     })
 }
 

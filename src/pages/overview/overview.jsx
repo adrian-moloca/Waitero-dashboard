@@ -5,7 +5,7 @@ import PageContainer from '../../components/container/page-container/page-contai
 import BoxWithShadow from '../../components/box/box-with-shadow/box-with-shadow.jsx';
 import { Redirect, useHistory } from 'react-router-dom';
 import EditLabelModal from '../../components/modal/edit-label-modal.jsx';
-import { Facebook, Forum, Instagram, Language, Money, Phone, RestaurantMenu, Room, Schedule } from '@material-ui/icons';
+import { Facebook, Forum, Instagram, Language, Money, MusicNote, Phone, RestaurantMenu, Room, Schedule } from '@material-ui/icons';
 import EditStringArrayModal from '../../components/modal/edit-string-array-modal.jsx';
 import AddBoxOverview from '../../components/box/add-box-overview/add-box-overview.jsx';
 import GeneralStatisticsBox from '../../components/box/general-statistics-box/general-statistics-box.jsx';
@@ -31,8 +31,10 @@ const Overview = ({ restaurants, clientData, getRestaurants }) => {
   const [showEditDescription, setShowEditDescription] = useState(false);
   const [showEditContact, setShowEditContact] = useState(false);
   const [showEditCusines, setShowEditCusines] = useState(false);
+  const [showEditEnterteinment, setShowEditEnterteinment] = useState(false);
   const [resDescription, setResDescription] = useState(restaurants.length > 0 ?  restaurants[0]?.description : '')
   const [cusines, setCusines] = useState(restaurants.length > 0 ? restaurants[0]?.cuisines : '')
+  const [entertainment, setEntertainment] = useState(restaurants.length > 0 ? restaurants[0]?.entertainment : '')
   const [error, setError] = useState({message: '', isError: false});
   const [restaurantContact, setRestaurantContact] = useState(restaurants.length > 0 ? restaurants[0]?.contact : '')
   const [plateMinimumPrice, setPlateMinimumPrice] = useState(0);
@@ -54,6 +56,7 @@ const Overview = ({ restaurants, clientData, getRestaurants }) => {
     setRestaurantName(restaurants.find(el => el._id === selectedRestaurant)?.restaurantName)
     setResDescription(restaurants.find(el => el._id === selectedRestaurant)?.description)
     setCusines(restaurants.find(el => el._id === selectedRestaurant)?.cuisines)
+    setEntertainment((restaurants.length > 0 ? restaurants[0]?.entertainment : ''))
     setCoverPhoto(restaurants.find(el => el._id === selectedRestaurant)?.coverPicture)
   }, [selectedRestaurant])
 
@@ -111,6 +114,7 @@ const Overview = ({ restaurants, clientData, getRestaurants }) => {
           <Box width={'92%'} display={'flex'} fontSize={20} flexDirection={'row'}> <Forum size={20} color={'inherit'} style={{ paddingRight: 20 }} /> <Box>0 recenzii</Box></Box>    
           <Box width={'92%'} display={'flex'} fontSize={20} flexDirection={'row'}> <Money size={20} color={'inherit'} style={{ paddingRight: 20 }} /> <Box>{loadingMinPrice ? <CircularProgress size={16}/> : plateMinimumPrice} RON pret minim</Box></Box>      
           <Box width={'92%'} display={'flex'} fontSize={20} flexDirection={'row'}> <RestaurantMenu size={20} color={'inherit'} style={{ paddingRight: 20 }} /><Box onMouseEnter={() => setShowEditCusines(true)} onMouseLeave={(e) => e.relatedTarget.lastChild ? setShowEditCusines(false) : null}>{cusines.length ? cusines.join(', ') : ''}{showEditCusines ? <EditStringArrayModal labelName={'cuisines'} array={cusines} setArray={(cuisines) => setCusines(cuisines) }  clientId={clientData._id} restaurantId={selectedRestaurant}/> : null}</Box></Box>      
+          <Box width={'92%'} display={'flex'} fontSize={20} flexDirection={'row'}> <MusicNote size={20} color={'inherit'} style={{ paddingRight: 20 }} /><Box onMouseEnter={() => setShowEditEnterteinment(true)} onMouseLeave={(e) => e.relatedTarget.lastChild ? setShowEditEnterteinment(false) : null}>{entertainment.length ? entertainment.join(', ') : ''}{showEditEnterteinment ? <EditStringArrayModal labelName={'entertainment'} array={entertainment} setArray={(entertainment) => setEntertainment(entertainment) }  clientId={clientData._id} restaurantId={selectedRestaurant}/> : null}</Box></Box>
         </Box>
         <Box width={'92%'} display={'flex'} fontSize={19} marginTop={2} onMouseEnter={ () => setShowEditDescription(true) } onMouseLeave={(e)=>e.relatedTarget.lastChild ? setShowEditDescription(false) : null}>
           { resDescription }

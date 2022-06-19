@@ -3,7 +3,7 @@ import { Box, Modal, Fade, IconButton } from '@material-ui/core';
 import { ToggleButton } from '@material-ui/lab';
 import useStyles from './modal-style';
 import { Close, Edit, SaveAlt } from '@material-ui/icons';
-import { restaurant_categories } from '../../utils/costants/constants';
+import { restaurant_categories, entertainment_types } from '../../utils/costants/constants';
 import { updateRestaurantField } from '../../api/api-client/client-requests';
 import WaiteroAlert from '../alert/alert';
 
@@ -21,9 +21,9 @@ const EditStringArrayModal = ({ labelName, array, setArray = () =>undefined, cli
 
     const onCategoryClick = (category) => {
         if (itemT.includes(category))
-            setItemT(cuisines => cuisines.filter(cat => cat !== category))
+            setItemT(old => old.filter(cat => cat !== category))
         else
-            setItemT(cuisines => cuisines.concat([category]))
+            setItemT(old => old.concat([category]))
     }
 
     const updateField = () => {
@@ -39,7 +39,12 @@ const EditStringArrayModal = ({ labelName, array, setArray = () =>undefined, cli
           <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center"  className={classes.paper}>       
             <Box display="flex" mt={3}>
               <Box mr={2} width={800}>
-                {restaurant_categories.map((category) => {
+                {labelName === 'cuisines' && restaurant_categories.map((category) => {
+                        return <ToggleButton key={category} style={{marginRight: 10, marginTop: 10, fontSize: 16}} selected={itemT.includes(category)} onChange={() => onCategoryClick(category)}>
+                            {category}        
+                        </ToggleButton>
+                })}
+                {labelName === 'entertainment' && entertainment_types.map((category) => {
                         return <ToggleButton key={category} style={{marginRight: 10, marginTop: 10, fontSize: 16}} selected={itemT.includes(category)} onChange={() => onCategoryClick(category)}>
                             {category}        
                         </ToggleButton>
