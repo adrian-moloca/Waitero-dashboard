@@ -37,7 +37,7 @@ const clientReducer = (state = initial, action) => {
                 ...state,
                 client: action?.payload?.client,
                 message: action?.payload?.message,
-                token: action.payload.token,
+                token: action?.payload?.token,
                 loading: false,
                 hasErrors: false
             }
@@ -92,7 +92,7 @@ const clientReducer = (state = initial, action) => {
         case ADD_RESTAURANT_SUCCESS:
             return {
                 ...state,
-                loading: true,
+                loading: false,
                 hasErrors: false,
                 message: action?.payload?.message,
                 client: {
@@ -115,11 +115,11 @@ const clientReducer = (state = initial, action) => {
         case GET_RESTAURANTS_SUCCESS:
             return {
                 ...state,
-                loading: true,
+                loading: false,
                 hasErrors: false,
                 message: action?.payload?.message,
                 client: {
-                    ...state.client,
+                    ...state?.client,
                     restaurants: action?.payload?.restaurants || []
                 }
             }

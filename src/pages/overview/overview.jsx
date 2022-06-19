@@ -20,23 +20,23 @@ import { getBase64Image } from '../../utils/functions/base64Image.js';
 import EditAddressModal from '../../components/modal/edit-address-modal.jsx';
 import EditContactModal from '../../components/modal/edit-contact-modal.jsx';
 
-const Overview = ({ restaurants, clientData, getRestaurants }) => { 
+const Overview = ({ restaurants, clientData, getRestaurants, loading }) => { 
 
-  const [selectedRestaurant, setSelectedRestaurant] = useState(restaurants.length > 0 ? restaurants[0]?._id : '')
-  const [coverPhoto, setCoverPhoto] = useState(restaurants.length > 0 ? restaurants[0]?.coverPicture : '');
+  const [selectedRestaurant, setSelectedRestaurant] = useState(restaurants?.length > 0 ? restaurants[0]?._id : '')
+  const [coverPhoto, setCoverPhoto] = useState(restaurants?.length > 0 ? restaurants[0]?.coverPicture : '');
   const [photoChanged, setPhotoChanged] = useState(false);
-  const [restaurantName, setRestaurantName] = useState(restaurants.length > 0 ? restaurants[0]?.restaurantName : '');
-  const [restaurantAddress, setRestaurantAddress] = useState(restaurants.length > 0 ? restaurants[0]?.location?.address : '');  
+  const [restaurantName, setRestaurantName] = useState(restaurants?.length > 0 ? restaurants[0]?.restaurantName : '');
+  const [restaurantAddress, setRestaurantAddress] = useState(restaurants?.length > 0 ? restaurants[0]?.location?.address : '');  
   const [showEditResAddress, setShowEditResAddress] = useState(false);
   const [showEditDescription, setShowEditDescription] = useState(false);
   const [showEditContact, setShowEditContact] = useState(false);
   const [showEditCusines, setShowEditCusines] = useState(false);
   const [showEditEnterteinment, setShowEditEnterteinment] = useState(false);
-  const [resDescription, setResDescription] = useState(restaurants.length > 0 ?  restaurants[0]?.description : '')
-  const [cusines, setCusines] = useState(restaurants.length > 0 ? restaurants[0]?.cuisines : '')
-  const [entertainment, setEntertainment] = useState(restaurants.length > 0 ? restaurants[0]?.entertainment : '')
+  const [resDescription, setResDescription] = useState(restaurants?.length > 0 ?  restaurants[0]?.description : '')
+  const [cusines, setCusines] = useState(restaurants?.length > 0 ? restaurants[0]?.cuisines : '')
+  const [entertainment, setEntertainment] = useState(restaurants?.length > 0 ? restaurants[0]?.entertainment : '')
   const [error, setError] = useState({message: '', isError: false});
-  const [restaurantContact, setRestaurantContact] = useState(restaurants.length > 0 ? restaurants[0]?.contact : '')
+  const [restaurantContact, setRestaurantContact] = useState(restaurants?.length > 0 ? restaurants[0]?.contact : '')
   const [plateMinimumPrice, setPlateMinimumPrice] = useState(0);
   const [loadingMinPrice, setLoadMinPrice] = useState(false);
   const history = useHistory()
@@ -49,19 +49,19 @@ const Overview = ({ restaurants, clientData, getRestaurants }) => {
   }
 
   useEffect(() => {
-    getPlateMinimumPrice(clientData._id, selectedRestaurant, setPlateMinimumPrice, setLoadMinPrice, setError)
+    getPlateMinimumPrice(clientData?._id, selectedRestaurant, setPlateMinimumPrice, setLoadMinPrice, setError)
   }, [])
 
   useEffect(() => {
-    setRestaurantName(restaurants.find(el => el._id === selectedRestaurant)?.restaurantName)
-    setResDescription(restaurants.find(el => el._id === selectedRestaurant)?.description)
-    setCusines(restaurants.find(el => el._id === selectedRestaurant)?.cuisines)
+    setRestaurantName(restaurants.find(el => el?._id === selectedRestaurant)?.restaurantName)
+    setResDescription(restaurants.find(el => el?._id === selectedRestaurant)?.description)
+    setCusines(restaurants.find(el => el?._id === selectedRestaurant)?.cuisines)
     setEntertainment((restaurants.length > 0 ? restaurants[0]?.entertainment : ''))
-    setCoverPhoto(restaurants.find(el => el._id === selectedRestaurant)?.coverPicture)
+    setCoverPhoto(restaurants.find(el => el?._id === selectedRestaurant)?.coverPicture)
   }, [selectedRestaurant])
 
   useEffect(()=>{
-    if(!restaurants.find(el=> el._id === selectedRestaurant))
+    if(!restaurants?.find(el=> el?._id === selectedRestaurant) && selectedRestaurant !== restaurants[0]?._id)
       setSelectedRestaurant(restaurants[0]?._id)
   }, [restaurants])
 
@@ -70,14 +70,14 @@ const Overview = ({ restaurants, clientData, getRestaurants }) => {
   }
 
   useEffect(()=>{
-    getRestaurants(clientData._id, ()=>undefined)
+    getRestaurants(clientData?._id, ()=>undefined)
   },[restaurantName, resDescription, cusines, coverPhoto])
 
   useEffect(()=>{
     if(firstRender.current )
       firstRender.current = false
     else if(coverPhoto.length > 0 && !(firstRender.current) && photoChanged){
-      updateRestaurantField({ coverPicture: coverPhoto }, clientData._id, selectedRestaurant, setCoverPhoto, () => undefined, setError)
+      updateRestaurantField({ coverPicture: coverPhoto }, clientData?._id, selectedRestaurant, setCoverPhoto, () => undefined, setError)
       setPhotoChanged(false)
     }
   }, [coverPhoto])
@@ -85,20 +85,20 @@ const Overview = ({ restaurants, clientData, getRestaurants }) => {
   return (
     <PageContainer>
       <WaiteroAlert isError={error.isError} message={error.message} cleanError={() => setError({message: '', isError: false})} />
-      {restaurants.length > 0 ? (
+      {loading ? <CircularProgress/> : restaurants.length > 0 ? (
       <Box display='flex' width={'90%'} flexDirection={'row'} alignItems={'flex-start'} justifyContent={'flex-start'}>
         <Box width='32%' display='flex' flexDirection='column' justifyContent='center'>
           <Box display={'flex'} width={'100%'}>
           <WaiteroSelect  value={selectedRestaurant} fullWidth onChange={ handleChangeRestaurant } style={{fontSize: 25}}>
             {restaurants.map((restaurant, index) => {
               return (
-                <MenuItem key={restaurant._id + index} value={ restaurant._id }>
+                <MenuItem key={restaurant?._id + index} value={ restaurant?._id }>
                   { restaurant?.restaurantName }
                 </MenuItem>
               )
             } ) }
           </WaiteroSelect>
-          <EditLabelModal labelName={'restaurantName'} label={restaurantName} setLabel={(label) => setRestaurantName(label)} clientId={clientData._id} restaurantId={selectedRestaurant} />
+          <EditLabelModal labelName={'restaurantName'} label={restaurantName} setLabel={(label) => setRestaurantName(label)} clientId={clientData?._id} restaurantId={selectedRestaurant} />
           </Box>
           <Box paddingTop='8%'>
               <BoxWithShadow name = {'cover-photo'} source={coverPhoto} setSource={ createCoverPhoto }
@@ -106,22 +106,22 @@ const Overview = ({ restaurants, clientData, getRestaurants }) => {
               <Box onMouseEnter={() => setShowEditResAddress(true)} onMouseLeave={(e) => e.relatedTarget.lastChild ? setShowEditResAddress(false) : null}
                   style={{ fontSize: 25, fontWeight: '-moz-initial', paddingTop: '20px', width: 426, fontStyle: 'oblique' }}><Room size={25} color={'inherit'} style={{marginRight: 3}}/>
                   {restaurantAddress?.street ? restaurantAddress?.street+' '+restaurantAddress?.number+', ' : ''}{restaurantAddress?.city ? restaurantAddress?.city+', ' : ''}{restaurantAddress?.country}
-                  <Box>{restaurantAddress?.postalCode}{showEditResAddress && <EditAddressModal addressObject={restaurantAddress} setAddressObject={(obj) => setRestaurantAddress(obj)} clientId={clientData._id} restaurantId={selectedRestaurant} />}</Box>
+                  <Box>{restaurantAddress?.postalCode}{showEditResAddress && <EditAddressModal addressObject={restaurantAddress} setAddressObject={(obj) => setRestaurantAddress(obj)} clientId={clientData?._id} restaurantId={selectedRestaurant} />}</Box>
                   </Box>
           </Box>
           <Box>
           <Box width={'92%'}  display={'flex'} justifyContent={'flex-end'}> <Rating readOnly defaultValue={0} precision={0.1} size='large'/></Box>
           <Box width={'92%'} display={'flex'} fontSize={20} flexDirection={'row'}> <Forum size={20} color={'inherit'} style={{ paddingRight: 20 }} /> <Box>0 recenzii</Box></Box>    
           <Box width={'92%'} display={'flex'} fontSize={20} flexDirection={'row'}> <Money size={20} color={'inherit'} style={{ paddingRight: 20 }} /> <Box>{loadingMinPrice ? <CircularProgress size={16}/> : plateMinimumPrice} RON pret minim</Box></Box>      
-          <Box width={'92%'} display={'flex'} fontSize={20} flexDirection={'row'}> <RestaurantMenu size={20} color={'inherit'} style={{ paddingRight: 20 }} /><Box onMouseEnter={() => setShowEditCusines(true)} onMouseLeave={(e) => e.relatedTarget.lastChild ? setShowEditCusines(false) : null}>{cusines.length ? cusines.join(', ') : ''}{showEditCusines ? <EditStringArrayModal labelName={'cuisines'} array={cusines} setArray={(cuisines) => setCusines(cuisines) }  clientId={clientData._id} restaurantId={selectedRestaurant}/> : null}</Box></Box>      
-          <Box width={'92%'} display={'flex'} fontSize={20} flexDirection={'row'}> <MusicNote size={20} color={'inherit'} style={{ paddingRight: 20 }} /><Box onMouseEnter={() => setShowEditEnterteinment(true)} onMouseLeave={(e) => e.relatedTarget.lastChild ? setShowEditEnterteinment(false) : null}>{entertainment.length ? entertainment.join(', ') : ''}{showEditEnterteinment ? <EditStringArrayModal labelName={'entertainment'} array={entertainment} setArray={(entertainment) => setEntertainment(entertainment) }  clientId={clientData._id} restaurantId={selectedRestaurant}/> : null}</Box></Box>
+          <Box width={'92%'} display={'flex'} fontSize={20} flexDirection={'row'}> <RestaurantMenu size={20} color={'inherit'} style={{ paddingRight: 20 }} /><Box onMouseEnter={() => setShowEditCusines(true)} onMouseLeave={(e) => e.relatedTarget.lastChild ? setShowEditCusines(false) : null}>{cusines?.length ? cusines.join(', ') : ''}{showEditCusines ? <EditStringArrayModal labelName={'cuisines'} array={cusines} setArray={(cuisines) => setCusines(cuisines) }  clientId={clientData?._id} restaurantId={selectedRestaurant}/> : null}</Box></Box>      
+          <Box width={'92%'} display={'flex'} fontSize={20} flexDirection={'row'}> <MusicNote size={20} color={'inherit'} style={{ paddingRight: 20 }} /><Box onMouseEnter={() => setShowEditEnterteinment(true)} onMouseLeave={(e) => e.relatedTarget.lastChild ? setShowEditEnterteinment(false) : null}>{entertainment?.length ? entertainment.join(', ') : ''}{showEditEnterteinment ? <EditStringArrayModal labelName={'entertainment'} array={entertainment} setArray={(entertainment) => setEntertainment(entertainment) }  clientId={clientData?._id} restaurantId={selectedRestaurant}/> : null}</Box></Box>
         </Box>
         <Box width={'92%'} display={'flex'} fontSize={19} marginTop={2} onMouseEnter={ () => setShowEditDescription(true) } onMouseLeave={(e)=>e.relatedTarget.lastChild ? setShowEditDescription(false) : null}>
           { resDescription }
-          { showEditDescription ? <EditLabelModal labelName={'description'} label ={resDescription} setLabel={(label) => setResDescription(label)}  clientId={clientData._id} restaurantId={selectedRestaurant} /> : null}
+          { showEditDescription ? <EditLabelModal labelName={'description'} label ={resDescription} setLabel={(label) => setResDescription(label)}  clientId={clientData?._id} restaurantId={selectedRestaurant} /> : null}
         </Box>
         <Box width={'92%'} display={'flex'} fontSize={19} marginTop={2}>
-          <DeleteModal label={'Sterge restaurantul'} message={'Confirmati stergerea acestui restaurant?'} clientId={clientData._id} restaurantId={selectedRestaurant}/>
+          <DeleteModal label={'Sterge restaurantul'} message={'Confirmati stergerea acestui restaurant?'} clientId={clientData?._id} restaurantId={selectedRestaurant}/>
         </Box>
         </Box>
        <Box width={'63%'} display={'flex'} flexDirection={'column'} alignItems='center'> 
@@ -131,14 +131,14 @@ const Overview = ({ restaurants, clientData, getRestaurants }) => {
                   overlayText={'Adauga meniu'} backgroundColor={'#00000099'} height={250} width={'100%'} alignItems={'center'} justifyContent={'flex-end'} iconAdd/>
           </Box>
           <Box paddingTop='2%' width={'48%'}>
-            <Box height={250} width={'100%'} onMouseEnter={ () => setShowEditContact(true) } onMouseLeave={(e)=> e.relatedTarget.lastChild ? setShowEditContact(false) : null}>
+            <Box height={250} width={'100%'} padding={2} borderRadius={5} border={showEditContact ? 1: 0} onMouseEnter={ () => setShowEditContact(true) } onMouseLeave={(e)=> e.relatedTarget.lastChild ? setShowEditContact(false) : null}>
               <Box fontSize={22} paddingTop={1}>Informati contact</Box>
               <Box width={'92%'} display={'flex'} fontSize={22} flexDirection={'row'} paddingTop={1}> <Phone size={21} color={'inherit'} style={{ paddingRight: 20 }} /> <Box>{restaurantContact?.phoneNumber}</Box></Box>    
               <Box width={'92%'} display={'flex'} fontSize={22} flexDirection={'row'} paddingTop={1}> <Language size={21} color={'inherit'} style={{ paddingRight: 20 }} /> <Box>{restaurantContact?.website}</Box></Box>    
               <Box width={'92%'} display={'flex'} fontSize={22} flexDirection={'row'} paddingTop={1}> <Schedule size={21} color={'inherit'} style={{ paddingRight: 20 }} /> <Box>Lun-Vin {restaurantContact?.orar?.mondayToFriday?.openAt}-{restaurantContact?.orar?.mondayToFriday?.closeAt} | Sam {restaurantContact?.orar?.saturday?.openAt}-{restaurantContact?.orar?.saturday?.closeAt} | Dum {restaurantContact?.orar?.sunday?.openAt}-{restaurantContact?.orar?.sunday?.closeAt} </Box></Box>    
               <Box width={'92%'} display={'flex'} fontSize={22} flexDirection={'row'} paddingTop={1}> <Facebook size={21} color={'inherit'} style={{ paddingRight: 20 }} /> <Box>{restaurantContact?.socialMedia?.facebookLink}</Box></Box>    
               <Box width={'92%'} display={'flex'} fontSize={22} flexDirection={'row'} paddingTop={1}> <Instagram size={21} color={'inherit'} style={{ paddingRight: 20 }} /> <Box>{restaurantContact?.socialMedia?.instagramLink}</Box></Box>
-              {showEditContact && <EditContactModal contactObject={restaurantContact} setContactObject={(obj)=>setRestaurantContact(obj)} clientId={clientData._id} restaurantId={selectedRestaurant}/>}    
+              {showEditContact && <EditContactModal contactObject={restaurantContact} setContactObject={(obj)=>setRestaurantContact(obj)} clientId={clientData?._id} restaurantId={selectedRestaurant}/>}    
             </Box>
           </Box>
           </Box>
@@ -167,6 +167,7 @@ const Overview = ({ restaurants, clientData, getRestaurants }) => {
 }
 
 const mapStateToProps = (state) => ({
+  loading: state?.clientReducer?.loading,
   restaurants: state?.clientReducer?.client?.restaurants || [],
   clientData: state?.clientReducer?.client
 })

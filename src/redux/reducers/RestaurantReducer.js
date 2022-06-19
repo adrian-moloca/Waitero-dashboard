@@ -28,8 +28,8 @@ const restaurantReducer = (state = initial, action) => {
         case GET_RESTAURANT_SUCCESS:
             return{
                 ...state,
-                restaurant: action.payload.restaurant,
-                message: action.payload.message,
+                restaurant: action?.payload?.restaurant,
+                message: action?.payload?.message,
                 loading: false,
                 hasErrors: false
             }
@@ -37,7 +37,7 @@ const restaurantReducer = (state = initial, action) => {
             return{
                 ...state,
                 hasErrors: true,
-                message: action.payload,
+                message: action?.payload,
                 loading: false
             }
         case CLEAN_ERROR_MESSAGE: 
@@ -60,9 +60,9 @@ const restaurantReducer = (state = initial, action) => {
                 ...state,
                 loading: false,
                 hasErrors: false,
-                message: action.payload.message,
+                message: action?.payload?.message,
                 restaurant: {
-                    ...state.restaurant,
+                    ...state?.restaurant,
                     menus: action?.payload?.menus || []
                 }
             }
@@ -71,7 +71,7 @@ const restaurantReducer = (state = initial, action) => {
                 ...state,
                 loading: false,
                 hasErrors: true,
-                message: action.payload
+                message: action?.payload
             }
         case GET_CATEGORIES_REQUEST:
             return {
@@ -83,9 +83,9 @@ const restaurantReducer = (state = initial, action) => {
                 ...state,
                 loading: false,
                 hasErrors: false,
-                message: action.payload.message,
+                message: action?.payload?.message,
                 restaurant: {
-                    ...state.restaurant,
+                    ...state?.restaurant,
                     categories: action?.payload?.categories || []
                 }
             }
@@ -94,7 +94,7 @@ const restaurantReducer = (state = initial, action) => {
                 ...state,
                 loading: false,
                 hasErrors: true,
-                message: action.payload
+                message: action?.payload
             }
         case GET_PLATES_REQUEST:
             return {
@@ -106,9 +106,9 @@ const restaurantReducer = (state = initial, action) => {
                 ...state,
                 loading: false,
                 hasErrors: false,
-                message: action.payload.message,
+                message: action?.payload?.message,
                 restaurant: {
-                    ...state.restaurant,
+                    ...state?.restaurant,
                     plates: action?.payload?.plates || []
                 }
             }
@@ -117,7 +117,7 @@ const restaurantReducer = (state = initial, action) => {
                 ...state,
                 loading: false,
                 hasErrors: true,
-                message: action.payload
+                message: action?.payload
             }
         case GET_DRINKS_REQUEST:
             return {
@@ -129,7 +129,7 @@ const restaurantReducer = (state = initial, action) => {
                 ...state,
                 loading: false,
                 hasErrors: false,
-                message: action.payload.message,
+                message: action?.payload?.message,
                 restaurant: {
                     ...state.restaurant,
                     drinks: action?.payload?.drinks || []
@@ -140,7 +140,7 @@ const restaurantReducer = (state = initial, action) => {
                 ...state,
                 loading: false,
                 hasErrors: true,
-                message: action.payload
+                message: action?.payload
             }
         case GET_EXTRA_REQUEST:
             return {
@@ -152,9 +152,9 @@ const restaurantReducer = (state = initial, action) => {
                 ...state,
                 loading: false,
                 hasErrors: false,
-                message: action.payload.message,
+                message: action?.payload?.message,
                 restaurant: {
-                    ...state.restaurant,
+                    ...state?.restaurant,
                     extra: action?.payload?.extras || []
                 }
             }
@@ -163,7 +163,7 @@ const restaurantReducer = (state = initial, action) => {
                 ...state,
                 loading: false,
                 hasErrors: true,
-                message: action.payload
+                message: action?.payload
             }
         case GET_TABLES_REQUEST:
             return {
@@ -175,9 +175,9 @@ const restaurantReducer = (state = initial, action) => {
                 ...state,
                 loading: false,
                 hasErrors: false,
-                message: action.payload.message,
+                message: action?.payload?.message,
                 restaurant: {
-                    ...state.restaurant,
+                    ...state?.restaurant,
                     tables: action?.payload?.tables || []
                 }
             }
@@ -186,7 +186,7 @@ const restaurantReducer = (state = initial, action) => {
                 ...state,
                 loading: false,
                 hasErrors: true,
-                message: action.payload
+                message: action?.payload
             }
         default: 
             return  {

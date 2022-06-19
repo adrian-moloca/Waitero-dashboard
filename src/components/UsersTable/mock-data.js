@@ -7,13 +7,13 @@ function createData(name, email, role, actions) {
 }
 
 const editIcon = (
-    <IconButton onClick={console.log("edited")}>
+    <IconButton >
       <Edit style={{ color: "#00B4D8" }} />
     </IconButton>
 );
   
 var deleteIcon = (
-    <IconButton onClick={console.log("delete")}>
+    <IconButton >
         <Delete style={{ color: "#F50057" }} />
     </IconButton>
 );
