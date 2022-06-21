@@ -11,7 +11,7 @@ const MyContainer = withStyles({
         flexDirection:'column',
         alignItems: 'center',
         backgroundColor:'rgba(255, 90, 95, 1)',
-        height: '100%',
+        height: '100vh',
         width: '100%'
     },
 
