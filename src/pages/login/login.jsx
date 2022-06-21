@@ -67,7 +67,7 @@ const Login = ({ loginAdmin, loginClient, rememberMeToggleAdmin, rememberMeToggl
                 </Grid>
           </Grid>
           </Box>
-          <Grid container item xl={7} lg={7} md={7} spacing={2}>
+        <Grid container item xl={7} lg={7} md={7} xs={12} spacing={2}>
               <Grid container item xl={12} lg={12} md={12}>
                 <WaiteroTextField defaultValue = {email} onChange = {(e)=> setEmail(e.target.value)} 
                                 label='email' variant='outlined' error={ mailValidator(email) } fullWidth type="email" name="secret-email-not-showed" />

@@ -10,7 +10,6 @@ const MyContainer = withStyles({
         display:'flex',
         flexDirection:'column',
         alignItems: 'center',
-        justifyContent: 'space-around',
         backgroundColor:'rgba(255, 90, 95, 1)',
         height: '100%',
         width: '100%'
@@ -29,7 +28,7 @@ const LoginContainer = (props) =>{
                 fontSize={60} color={'white' } textAlign={'center'}>
                 WAITERO
             </Box>
-            <Box display='flex' width={0.5} justifyContent={'center'} alignItems={'center'}>
+            <Box display='flex' width={0.5} maxWidth={'650px'} minWidth={'350px'} marginTop={10} justifyContent={'center'} alignItems={'center'}>
                 {props.children}
             </Box>
         </MyContainer>
