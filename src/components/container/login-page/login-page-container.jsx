@@ -10,14 +10,10 @@ const MyContainer = withStyles({
         display:'flex',
         flexDirection:'column',
         alignItems: 'center',
+        justifyContent: 'space-around',
         backgroundColor:'rgba(255, 90, 95, 1)',
-        //minHeight:'100vh',
-        position: 'absolute',
-        top: 0,
-        left: 0,
         height: '100%',
-        width: '100%',
-        px:'10px',
+        width: '100%'
     },
 
     maxWidthLg :{
@@ -29,11 +25,11 @@ const MyContainer = withStyles({
 const LoginContainer = (props) =>{
     return(
         <MyContainer>
-            <Box maxWidth='100%' paddingTop={props.paddingTop || '6%'} paddingBottom={3} display='flex' justifyContent='center'
-                fontSize={60} color={'white' }>
+            <Box width='100%' paddingTop={props.paddingTop || '1%'} paddingBottom={3} display='flex' justifyContent='center'
+                fontSize={60} color={'white' } textAlign={'center'}>
                 WAITERO
             </Box>
-            <Box width='750px' display='flex' alignSelf='center'>
+            <Box display='flex' width={0.5} justifyContent={'center'} alignItems={'center'}>
                 {props.children}
             </Box>
         </MyContainer>

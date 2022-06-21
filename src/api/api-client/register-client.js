@@ -18,7 +18,6 @@ export const registerClient = (name, email, phone, password, loadingSetter = () 
             dispatch(registerClientFailure(error?.response?.data?.message));
         }).finally(() => {
             loadingSetter(false);
-            window.location.reload();
         })
     }
 }

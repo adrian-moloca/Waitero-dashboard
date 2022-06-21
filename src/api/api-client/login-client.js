@@ -17,7 +17,6 @@ export const loginC = (email, password, loadingSetter = () => undefined, setNavi
             dispatch(fetchClientFailure(error.response.data.error))
         }).finally(() => {
             loadingSetter(false);
-            window.location.reload();
         })  
     }
 }
