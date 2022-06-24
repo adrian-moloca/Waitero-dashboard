@@ -4,7 +4,7 @@ import useInterval from "../../../utils/functions/useInterval";
 import { BlurOff, Brightness1, CheckBoxOutlineBlankTwoTone, CheckBoxTwoTone, DoneOutlined } from "@material-ui/icons";
 import { useRef } from "react";
 
-const Order =({order, remove, cooked}) => {
+const Order =({order, tableNumber, remove, cooked}) => {
 
     const [ minutes, setMinutes ] = useState(0);
     const [ seconds, setSeconds] =useState(0);
@@ -48,10 +48,48 @@ const Order =({order, remove, cooked}) => {
 
     return (
         <Zoom in={seconds>0 || ready} out={isUnmounting.current} timeout={{appear: 100, enter: 200, exit: 500}}>
-            <Paper style={{width: '220px', minHeight: '350px', padding: 20, margin: 20, display:'flex', flexDirection: 'column', justifyContent:'space-between', alignItems:'center', opacity: ready ? '0.6' : '1'}} elevation={elevation}>
-                <Box display={'flex'} style={{backgroundColor: getStatusColor()}} borderRadius={4} height={60} width={'100%'} justifyContent={'center'} fontSize={25} fontWeight={'bold'} color={'#f1f1f1'} alignItems={'center'}>{orderS.tableNumber}</Box>
+            <Paper style={{width: '300px', minHeight: '450px', padding: 20, margin: 20, display:'flex', flexDirection: 'column', justifyContent:'space-between', alignItems:'center', opacity: ready ? '0.6' : '1'}} elevation={elevation}>
+                <Box display={'flex'} style={{backgroundColor: getStatusColor()}} borderRadius={4} height={60} width={'100%'} justifyContent={'center'} fontSize={25} fontWeight={'bold'} color={'#f1f1f1'} alignItems={'center'}>{tableNumber}</Box>
                 <Box display={'flex'} justifyContent={'center'} fontSize={20} fontWeight={'bold'} > {minutes.toString()}:{parseInt(seconds) < 10 ?  `0${seconds}` : seconds} </Box>
-
+                <Box display={'flex'} flexDirection={'column'} alignItems={'flex-start'} justifyContent={'center'} width={'100%'} fontSize={20} fontWeight={'400'} > {order?.plates?.map((plate)=>{return (
+                    <>
+                        <Box display={'flex'} justifyContent={'center'} fontSize={20} fontWeight={'bold'} color={'rgba(35, 87, 34, 0.8)'} >
+                            Preparate
+                        </Box>
+                        <Box display={'flex'} justifyContent={'center'} fontSize={20} >
+                            {plate.plateName}
+                        </Box>
+                        <Box display={'flex'} justifyContent={'center'} fontSize={16} >
+                            {plate.suplimentaryDescription}
+                        </Box>
+                    </>
+                )})} </Box>
+                <Box display={'flex'} flexDirection={'column'} alignItems={'flex-start'} justifyContent={'center'} width={'100%'} fontSize={20} fontWeight={'400'} > {order?.drinks?.map((drink)=>{return (
+                    <>
+                        <Box display={'flex'} justifyContent={'center'} fontSize={20} fontWeight={'bold'} color={'rgba(35, 87, 34, 0.8)'} >
+                            Bauturi
+                        </Box>
+                        <Box display={'flex'} justifyContent={'center'} fontSize={20} >
+                            {drink.drinkName}
+                        </Box>
+                        <Box display={'flex'} justifyContent={'center'} fontSize={16} >
+                            {drink.suplimentaryDescription}
+                        </Box>
+                    </>
+                )})} </Box>
+                <Box display={'flex'} flexDirection={'column'} alignItems={'flex-start'} justifyContent={'center'} width={'100%'} fontSize={20} fontWeight={'400'} > {order?.extras?.map((extra)=>{return (
+                    <>
+                        <Box display={'flex'} justifyContent={'center'} fontSize={20} fontWeight={'bold'} color={'rgba(35, 87, 34, 0.8)'} >
+                            Extra
+                        </Box>
+                        <Box display={'flex'} justifyContent={'center'} fontSize={20} >
+                            {extra.extraName}
+                        </Box>
+                        <Box display={'flex'} justifyContent={'center'} fontSize={16} >
+                            {extra.suplimentaryDescription}
+                        </Box>
+                    </>
+                )})} </Box>
                 {!taken && !ready && <IconButton onClick={()=>{setTaken(true); setElevation(14);}} ><BlurOff style={{fontSize:'50px'}}/></IconButton>}
                 {taken && !ready && <IconButton onClick={()=>{setReady(true); setElevation(4); remove();}} ><CheckBoxOutlineBlankTwoTone style={{fontSize:'50px'}}/></IconButton>}
                 {ready && <IconButton disabled={true} ><CheckBoxTwoTone style={{fontSize:'50px'}}/></IconButton>}

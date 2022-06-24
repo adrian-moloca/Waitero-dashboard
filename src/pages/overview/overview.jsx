@@ -13,7 +13,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import WaiteroSelect from '../../components/select/waitero-select.jsx';
 import DeleteModal from '../../components/modal/delete-modal.jsx';
-import { getPlateMinimumPrice, getRestaurants, updateRestaurantField } from '../../api/api-client/client-requests.js';
+import { getPlateMinimumPrice, getRating, getRestaurants, updateRestaurantField } from '../../api/api-client/client-requests.js';
 import { useRef } from 'react';
 import WaiteroAlert from '../../components/alert/alert.jsx';
 import { getBase64Image } from '../../utils/functions/base64Image.js';
@@ -40,6 +40,7 @@ const Overview = ({ restaurants, clientData, getRestaurants, loading }) => {
   const [error, setError] = useState({message: '', isError: false});
   const [restaurantContact, setRestaurantContact] = useState(restaurants?.length > 0 ? restaurants[0]?.contact : '')
   const [plateMinimumPrice, setPlateMinimumPrice] = useState(0);
+  const [generalRating, setGeneralRating] = useState(0);
   const [loadingMinPrice, setLoadMinPrice] = useState(false);
   const history = useHistory()
   const firstRender = useRef(true)
@@ -52,6 +53,7 @@ const Overview = ({ restaurants, clientData, getRestaurants, loading }) => {
 
   useEffect(() => {
     getPlateMinimumPrice(clientData?._id, selectedRestaurant, setPlateMinimumPrice, setLoadMinPrice, setError)
+    getRating(clientData?._id, selectedRestaurant, setGeneralRating, ()=>undefined, setError)
   }, [])
 
   useEffect(() => {
@@ -113,7 +115,7 @@ const Overview = ({ restaurants, clientData, getRestaurants, loading }) => {
                   </Box>
           </Box>
           <Box>
-          <Box width={'92%'}  display={'flex'} justifyContent={'flex-end'}> <Rating readOnly defaultValue={0} precision={0.1} size='large'/></Box>
+          <Box width={'92%'}  display={'flex'} justifyContent={'flex-end'}> <Rating readOnly defaultValue={generalRating} precision={0.1} size='large'/></Box>
           <Box width={'92%'} display={'flex'} paddingBottom={1} fontSize={20} flexDirection={'row'}> <Forum size={20} color={'inherit'} style={{ paddingRight: 20 }} /> <Box>0 recenzii</Box></Box>    
           <Box width={'92%'} display={'flex'} paddingBottom={1} fontSize={20} flexDirection={'row'}> <Money size={20} color={'inherit'} style={{ paddingRight: 20 }} /> <Box>{loadingMinPrice ? <CircularProgress size={16}/> : plateMinimumPrice} RON pret minim</Box></Box>      
           <Box width={'92%'} display={'flex'} paddingBottom={1} fontSize={20} flexDirection={'row'}> <RestaurantMenu size={20} color={'inherit'} style={{ paddingRight: 20 }} /><Box onMouseEnter={() => setShowEditCusines(true)} onMouseLeave={(e) => e.relatedTarget.lastChild ? setShowEditCusines(false) : null}>{cusines?.length ? cusines.join(', ') : ''}{showEditCusines ? <EditStringArrayModal labelName={'cuisines'} array={cusines} setArray={(cuisines) => setCusines(cuisines) }  clientId={clientData?._id} restaurantId={selectedRestaurant}/> : null}</Box></Box>      

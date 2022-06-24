@@ -31,6 +31,10 @@ export const GET_TABLES_REQUEST = 'GET_TABLES_REQUEST';
 export const GET_TABLES_SUCCESS = 'GET_TABLES_SUCCESS';
 export const GET_TABLES_FAILURE = 'GET_TABLES_FAILURE';
 
+export const GET_ORDERS_REQUEST = 'GET_ORDERS_REQUEST';
+export const GET_ORDERS_SUCCESS = 'GET_ORDERS_SUCCESS';
+export const GET_ORDERS_FAILURE = 'GET_ORDERS_FAILURE';
+
 // Functions
 // CLIENT fetch functions
 export const fetchRestaurantRequest = () => {
@@ -181,6 +185,26 @@ export const getTablesSuccess = (response) => {
 export const getTablesFailure = (error) => {
     return {
         type: GET_TABLES_FAILURE,
+        payload: error
+    };
+};
+
+export const getOrdersRequest = () => {
+    return {
+        type: GET_ORDERS_REQUEST,
+    };
+};
+
+export const getOrdersSuccess = (response) => {
+    return {
+        type: GET_ORDERS_SUCCESS,
+        payload: response
+    };
+};
+
+export const getOrdersFailure = (error) => {
+    return {
+        type: GET_ORDERS_FAILURE,
         payload: error
     };
 };

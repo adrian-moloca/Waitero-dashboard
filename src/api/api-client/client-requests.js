@@ -1,6 +1,6 @@
 import { cwaxios } from "../../utils/axios-config";
 import { addRestaurantRequest, addRestaurantSuccess, addRestaurantFailure, getRestaurantsRequest, getRestaurantsSuccess, getRestaurantsFailure } from "../../redux/types/ClientTypes";
-import { getCategoriesFailure, getCategoriesRequest, getCategoriesSuccess, getDrinksFailure, getDrinksRequest, getDrinksSuccess, getExtraFailure, getExtraRequest, getExtraSuccess, getMenusFailure, getMenusRequest, getMenusSuccess, getPlatesFailure, getPlatesRequest, getPlatesSuccess, getTablesFailure, getTablesRequest, getTablesSuccess } from "../../redux/types/RestaurantTypes";
+import { getCategoriesFailure, getCategoriesRequest, getCategoriesSuccess, getDrinksFailure, getDrinksRequest, getDrinksSuccess, getExtraFailure, getExtraRequest, getExtraSuccess, getMenusFailure, getMenusRequest, getMenusSuccess, getOrdersFailure, getOrdersRequest, getOrdersSuccess, getPlatesFailure, getPlatesRequest, getPlatesSuccess, getTablesFailure, getTablesRequest, getTablesSuccess } from "../../redux/types/RestaurantTypes";
 
 export const updateClientPassword = async (oldPassword, newPassword, clientId, loadingSetter = () => undefined, errorSetter = () => undefined, closeModalEdit = () => undefined) => {
     loadingSetter(true);
@@ -231,7 +231,7 @@ export const deletePlate = async (clientId, restaurantId, menuId, categoryId, pl
     })
 }
 
-export const getPlateMinimumPrice = (clientId, restaurantId, setMinimum = () => undefined, loadingSetter = () => undefined, errorSetter = () => undefined) => {
+export const getPlateMinimumPrice = async (clientId, restaurantId, setMinimum = () => undefined, loadingSetter = () => undefined, errorSetter = () => undefined) => {
     loadingSetter(true);
     cwaxios.get(`${clientId}/restaurant/${restaurantId}/get-minimum-price-plate`).then((res) => {
         setMinimum(res?.data?.plates?.platePrice)
@@ -403,4 +403,28 @@ export const updateRestaurantContant = (contactObject, clientId, restaurantId, c
         loadingSetter(false);
         contactUpdated();
     })  
+}
+
+export const getOrders = (clientId, restaurantId, loadingSetter = () => undefined) => {
+    loadingSetter(true)
+    return async (dispatch) => {
+        dispatch(getOrdersRequest());
+        cwaxios.get(`${clientId}/restaurant/${restaurantId}/orders/get-orders`).then((res) => {
+            dispatch(getOrdersSuccess(res.data));
+        }).catch((error) => {
+            dispatch(getOrdersFailure(error?.response?.data?.message));
+        }).finally(() => loadingSetter(false))
+    }
+}
+
+export const getRating = async (clientId, restaurantId, setRating = () => undefined, loadingSetter = () => undefined, errorSetter = () => undefined) => {
+    loadingSetter(true);
+    cwaxios.get(`${clientId}/restaurant/${restaurantId}/reviews/get-restaurant-review`).then((res) => {
+        setRating(res?.data?.restaurantReview)
+        errorSetter({message: res?.data?.message,  isError: false})
+    }).catch((error) => {
+        errorSetter({message: error?.response?.data?.message || 'cannot update', isError: true})
+    }).finally(() => {
+        loadingSetter(false);
+    })
 } 
