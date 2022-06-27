@@ -417,10 +417,12 @@ export const getOrders = (clientId, restaurantId, loadingSetter = () => undefine
     }
 }
 
-export const getRating = async (clientId, restaurantId, setRating = () => undefined, loadingSetter = () => undefined, errorSetter = () => undefined) => {
+export const getRating = async (clientId, restaurantId, setRating = () => undefined, setRatingsNumber = () => undefined, setRat = () => undefined, loadingSetter = () => undefined, errorSetter = () => undefined) => {
     loadingSetter(true);
     cwaxios.get(`${clientId}/restaurant/${restaurantId}/reviews/get-restaurant-review`).then((res) => {
         setRating(res?.data?.restaurantReview)
+        setRatingsNumber(res?.data?.restaurantReviewsNumber)
+        setRat({food: res?.data?.restaurantReviewFood, service: res?.data?.restaurantReviewService, experience: res?.data?.restaurantReviewExperience, ambience: res?.data?.restaurantReviewAmbience})
         errorSetter({message: res?.data?.message,  isError: false})
     }).catch((error) => {
         errorSetter({message: error?.response?.data?.message || 'cannot update', isError: true})

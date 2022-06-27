@@ -41,6 +41,8 @@ const Overview = ({ restaurants, clientData, getRestaurants, loading }) => {
   const [restaurantContact, setRestaurantContact] = useState(restaurants?.length > 0 ? restaurants[0]?.contact : '')
   const [plateMinimumPrice, setPlateMinimumPrice] = useState(0);
   const [generalRating, setGeneralRating] = useState(0);
+  const [ratingsNumber, setRatingsNumber] = useState(0);
+  const [rat, setRat] = useState({ food: 0, service: 0, ambience: 0, experience: 0 });
   const [loadingMinPrice, setLoadMinPrice] = useState(false);
   const history = useHistory()
   const firstRender = useRef(true)
@@ -53,8 +55,8 @@ const Overview = ({ restaurants, clientData, getRestaurants, loading }) => {
 
   useEffect(() => {
     getPlateMinimumPrice(clientData?._id, selectedRestaurant, setPlateMinimumPrice, setLoadMinPrice, setError)
-    getRating(clientData?._id, selectedRestaurant, setGeneralRating, ()=>undefined, setError)
-  }, [])
+    getRating(clientData?._id, selectedRestaurant, setGeneralRating, setRatingsNumber, setRat, () => undefined, setError)
+}, [])
 
   useEffect(() => {
     setRestaurantName(restaurants.find(el => el?._id === selectedRestaurant)?.restaurantName)
@@ -116,7 +118,7 @@ const Overview = ({ restaurants, clientData, getRestaurants, loading }) => {
           </Box>
           <Box>
           <Box width={'92%'}  display={'flex'} justifyContent={'flex-end'}> <Rating readOnly defaultValue={generalRating} precision={0.1} size='large'/></Box>
-          <Box width={'92%'} display={'flex'} paddingBottom={1} fontSize={20} flexDirection={'row'}> <Forum size={20} color={'inherit'} style={{ paddingRight: 20 }} /> <Box>0 recenzii</Box></Box>    
+          <Box width={'92%'} display={'flex'} paddingBottom={1} fontSize={20} flexDirection={'row'}> <Forum size={20} color={'inherit'} style={{ paddingRight: 20 }} /> <Box>{ratingsNumber} recenzii</Box></Box>    
           <Box width={'92%'} display={'flex'} paddingBottom={1} fontSize={20} flexDirection={'row'}> <Money size={20} color={'inherit'} style={{ paddingRight: 20 }} /> <Box>{loadingMinPrice ? <CircularProgress size={16}/> : plateMinimumPrice} RON pret minim</Box></Box>      
           <Box width={'92%'} display={'flex'} paddingBottom={1} fontSize={20} flexDirection={'row'}> <RestaurantMenu size={20} color={'inherit'} style={{ paddingRight: 20 }} /><Box onMouseEnter={() => setShowEditCusines(true)} onMouseLeave={(e) => e.relatedTarget.lastChild ? setShowEditCusines(false) : null}>{cusines?.length ? cusines.join(', ') : ''}{showEditCusines ? <EditStringArrayModal labelName={'cuisines'} array={cusines} setArray={(cuisines) => setCusines(cuisines) }  clientId={clientData?._id} restaurantId={selectedRestaurant}/> : null}</Box></Box>      
           <Box width={'92%'} display={'flex'} paddingBottom={1} fontSize={20} flexDirection={'row'}> <MusicNote size={20} color={'inherit'} style={{ paddingRight: 20 }} /><Box onMouseEnter={() => setShowEditEnterteinment(true)} onMouseLeave={(e) => e.relatedTarget.lastChild ? setShowEditEnterteinment(false) : null}>{entertainment?.length ? entertainment.join(', ') : ''}{showEditEnterteinment ? <EditStringArrayModal labelName={'entertainment'} array={entertainment} setArray={(entertainment) => setEntertainment(entertainment) }  clientId={clientData?._id} restaurantId={selectedRestaurant}/> : null}</Box></Box>
@@ -151,16 +153,16 @@ const Overview = ({ restaurants, clientData, getRestaurants, loading }) => {
           <Box height={200} width={'100%'} marginTop={4}>
             <Grid container justifyContent='space-between' width='100%'>
               <Grid container item xs={3} justifyContent={'center'}>
-                <GeneralStatisticsBox title={'Mancare'} content={0} subInfo={ <Rating readOnly defaultValue={0} precision={0.1} size='small' /> } rating/>
+                <GeneralStatisticsBox title={'Mancare'} content={rat.food.toFixed(1)} subInfo={ <Rating readOnly defaultValue={rat.food} precision={0.1} size='small' /> } rating/>
               </Grid>
               <Grid container item xs={3} justifyContent={'center'}>
-                <GeneralStatisticsBox title={'Servire'} content={0} subInfo={ <Rating readOnly defaultValue={0} precision={0.1} size='small' /> } rating/>
+                <GeneralStatisticsBox title={'Servire'} content={rat.service.toFixed(1)} subInfo={ <Rating readOnly defaultValue={rat.service} precision={0.1} size='small' /> } rating/>
               </Grid>
               <Grid container item xs={3} justifyContent={'center'}>
-                <GeneralStatisticsBox title={'Locul'} content={0} subInfo={ <Rating readOnly defaultValue={0} precision={0.1} size='small'/> } rating/>
+                <GeneralStatisticsBox title={'Locul'} content={rat.ambience.toFixed(1)} subInfo={ <Rating readOnly defaultValue={rat.ambience} precision={0.1} size='small'/> } rating/>
               </Grid>
               <Grid container item xs={3} justifyContent={'center'}>
-                <GeneralStatisticsBox title={'Experienta'} content={0} subInfo={ <Rating readOnly defaultValue={0} precision={0.1} size='small'/> } rating/>
+                <GeneralStatisticsBox title={'Experienta'} content={rat.experience.toFixed(1)} subInfo={ <Rating readOnly defaultValue={rat.experience} precision={0.1} size='small'/> } rating/>
               </Grid>
             </Grid>
           </Box>
