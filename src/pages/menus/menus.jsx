@@ -18,7 +18,7 @@ import EditMenuModal from '../../components/modal/edit-menu-type.jsx';
 
 const Menus = ({ restaurants, menus, categories, plates, clientData, restaurantReducer, getMenus, getCategories, getPlates, cleanErrorMessage }) => {
 
-  const [restaurantSelected, setRestaurantSelected] = useState('');
+  const [restaurantSelected, setRestaurantSelected] = useState(restaurants?.length ? restaurants[0]._id : '');
   const [menuType, setMenuType] = useState('')
   const [onCategory, setOnCategory] = useState('');
   const [plateSelected, setPlateSelected] = useState('');

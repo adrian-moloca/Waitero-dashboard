@@ -14,7 +14,7 @@ import { numberValidator } from '../../utils/functions/input-validators.js';
 
 const Extra = ({ restaurants, extra, clientData, restaurantReducer, getExtra, cleanErrorMessage }) => {
 
-  const [restaurantSelected, setRestaurantSelected] = useState(''); 
+  const [restaurantSelected, setRestaurantSelected] = useState(restaurants?.length ? restaurants[0]._id : ''); 
   const [newExtraName, setNewExtraName] = useState(''); 
   const [newExtraPrice, setNewExtraPrice] = useState('');
   const [itemOnEditValues, setItemOnEditValues] = useState({extraName: '', extraPrice: ''})

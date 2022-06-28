@@ -1,23 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { Box, CircularProgress, IconButton, Grid } from '@material-ui/core';
+import { Box, CircularProgress, IconButton } from '@material-ui/core';
 import PageContainer from '../../components/container/page-container/page-container.jsx';
 import { withRouter } from 'react-router-dom';
-import { Add, AddCircleTwoTone, ArrowBack, Close, Edit, SaveAlt } from '@material-ui/icons';
+import { AddCircleTwoTone, ArrowBack } from '@material-ui/icons';
 import { connect } from 'react-redux';
 import PrimaryButton from '../../components/buttons/primaryButton/primaryButton.jsx';
-import { addExtra, getExtra, getTables, updateExtra } from '../../api/api-client/client-requests.js';
+import { getTables } from '../../api/api-client/client-requests.js';
 import { cleanErrorMessageRestaurant } from '../../redux/types/RestaurantTypes.js';
 import WaiteroAlert from '../../components/alert/alert.jsx';
 import DeleteModalIcon from '../../components/modal/delete-modal-icon.jsx';
-import WaiteroTextField from '../../components/text-field/waitero-text-field.jsx';
 import TableCard from '../../components/box/table-card/table-card.jsx';
 import AddTableModal from '../../components/modal/add-table-modal.jsx';
-import FileSaver, { saveAs } from 'file-saver';
+import { saveAs } from 'file-saver';
 import { dataURLtoFile } from '../../utils/functions/base64Image.js';
 
 const Tables = ({ restaurants, tables, clientData, restaurantReducer, getTables, cleanErrorMessage }) => {
 
-  const [restaurantSelected, setRestaurantSelected] = useState(''); 
+  const [restaurantSelected, setRestaurantSelected] = useState(restaurants?.length ? restaurants[0]._id : ''); 
 
   const [error, setError] = useState({ message: '', isError: false });
   const [onAddItem, setOnAddItem] = useState(false);

@@ -16,7 +16,7 @@ import EditDrinkModal from '../../components/modal/edit-drink-modal.jsx';
 
 const Drinks = ({ restaurants, drinks, clientData, restaurantReducer, getDrinks, cleanErrorMessage }) => {
 
-  const [restaurantSelected, setRestaurantSelected] = useState('');
+  const [restaurantSelected, setRestaurantSelected] = useState(restaurants?.length ? restaurants[0]._id : '');
   const [drinkSelected, setDrinkSelected] = useState('')
   const [modalAddDrinkType, setModalAddDrinkType] = useState(false);
   const [groupedByCategory, setGroupedByCategory] = useState({});

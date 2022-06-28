@@ -68,40 +68,48 @@ const EditContactModal = ({contactObject, setContactObject = () => undefined, cl
       <Modal disableEnforceFocus open={open} onClose={() => setOpen(false)}>
         <Fade in={open} timeout={600}>
           <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" className={classes.paper}>
-            <Box display="flex" mt={3}>
-               <Grid container spacing={2} justifyContent={'flex-end'}>
+            <Box display="flex" mt={3} width={'50%'}>
+              <Grid container spacing={2} justifyContent={'center'}>
                 <Grid container item xs ={5}>
                     <WaiteroTextField value={phone} onChange={(e) => setPhone(e.target.value)} fullWidth placeholder='Numar de telefon' />
                 </Grid>
                 <Grid container item xs ={5}>
                     <WaiteroTextField value={website} onChange={(e) => setWebsite(e.target.value)} fullWidth  placeholder='Website' />
                 </Grid>
-                <Grid container item xs ={4}>
+                <Grid container item xs ={5}>
                     <Box>Luni-vineri</Box>
                 </Grid>
-                <Grid container item xs ={4}>
+                <Grid container item xs ={5}>
                     <Box>Sambata</Box>
                 </Grid>
-                <Grid container item xs ={4}>
-                    <Box>Duminica</Box>
+                <Grid container item xs ={5} justifyContent={'space-between'}>
+                  <Grid container item xs ={5}>
+                      <WaiteroTextField value={mondayToFriday.openAt} onChange={(e) => setMondayToFriday({...mondayToFriday, openAt: e.target.value})} fullWidth placeholder='00:00' />
+                  </Grid>
+                  <Grid container item xs ={5}>
+                      <WaiteroTextField value={mondayToFriday.closeAt} onChange={(e) => setMondayToFriday({...mondayToFriday, closeAt: e.target.value})} fullWidth placeholder='00:00' />
+                  </Grid> 
                 </Grid>
-                <Grid container item xs ={2}>
-                    <WaiteroTextField value={mondayToFriday.openAt} onChange={(e) => setMondayToFriday({...mondayToFriday, openAt: e.target.value})} fullWidth placeholder='00:00' />
+                <Grid container item xs ={5}  justifyContent={'space-between'}>
+                  <Grid container item xs ={5}>
+                      <WaiteroTextField value={saturday.openAt} onChange={(e) => setSaturday({...saturday, openAt: e.target.value})} fullWidth placeholder='00:00' />
+                  </Grid>
+                  <Grid container item xs ={5}>
+                      <WaiteroTextField value={saturday.closeAt} onChange={(e) => setSaturday({...saturday, closeAt: e.target.value})} fullWidth placeholder='00:00' />
+                  </Grid>
                 </Grid>
-                <Grid container item xs ={2}>
-                    <WaiteroTextField value={mondayToFriday.closeAt} onChange={(e) => setMondayToFriday({...mondayToFriday, closeAt: e.target.value})} fullWidth placeholder='00:00' />
+                <Grid container item xs ={10}>
+                  <Box>Duminica</Box>
                 </Grid>
-                <Grid container item xs ={2}>
-                    <WaiteroTextField value={saturday.openAt} onChange={(e) => setSaturday({...saturday, openAt: e.target.value})} fullWidth placeholder='00:00' />
-                </Grid>
-                <Grid container item xs ={2}>
-                    <WaiteroTextField value={saturday.closeAt} onChange={(e) => setSaturday({...saturday, closeAt: e.target.value})} fullWidth placeholder='00:00' />
-                </Grid>
-                <Grid container item xs ={2}>
-                    <WaiteroTextField value={sunday.openAt} onChange={(e) => setSunday({...sunday, openAt: e.target.value})} fullWidth placeholder='00:00' />
-                </Grid>
-                <Grid container item xs ={2}>
-                    <WaiteroTextField value={sunday.closeAt} onChange={(e) => setSunday({...sunday, closeAt: e.target.value})} fullWidth placeholder='00:00' />
+                <Grid container item xs={10} justifyContent={'flex-start'}>
+                <Grid container item xs ={6}  justifyContent={'space-between'}>
+                    <Grid container item xs ={5}>
+                      <WaiteroTextField value={sunday.openAt} onChange={(e) => setSunday({...sunday, openAt: e.target.value})} fullWidth placeholder='00:00' />
+                    </Grid>
+                    <Grid container item xs ={5}>
+                      <WaiteroTextField value={sunday.closeAt} onChange={(e) => setSunday({...sunday, closeAt: e.target.value})} fullWidth placeholder='00:00' />
+                    </Grid>
+                  </Grid>
                 </Grid>
                 <Grid container item xs ={5}>
                     <WaiteroTextField value={facebook} onChange={(e) => setFacebook(e.target.value)} fullWidth placeholder='Facebook link' />

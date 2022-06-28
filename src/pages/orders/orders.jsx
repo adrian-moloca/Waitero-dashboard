@@ -16,7 +16,7 @@ const Orders = ({ restaurants, ordersRed, clientData, restaurantReducer, getOrde
 
   const classes = useStyles();
 
-  const [restaurantSelected, setRestaurantSelected] = useState('');
+  const [restaurantSelected, setRestaurantSelected] = useState(restaurants?.length ? restaurants[0]._id : '');
   const [loading, setLoading] = useState(false);
   const [orders, setOrders] = useState({arr: ordersRed || []})
   const [ordersCooked, setOrdersCooked] =useState({arr: []})

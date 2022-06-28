@@ -134,13 +134,13 @@ const Overview = ({ restaurants, clientData, getRestaurants, loading }) => {
         </Box>
        <Box width={'63%'} display={'flex'} flexDirection={'column'} alignItems='center'> 
       <Box width='100%' marginTop={'8%'} display='flex' flexDirection='row' justifyContent='space-between' marginBottom={4}>
-          <Box paddingTop='2%' width={'48%'}>
+          <Box paddingTop='1%' width={'48%'}>
               <AddBoxOverview onClick={()=>history.push('/menus')}
                   overlayText={'Adauga meniu'} backgroundColor={'#00000099'} height={250} width={'100%'} alignItems={'center'} justifyContent={'flex-end'} iconAdd/>
           </Box>
-          <Box paddingTop='2%' width={'48%'}>
-            <Box height={250} width={'100%'} padding={2} borderRadius={5} border={showEditContact ? 1: 0} onMouseEnter={ () => setShowEditContact(true) } onMouseLeave={(e)=> e.relatedTarget.lastChild ? setShowEditContact(false) : null}>
-              <Box fontSize={22} paddingTop={1}>Informati contact</Box>
+          <Box width={'48%'}>
+                <Box height={250} padding={1} width={'100%'} borderRadius={5} border={showEditContact ?  1 : 0} onMouseEnter={() => setShowEditContact(true)} onMouseLeave={(e) => e.relatedTarget.lastChild ? setShowEditContact(false) : null}>
+              <Box fontSize={22}>Informati contact</Box>
               <Box width={'92%'} display={'flex'} fontSize={22} flexDirection={'row'} paddingTop={1}> <Phone size={21} color={'inherit'} style={{ paddingRight: 20 }} /> <Box>{restaurantContact?.phoneNumber}</Box></Box>    
               <Box width={'92%'} display={'flex'} fontSize={22} flexDirection={'row'} paddingTop={1}> <Language size={21} color={'inherit'} style={{ paddingRight: 20 }} /> <Box>{restaurantContact?.website}</Box></Box>    
               <Box width={'92%'} display={'flex'} fontSize={22} flexDirection={'row'} paddingTop={1}> <Schedule size={21} color={'inherit'} style={{ paddingRight: 20 }} /> <Box>Lun-Vin {restaurantContact?.orar?.mondayToFriday?.openAt}-{restaurantContact?.orar?.mondayToFriday?.closeAt} | Sam {restaurantContact?.orar?.saturday?.openAt}-{restaurantContact?.orar?.saturday?.closeAt} | Dum {restaurantContact?.orar?.sunday?.openAt}-{restaurantContact?.orar?.sunday?.closeAt} </Box></Box>    

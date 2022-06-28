@@ -51,8 +51,8 @@ const EditAddressModal = ({addressObject, setAddressObject = () => undefined, cl
       <Modal open={open} onClose={() => setOpen(false)}>
         <Fade in={open} timeout={600}>
           <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" className={classes.paper}>
-            <Box display="flex" mt={3}>
-                <Grid container spacing={2} justifyContent={'flex-end'}>
+            <Box display="flex"  mt={3}>
+                <Grid container spacing={2} justifyContent={'flex-end'} alignItems={'center'}>
               <Grid container item xs ={5}>
                 <WaiteroTextField value={country} onChange={(e) => setCountry(e.target.value)} fullWidth placeholder='Tara' />
               </Grid>
