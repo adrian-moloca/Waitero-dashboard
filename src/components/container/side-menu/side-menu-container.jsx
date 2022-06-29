@@ -5,7 +5,8 @@ import { withStyles } from '@material-ui/styles';
 const MyContainer = withStyles({
     
 
-    root:{
+    root: {
+        position: 'relative',
         display:'flex',
         flexDirection:'column',
         alignContent: 'center',
@@ -29,7 +30,7 @@ const SideMenuContainer = (props) => {
     return(
         <MyContainer>
             <Box maxWidth='100%' paddingTop={15} display='flex' justifyContent='center'
-                fontSize={35} color={'white' }>
+                fontSize={45} color={'white' } fontWeight={700}>
                 WAITERO
             </Box>
             {props.userRole ? (<Box width={'100%'} paddingTop={1} display={'flex'} justifyContent={'center'} fontSize={25} color={'white'}>
