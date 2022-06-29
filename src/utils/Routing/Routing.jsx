@@ -18,6 +18,7 @@ import Orders from '../../pages/orders/orders';
 import Settings from '../../pages/settings/settings';
 import OnBoarding from '../../pages/onboarding/onboarding';
 import Register from '../../pages/register/register';
+import Checkout from '../../pages/checkout/checkout';
 import { connect } from 'react-redux';
 
 import './Routing.css';
@@ -45,6 +46,7 @@ const Routes = ({ user }) => {
                 <ProtectedRoute exact path="/orders" component={Orders} user={user} />
                 <ProtectedRoute exact path="/settings" component={Settings}  user={user} />
                 <ProtectedRoute exact path="/on-boarding" component={OnBoarding} user={user} />
+                <ProtectedRoute exact path="/checkout" component={Checkout} user={user} />
                 <ProtectedRoute path="*" component={user?.role === 'admin' ? HomePage : Overview} />
             </Switch>
         </BrowserRouter>

@@ -430,3 +430,16 @@ export const getRating = async (clientId, restaurantId, setRating = () => undefi
         loadingSetter(false);
     })
 } 
+
+export const updateOrderItemStatus = (clientId, restaurantId, orderId, plateId, loadingSetter, errorSetter, itemUpdated) => {
+    loadingSetter(true);
+    cwaxios.patch(`${clientId}/restaurant/${restaurantId}/order/${orderId}/plate/${plateId}`, {
+    }).then((res) => {
+        errorSetter({message: res?.data?.message, isError: false})
+    }).catch((error) => {
+        errorSetter({message: error?.response?.data?.message || 'cannot update',  isError: true})
+    }).finally(() => {
+        loadingSetter(false);
+        itemUpdated();
+    })  
+}
