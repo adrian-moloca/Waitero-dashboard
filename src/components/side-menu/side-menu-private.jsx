@@ -32,7 +32,7 @@ const MyButton = withStyles({
     label:{
         alignItems:'center',
         justifyContent:'start',
-        fontSize:'20px',
+        fontSize:'15px',
         fontWeight:'Bold',
     },
 

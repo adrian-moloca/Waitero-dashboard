@@ -3,6 +3,7 @@ import Routes from './utils/Routing/Routing';
 import './App.css';
  
 import { createTheme, ThemeProvider } from '@material-ui/core';
+import { useEffect } from 'react';
 
 const theme = createTheme({
   palette: {
@@ -13,6 +14,14 @@ const theme = createTheme({
 });
 
 const App = () =>{
+
+  useEffect(()=>{
+    const initialZoom = document.body.style.zoom
+    if(window.innerWidth <= 1300)
+      document.body.style.zoom = '70%'
+    return () => { document.body.style.zoom = initialZoom }
+  }, [])
+
   return (
       <ThemeProvider theme={theme}>
         <Routes />

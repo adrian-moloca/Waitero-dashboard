@@ -11,6 +11,7 @@ const MyContainer = withStyles({
         flexDirection:'column',
         alignContent: 'center',
         alignItems: 'center',
+        justifyContent:'flex-start',
         backgroundColor: 'rgba(255, 90, 95, 1)',
         //minHeight:'100vh',
         height: '100%',
@@ -29,8 +30,8 @@ const SideMenuContainer = (props) => {
 
     return(
         <MyContainer>
-            <Box maxWidth='100%' paddingTop={15} display='flex' justifyContent='center'
-                fontSize={45} color={'white' } fontWeight={700}>
+            <Box maxWidth='100%' paddingTop={5} display='flex' justifyContent='center'
+                fontSize={35} color={'white' } fontWeight={700}>
                 WAITERO
             </Box>
             {props.userRole ? (<Box width={'100%'} paddingTop={1} display={'flex'} justifyContent={'center'} fontSize={25} color={'white'}>
