@@ -128,9 +128,6 @@ const Overview = ({ restaurants, clientData, getRestaurants, loading }) => {
           { resDescription }
           { showEditDescription ? <EditLabelModal labelName={'description'} label ={resDescription} setLabel={(label) => setResDescription(label)}  clientId={clientData?._id} restaurantId={selectedRestaurant} /> : null}
         </Box>
-        <Box width={'92%'} display={'flex'} fontSize={19} marginTop={2}>
-          <DeleteModal label={'Sterge restaurantul'} message={'Confirmati stergerea acestui restaurant?'} clientId={clientData?._id} restaurantId={selectedRestaurant}/>
-        </Box>
         </Box>
        <Box width={'63%'} display={'flex'} flexDirection={'column'} alignItems='center'> 
       <Box width='100%' marginTop={'8%'} display='flex' flexDirection='row' justifyContent='space-between' marginBottom={4}>

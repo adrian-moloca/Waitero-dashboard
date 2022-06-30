@@ -3,10 +3,11 @@ import { Box } from '@material-ui/core';
 import PageContainer from '../../components/container/page-container/page-container.jsx';
 import { useHistory, withRouter } from 'react-router-dom';
 import AddBoxOverview from '../../components/box/add-box-overview/add-box-overview.jsx';
-import ResetPasswordModal from '../../components/modal/reset-password.jsx'
-import { connect } from 'react-redux'
+import ResetPasswordModal from '../../components/modal/reset-password.jsx';
+import { connect } from 'react-redux';
+import DeleteModal from '../../components/modal/delete-modal.jsx';
 
-const Settings = ({ client }) => {
+const Settings = ({ client, restaurants }) => {
   const history = useHistory()
 
   const [current, setCurrent] = useState(-1);
@@ -22,6 +23,9 @@ const Settings = ({ client }) => {
                     <AddBoxOverview
                         overlayText={'Reset Password'} backgroundColor={'#ffffff'} color={'#00000090'} height={180} width={'300px'} alignItems={'center'} iconPassword boxShadow={'0px 6px 6px rgba(0, 0, 0, 0.25)'}/>
                 </Box>
+                {restaurants?.length && restaurants?.map((restaurant, index)=>{
+                        return <DeleteModal label={`Sterge restaurantul ${restaurant.restaurantName}`} message={'Confirmati stergerea acestui restaurant?'} clientId={client?._id} restaurantId={restaurant._id}/>
+                })}
             </Box>      
         </Box>
         <ResetPasswordModal open={current === 1} setOpen={ setCurrent } clientId={ client.id }/>
@@ -29,6 +33,9 @@ const Settings = ({ client }) => {
   )
 }
 
-const mapStateToProps = (state) => ({client: state?.clientReducer?.client})
+const mapStateToProps = (state) => ({
+    client: state?.clientReducer?.client,
+    restaurants: state?.clientReducer?.client?.restaurants || []
+})
 
 export default withRouter(connect(mapStateToProps, null)(Settings));

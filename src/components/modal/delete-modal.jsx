@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import PrimaryButton from '../buttons/primaryButton/primaryButton';
 import SecondaryButton from '../buttons/secondaryButton/secondaryButton';
 import { deleteRestaurant, getRestaurants } from '../../api/api-client/client-requests';
+import AddBoxOverview from '../box/add-box-overview/add-box-overview';
 
 const DeleteModal = ({ label, message, clientId, restaurantId=undefined, getRestaurants}) => {
 
@@ -26,7 +27,9 @@ const DeleteModal = ({ label, message, clientId, restaurantId=undefined, getRest
 
   return (
     <>
-      <PrimaryButton variant={'contained'} onClick={() => setOpen(true)} fullWidth>{label}</PrimaryButton>
+    <Box marginTop={3} marginRight={3} onClick={()=>setOpen(true)} width={'300px'}>
+       <AddBoxOverview overlayText={label} backgroundColor={'#ffffff'} color={'#00000090'} height={180} width={'300px'} alignItems={'center'} iconDelete boxShadow={'0px 6px 6px rgba(0, 0, 0, 0.25)'}/>
+       </Box>
       <WaiteroAlert isError={error.isError} message={error.message} cleanError={() => setError({message: '', isError: false})} />
       <Modal open={open} onClose={() => setOpen(false)}>
         <Fade in={open} timeout={600}>
