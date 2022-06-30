@@ -23,7 +23,7 @@ function ProtectedRoute({ component: Component, user, ...restOfProps }) {
         <Route
             {...restOfProps}
             render={(restOfProps) =>
-                user.loggedIn ? <Component {...restOfProps} /> : <Redirect to="/login" />
+                user?.loggedIn ? <Component {...restOfProps} /> : <Redirect to="/login" />
             }
         />
     </React.Fragment>
