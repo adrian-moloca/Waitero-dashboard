@@ -73,7 +73,7 @@ const Header = ({name, isAdmin, cleanAdmin, cleanClient}) => {
 
 const mapStateToProps = (state) => ({
     name: state?.adminReducer?.admin?.name || state?.clientReducer?.client?.name,
-    isAdmin: state?.adminReducer?.admin?.role
+    isAdmin: state?.adminReducer?.admin?.role || state?.clientReducer?.client?.role
 })
 const mapDispatchToProps = (dispatch) => ({
     cleanAdmin: () => dispatch(cleanAdmin()),

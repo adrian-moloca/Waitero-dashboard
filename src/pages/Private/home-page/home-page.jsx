@@ -9,11 +9,6 @@ const HomePage = () => {
   
   const history = useHistory()
 
-  useEffect(() => {
-    if (window.location.pathname !== '/home')
-      history.push('/home')  
-  }, [])
-
   return (
     <PageContainer>
         <Box width='90%' display='flex' flexDirection='column' justifyContent='center'>

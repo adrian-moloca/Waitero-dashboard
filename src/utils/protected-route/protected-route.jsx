@@ -19,7 +19,7 @@ function ProtectedRoute({ component: Component, user, ...restOfProps }) {
     return (
     <React.Fragment>
         <Header/>
-        {user.role === 'admin' ? <SideMenuPrivate currentPage={currentPage}/> : <SideMenuPublic currentPage={currentPage}/>}
+        {user?.role === 'admin' ? <SideMenuPrivate currentPage={currentPage}/> : <SideMenuPublic currentPage={currentPage}/>}
         <Route
             {...restOfProps}
             render={(restOfProps) =>
