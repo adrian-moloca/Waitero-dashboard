@@ -13,6 +13,20 @@ export const getClients = (loadingSetter = () => undefined) => {
     }
 }
 
+export const updateClientStatus = async (isBlocked, clientId, loadingSetter = () => undefined, errorSetter = () => undefined, closeModalUpdate = () => undefined) => {
+    loadingSetter(true);
+    awaxios.patch(`/client/${clientId}/update-client`, {
+        isBlocked: isBlocked
+    }).then((res) => {
+        errorSetter({message: res?.data?.message, isError: false})
+    }).catch((error) => {
+        errorSetter({message: error?.response?.data?.message || 'cannot update',  isError: true})
+    }).finally(() => {
+        loadingSetter(false);
+        closeModalUpdate();
+    })
+}
+
 export const deleteClient = async (clientId, loadingSetter = () => undefined, errorSetter = () => undefined, closeModalDelete = () => undefined) => {
     loadingSetter(true);
     awaxios.delete(`/delete-client`, {

@@ -12,15 +12,15 @@ import {
     TablePagination,
     TableRow,
 } from '@material-ui/core';
-import Edit from '@material-ui/icons/Edit';
-import DeleteModalWithIcon from '../modal/delete-modal-icon.jsx'
+import DeleteModalWithIcon from '../modal/delete-modal-icon.jsx';
+import LockModalSwitch from '../modal/lock-modal-icon.jsx';
 
 const columns = [
-    { id: 'name', label: 'Nume', minWidth: 40 },
-    { id: 'email', label: 'Email', minWidth: 30 },
-    { id: 'phone', label: 'Numar de telefon', minWidth: 30 },
+    { id: 'name', label: 'Nume', minWidth: 20 },
+    { id: 'email', label: 'Email', minWidth: 20 },
+    { id: 'phone', label: 'Numar de telefon', minWidth: 20 },
     { id: 'restaurants', label: 'Restaurante', minWidth: 10 },
-    { id: 'restaurantName', label: 'Nume restaurant', minWidth: 40 },
+    { id: 'restaurantName', label: 'Nume restaurant', minWidth: 20 }
 ];
 
 const useStyles = makeStyles({
@@ -48,13 +48,14 @@ const ClientsTable = ({ clients, searched }) => {
 
     const getRows = (clientsData) => {
         const newdata = clientsData.filter((el)=> el.name.includes(searched) || el.email.includes(searched) || el.phone.includes(searched) ).map((client) => {
-            const { name, email, phone, restaurants, _id } = client;
+            const { name, email, phone, restaurants, isBlocked, _id } = client;
             return {
                 name: name,
                 email: email,
                 phone: phone,
                 restaurants: restaurants.length,
                 restaurantName: restaurants[0]?.restaurantName || '',
+                isBlocked: isBlocked,
                 id: _id
             };
         });
@@ -81,10 +82,21 @@ const ClientsTable = ({ clients, searched }) => {
                                 </TableCell>
                             ))}
                             <TableCell
+                                key={'active'}
+                                align={'center'}
+                                style={{
+                                    width: 20,
+                                    fontSize: '18px',
+                                    fontWeight: '600',
+                                }}
+                            >
+                                Activ
+                            </TableCell>
+                            <TableCell
                                 key={'actions'}
                                 align={'center'}
                                 style={{
-                                    width: 50,
+                                    width: 20,
                                     fontSize: '18px',
                                     fontWeight: '600',
                                 }}
@@ -118,6 +130,14 @@ const ClientsTable = ({ clients, searched }) => {
                                                 </TableCell>
                                             );
                                         })}
+                                        <TableCell
+                                            size="small"
+                                            width={20}
+                                            key={'actions'}
+                                            align={'center'}
+                                        >
+                                            <LockModalSwitch isBlocked={row.isBlocked}  clientId ={row.id}/>
+                                        </TableCell>
                                         <TableCell
                                             size="small"
                                             width={20}
