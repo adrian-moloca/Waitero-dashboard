@@ -1,6 +1,6 @@
 import { cwaxios } from "../../utils/axios-config";
 import { addRestaurantRequest, addRestaurantSuccess, addRestaurantFailure, getRestaurantsRequest, getRestaurantsSuccess, getRestaurantsFailure } from "../../redux/types/ClientTypes";
-import { getCategoriesFailure, getCategoriesRequest, getCategoriesSuccess, getDrinksFailure, getDrinksRequest, getDrinksSuccess, getExtraFailure, getExtraRequest, getExtraSuccess, getMenusFailure, getMenusRequest, getMenusSuccess, getOrdersFailure, getOrdersRequest, getOrdersSuccess, getPlatesFailure, getPlatesRequest, getPlatesSuccess, getTablesFailure, getTablesRequest, getTablesSuccess } from "../../redux/types/RestaurantTypes";
+import { getCategoriesFailure, getCategoriesRequest, getCategoriesSuccess, getCheckoutsFailure, getCheckoutsRequest, getCheckoutsSuccess, getDrinksFailure, getDrinksRequest, getDrinksSuccess, getExtraFailure, getExtraRequest, getExtraSuccess, getMenusFailure, getMenusRequest, getMenusSuccess, getOrdersFailure, getOrdersRequest, getOrdersSuccess, getPlatesFailure, getPlatesRequest, getPlatesSuccess, getTablesFailure, getTablesRequest, getTablesSuccess } from "../../redux/types/RestaurantTypes";
 
 export const updateClientPassword = async (oldPassword, newPassword, clientId, loadingSetter = () => undefined, errorSetter = () => undefined, closeModalEdit = () => undefined) => {
     loadingSetter(true);
@@ -431,7 +431,20 @@ export const getRating = async (clientId, restaurantId, setRating = () => undefi
     })
 } 
 
-export const updateOrderItemStatus = (clientId, restaurantId, orderId, plateId, loadingSetter, errorSetter, itemUpdated) => {
+export const getCheckouts = (clientId, restaurantId, loadingSetter = () => undefined) => {
+    loadingSetter(true)
+    return async (dispatch) => {
+        dispatch(getCheckoutsRequest());
+        cwaxios.get(`${clientId}/restaurant/${restaurantId}/checkouts/get-checkouts`).then((res) => {
+            dispatch(getCheckoutsSuccess(res.data));
+        }).catch((error) => {
+            dispatch(getCheckoutsFailure(error?.response?.data?.message));
+        }).finally(() => loadingSetter(false))
+    }
+}
+
+
+export const updateCheckoutsStatus = (clientId, restaurantId, orderId, plateId, loadingSetter, errorSetter, itemUpdated) => {
     loadingSetter(true);
     cwaxios.patch(`${clientId}/restaurant/${restaurantId}/order/${orderId}/plate/${plateId}`, {
     }).then((res) => {

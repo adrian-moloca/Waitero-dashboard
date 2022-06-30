@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 import { AddCircleTwoTone, ArrowBack } from '@material-ui/icons';
 import { connect } from 'react-redux';
 import PrimaryButton from '../../components/buttons/primaryButton/primaryButton.jsx';
-import { getTables } from '../../api/api-client/client-requests.js';
+import { getCheckouts, getTables } from '../../api/api-client/client-requests.js';
 import { cleanErrorMessageRestaurant } from '../../redux/types/RestaurantTypes.js';
 import WaiteroAlert from '../../components/alert/alert.jsx';
 import DeleteModalIcon from '../../components/modal/delete-modal-icon.jsx';
@@ -14,7 +14,7 @@ import { saveAs } from 'file-saver';
 import { dataURLtoFile } from '../../utils/functions/base64Image.js';
 import TableCardCheckout from '../../components/box/table-card-checkout/table-card-checkout.jsx';
 
-const Checkout = ({ restaurants, tables, clientData, restaurantReducer, getTables, cleanErrorMessage }) => {
+const Checkout = ({ restaurants, checkouts, clientData, restaurantReducer, getCheckouts, cleanErrorMessage }) => {
 
   const [restaurantSelected, setRestaurantSelected] = useState(restaurants?.length ? restaurants[0]._id : ''); 
 
@@ -32,7 +32,7 @@ const Checkout = ({ restaurants, tables, clientData, restaurantReducer, getTable
 
   useEffect(() => {
     if (restaurantSelected?.length > 0)
-      getTables(clientData?._id, restaurantSelected)
+      getCheckouts(clientData?._id, restaurantSelected)
   }, [restaurantSelected])
 
   return (
@@ -62,23 +62,18 @@ const Checkout = ({ restaurants, tables, clientData, restaurantReducer, getTable
               CHECKOUT
             </Box>
             <Box width={'100%'} display={'flex'} marginTop={'2%'} alignItems={'center'} flexWrap='wrap'>
-                {restaurantReducer.loading ? <CircularProgress /> : (<>
-                  <Box marginRight={5} marginTop={6}>
-                    <IconButton  onClick={() => setOnAddItem(true)}> <AddCircleTwoTone  style={{fontSize: '100px'}}/></IconButton>
-                  </Box>
-                  {tables?.map((item) => {
+                {restaurantReducer.loading ? <CircularProgress /> :
+                  checkouts?.map((item) => {
                       return (
                           <Box key={item?._id}>
                             <Box display={'flex'}>
                               <DeleteModalIcon type={'table'} clientId={clientData?._id} message={'Confirmati stergerea acestei mese?'} restaurantId={restaurantSelected} tableId={item?._id}/>
                              </Box>
                             <Box key={item?._id} marginRight={4} marginBottom={3} onClick={() => downloadCode(item.qrCode, item.tableNumber)}>
-                            <TableCardCheckout title={item.tableNumber} />
+                              <TableCardCheckout title={item.tableNumber} />
                             </Box>
                         </Box>
                       )})}
-                  </>
-                )}
             </Box>
           </Box>
         </>)}
@@ -91,13 +86,13 @@ const Checkout = ({ restaurants, tables, clientData, restaurantReducer, getTable
 
 const mapStateToProps = (state) => ({
   restaurantReducer: state?.restaurantReducer,
-  tables: state?.restaurantReducer?.restaurant?.tables,
+  checkouts: state?.restaurantReducer?.restaurant?.checkouts,
   restaurants: state?.clientReducer?.client?.restaurants,
   clientData: state?.clientReducer?.client
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  getTables: (clientId, restaurantId, loadingSetter) => dispatch(getTables(clientId, restaurantId, loadingSetter)),
+  getCheckouts: (clientId, restaurantId, loadingSetter) => dispatch(getCheckouts(clientId, restaurantId, loadingSetter)),
   cleanErrorMessage: () => dispatch(cleanErrorMessageRestaurant())
 })
 

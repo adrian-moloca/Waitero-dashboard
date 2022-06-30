@@ -35,6 +35,10 @@ export const GET_ORDERS_REQUEST = 'GET_ORDERS_REQUEST';
 export const GET_ORDERS_SUCCESS = 'GET_ORDERS_SUCCESS';
 export const GET_ORDERS_FAILURE = 'GET_ORDERS_FAILURE';
 
+export const GET_CHECKOUTS_REQUEST = 'GET_CHECKOUTS_REQUEST';
+export const GET_CHECKOUTS_SUCCESS = 'GET_CHECKOUTS_SUCCESS';
+export const GET_CHECKOUTS_FAILURE = 'GET_CHECKOUTS_FAILURE';
+
 // Functions
 // CLIENT fetch functions
 export const fetchRestaurantRequest = () => {
@@ -205,6 +209,26 @@ export const getOrdersSuccess = (response) => {
 export const getOrdersFailure = (error) => {
     return {
         type: GET_ORDERS_FAILURE,
+        payload: error
+    };
+};
+
+export const getCheckoutsRequest = () => {
+    return {
+        type: GET_CHECKOUTS_REQUEST,
+    };
+};
+
+export const getCheckoutsSuccess = (response) => {
+    return {
+        type: GET_CHECKOUTS_SUCCESS,
+        payload: response
+    };
+};
+
+export const getCheckoutsFailure = (error) => {
+    return {
+        type: GET_CHECKOUTS_FAILURE,
         payload: error
     };
 };
