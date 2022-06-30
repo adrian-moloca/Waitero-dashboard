@@ -226,7 +226,7 @@ const restaurantReducer = (state = initial, action) => {
                 message: action?.payload?.message,
                 restaurant: {
                     ...state?.restaurant,
-                    checkouts: action?.payload?.checkout || []
+                    checkouts: action?.payload?.checkouts || []
                 }
             }
         case GET_CHECKOUTS_FAILURE:
