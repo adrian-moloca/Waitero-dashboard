@@ -417,6 +417,36 @@ export const getOrders = (clientId, restaurantId, loadingSetter = () => undefine
     }
 }
 
+export const updateOrderItemStatus = (clientId, restaurantId, userId, orderId, itemId, itemType, loadingSetter, errorSetter, itemUpdated) => {
+    loadingSetter(true);
+    const route = itemType === 'plate' ? `${clientId}/restaurant/${restaurantId}/user/${userId}/order/${orderId}/productPlate/${itemId}/is-served-user-order-plate` : itemType === 'drink' ? `${clientId}/restaurant/${restaurantId}/user/${userId}/order/${orderId}/productDrink/${itemId}/is-served-user-order-drink` : itemType === 'extra' ? `${clientId}/restaurant/${restaurantId}/user/${userId}/order/${orderId}/productExtra/${itemId}/is-served-user-order-extra` : ''   
+    cwaxios.patch(route, {
+        isServed: true
+    }).then((res) => {
+        itemUpdated();
+        errorSetter({message: res?.data?.message, isError: false})
+    }).catch((error) => {
+        errorSetter({message: error?.response?.data?.message || 'cannot update',  isError: true})
+    }).finally(() => {
+        loadingSetter(false);
+    })  
+}
+
+export const updateOrderStatus = (clientId, restaurantId, userId, orderId, loadingSetter, errorSetter, orderUpdated) => {
+    loadingSetter(true);
+    const route = `${clientId}/restaurant/${restaurantId}/user/${userId}/order/${orderId}/is-served-user-order`   
+    cwaxios.patch(route, {
+        isServedOrder: true
+    }).then((res) => {
+        orderUpdated();
+        errorSetter({message: res?.data?.message, isError: false})
+    }).catch((error) => {
+        errorSetter({message: error?.response?.data?.message || 'cannot update',  isError: true})
+    }).finally(() => {
+        loadingSetter(false);
+    })  
+}
+
 export const getRating = async (clientId, restaurantId, setRating = () => undefined, setRatingsNumber = () => undefined, setRat = () => undefined, loadingSetter = () => undefined, errorSetter = () => undefined) => {
     loadingSetter(true);
     cwaxios.get(`${clientId}/restaurant/${restaurantId}/reviews/get-restaurant-review`).then((res) => {

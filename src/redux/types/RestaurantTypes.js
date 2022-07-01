@@ -34,6 +34,7 @@ export const GET_TABLES_FAILURE = 'GET_TABLES_FAILURE';
 export const GET_ORDERS_REQUEST = 'GET_ORDERS_REQUEST';
 export const GET_ORDERS_SUCCESS = 'GET_ORDERS_SUCCESS';
 export const GET_ORDERS_FAILURE = 'GET_ORDERS_FAILURE';
+export const UPDATE_ORDERS_COOKED =  'UPDATE_ORDERS_COOKED';
 
 export const GET_CHECKOUTS_REQUEST = 'GET_CHECKOUTS_REQUEST';
 export const GET_CHECKOUTS_SUCCESS = 'GET_CHECKOUTS_SUCCESS';
@@ -212,6 +213,13 @@ export const getOrdersFailure = (error) => {
         payload: error
     };
 };
+
+export const updateOrdersCooked = (orders) => {
+    return {
+        type: UPDATE_ORDERS_COOKED,
+        payload: orders
+    }
+}
 
 export const getCheckoutsRequest = () => {
     return {

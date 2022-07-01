@@ -5,9 +5,9 @@ import { withStyles } from '@material-ui/core';
 const SecondaryButton = withStyles({
     contained:{
         color: '#fff',
-        backgroundColor: 'rgba(255, 90, 95, 1)',
+        backgroundColor: '#000',
         '&:hover': {
-            color: 'rgba(255, 90, 95, 1)',
+            color: '#000',
             backgroundColor: '#fff',
         },
     },

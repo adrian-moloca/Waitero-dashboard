@@ -8,7 +8,8 @@ import {
     GET_EXTRA_REQUEST, GET_EXTRA_SUCCESS, GET_EXTRA_FAILURE,
     GET_TABLES_REQUEST, GET_TABLES_SUCCESS, GET_TABLES_FAILURE,
     GET_ORDERS_REQUEST, GET_ORDERS_SUCCESS, GET_ORDERS_FAILURE,
-    GET_CHECKOUTS_REQUEST, GET_CHECKOUTS_SUCCESS, GET_CHECKOUTS_FAILURE
+    GET_CHECKOUTS_REQUEST, GET_CHECKOUTS_SUCCESS, GET_CHECKOUTS_FAILURE,
+    UPDATE_ORDERS_COOKED
 } from '../types/RestaurantTypes';
 
 let initial = {
@@ -16,7 +17,11 @@ let initial = {
     hasErrors: false,
     message: "",
     rememberMe: false,
-    restaurant: {}
+    restaurant: {
+        orders: [],
+        tables: [],
+        checkouts: []
+    }
 }
 
 const restaurantReducer = (state = initial, action) => {
@@ -213,6 +218,16 @@ const restaurantReducer = (state = initial, action) => {
                 hasErrors: true,
                 message: action?.payload
             }
+        case UPDATE_ORDERS_COOKED:
+            return {
+                ...state,
+                loading: false,
+                hasErrors: true,
+                restaurant: {
+                    ...state?.restaurant,
+                    orders: action?.payload?.orders || []
+                }
+            }
         case GET_CHECKOUTS_REQUEST:
             return {
                 ...state,
@@ -226,7 +241,7 @@ const restaurantReducer = (state = initial, action) => {
                 message: action?.payload?.message,
                 restaurant: {
                     ...state?.restaurant,
-                    checkouts: action?.payload?.checkouts || []
+                    checkouts: action?.payload?.checkouts || {}
                 }
             }
         case GET_CHECKOUTS_FAILURE:

@@ -63,16 +63,9 @@ const Checkout = ({ restaurants, checkouts, clientData, restaurantReducer, getCh
             </Box>
             <Box width={'100%'} display={'flex'} marginTop={'2%'} alignItems={'center'} flexWrap='wrap'>
                 {restaurantReducer.loading ? <CircularProgress /> :
-                  checkouts?.map((item) => {
+                  checkouts && Object.keys(checkouts)?.map((key) => {
                       return (
-                          <Box key={item?._id}>
-                            <Box display={'flex'}>
-                              <DeleteModalIcon type={'table'} clientId={clientData?._id} message={'Confirmati stergerea acestei mese?'} restaurantId={restaurantSelected} tableId={item?._id}/>
-                             </Box>
-                            <Box key={item?._id} marginRight={4} marginBottom={3} onClick={() => downloadCode(item.qrCode, item.tableNumber)}>
-                              <TableCardCheckout title={item.tableNumber} />
-                            </Box>
-                        </Box>
+                            <TableCardCheckout key={key} title={key} arr={checkouts[key]} />
                       )})}
             </Box>
           </Box>

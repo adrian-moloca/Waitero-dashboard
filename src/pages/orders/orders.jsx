@@ -6,13 +6,13 @@ import useStyles from "./ordersStyle.jsx";
 import Order from "../../components/box/order-card/order-card.jsx";
 import PrimaryButton from "../../components/buttons/primaryButton/primaryButton.jsx";
 import useInterval from "../../utils/functions/useInterval.js";
-import { cleanErrorMessageRestaurant } from "../../redux/types/RestaurantTypes.js";
+import { cleanErrorMessageRestaurant, cleanRestaurant, updateOrdersCooked } from "../../redux/types/RestaurantTypes.js";
 import { getOrders } from "../../api/api-client/client-requests.js";
 import { connect } from "react-redux";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import WaiteroAlert from "../../components/alert/alert.jsx";
 
-const Orders = ({ restaurants, ordersRed, clientData, restaurantReducer, getOrders, cleanErrorMessage }) => {
+const Orders = ({ restaurants, ordersRed, clientData, restaurantReducer, getOrders, cleanErrorMessage, cleanRestaurant }) => {
 
   const classes = useStyles();
 
@@ -32,19 +32,28 @@ const Orders = ({ restaurants, ordersRed, clientData, restaurantReducer, getOrde
     setOrdersCooked({arr: [...tempCooked]})
 
   }
- 
-  /* const getOrdersStart = () => {
-    const neworders = [
-      {
-        _id: Math.floor(Math. random() * 100).toString() + Date.now(),
-        tableNumber: (Math.random() * 100).toFixed(2) ,
-        timer: 0
+
+  const addNewOrders = async () => {
+    function arrayUnique(array) {
+      let a = array?.concat();
+      for(let i=0; i<a?.length; ++i) {
+          for(let j=i+1; j<a?.length; ++j) {
+              if(a[i]?._id === a[j]?._id)
+                  a.splice(j--, 1);
+          }
       }
-    ]
-    const temp = [...orders.arr]
-    neworders.map(el=> temp.push(el))
-    return setOrders({arr: [...temp] })
-  } */
+  
+      return a;
+    }
+      // Merges both arrays and gets unique items
+    const temp =arrayUnique(orders.arr.concat(ordersRed.filter((el)=>el.isServed === false)));
+    setOrders({arr: [...ordersRed] || []})
+  }
+ 
+  const getOrdersStart = () => {
+    if(restaurantSelected.length > 0)
+      return getOrders(clientData._id, restaurantSelected, setLoading);
+  }
 
   useEffect(()=>{
     if(restaurantSelected.length > 0)
@@ -52,10 +61,10 @@ const Orders = ({ restaurants, ordersRed, clientData, restaurantReducer, getOrde
   }, [restaurantSelected])
 
   useEffect(()=>{
-    setOrders({arr: ordersRed || []})
+    addNewOrders()
   }, [ordersRed])
 
-  /* useInterval(getOrdersStart, 20000) */
+  useInterval(getOrdersStart, 100000)
 
   return (
     <PageContainer>
@@ -67,7 +76,7 @@ const Orders = ({ restaurants, ordersRed, clientData, restaurantReducer, getOrde
           <>
             {restaurants?.map((el) => {
               return (
-                <PrimaryButton key={el?._id} variant='contained' style={{ marginBottom: 5, width: '50%' }} onClick={() => setRestaurantSelected(el?._id)}>
+                <PrimaryButton key={el?._id} variant='contained'  style={{ marginBottom: 5, width: '50%' }} onClick={() => setRestaurantSelected(el?._id)}>
                   {el.restaurantName}
                 </PrimaryButton>
               )
@@ -84,11 +93,11 @@ const Orders = ({ restaurants, ordersRed, clientData, restaurantReducer, getOrde
             {restaurantReducer.loading ? <CircularProgress/> : <>
             <Box className={classes.container}>
                 {orders.arr?.map((order, index, array)=>{
-                  return (<Order key={order?._id} order={order?.myCart} tableNumber={order?.tableNumber} remove={()=>removeOrder(index)}/>)})}
+                  return (<Order clientId={order?.clientId} restaurantId={order?.restaurantId} userId={order?.userId} orderId={order?._id} key={order?._id} order={order?.myCart} createdAt={order?.createdAt || 0} tableNumber={order?.tableNumber} remove={()=>removeOrder(index)}/>)})}
               </Box>
             <Box className={classes.container}>
                 {ordersCooked.arr?.map((order, index, array)=>{
-                  return (<Order key={order?._id} cooked order={order?.myCart}  tableNumber={order?.tableNumber}/>)})}
+                  return (<Order cooked clientId={order?.clientId} restaurantId={order?.restaurantId} userId={order?.userId} orderId={order?._id} key={order?._id} order={order?.myCart} createdAt={order?.createdAt || 0} tableNumber={order?.tableNumber} remove={()=>removeOrder(index)}/>)})}
               </Box>
             </>}
           </>
@@ -107,7 +116,9 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   getOrders: (clientId, restaurantId, loadingSetter) => dispatch(getOrders(clientId, restaurantId, loadingSetter)),
-  cleanErrorMessage: () => dispatch(cleanErrorMessageRestaurant())
+  cleanErrorMessage: () => dispatch(cleanErrorMessageRestaurant()),
+  cleanRestaurant: () => dispatch(cleanRestaurant()), 
+  updateOrdersCooked: (orders) => dispatch(updateOrdersCooked(orders))
 })
 
 
