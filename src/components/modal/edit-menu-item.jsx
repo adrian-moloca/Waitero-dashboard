@@ -101,7 +101,7 @@ const EditMenuItem = ({isModalOpen, setIsModalOpen, item, setItem, clientId, res
                         </Box>
                         <Paper style={{marginTop: 20, height: 200, width: 200, backgroundImage: `url(${tempItem?.platePhoto || PlatePlaceHolder})`, backgroundSize: 'cover', backgroundPosition: 'center'}} />
                         <Box display="flex">
-                            <ChangePhotoButton name={tempItem?.plateName?.replace(' ', '')} setPhoto={(photo) => setTempItem({...tempItem, platePhoto: photo})}/>
+                            <ChangePhotoButton photo={tempItem?.platePhoto} name={tempItem?.plateName?.replace(' ', '')} setPhoto={(photo) => setTempItem({...tempItem, platePhoto: photo})}/>
                         </Box>
                         <Box display="flex" mt={3}>
                             <Box ml={2}>

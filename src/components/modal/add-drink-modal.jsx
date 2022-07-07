@@ -119,7 +119,7 @@ const AddDrinkModal = ({
                                     <Box style={{display: 'flex', flexDirection: 'column'}}>
                                         <Paper style={{marginTop: 20, height: 200, width: 200, backgroundImage: `url(${drinkPhoto || DrinkPlaceHolder})`, backgroundSize: 'cover', backgroundPosition: 'center'}} />
                                         <Box display="flex">
-                                            <ChangePhotoButton name={name?.replace(' ', '')} setPhoto={(photo) => setDrinkPhoto(photo)}/>
+                                            <ChangePhotoButton photo={drinkPhoto} name={name?.replace(' ', '')} setPhoto={(photo) => setDrinkPhoto(photo)}/>
                                         </Box>
                                     </Box>
                                     <Box ml={2}>

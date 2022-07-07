@@ -315,11 +315,12 @@ export const getExtra = (clientId, restaurantId, loadingSetter = () => undefined
     }
 }
 
-export const addExtra = async (extraName, extraPrice, clientId, restaurantId, loadingSetter = () => undefined, errorSetter = () => undefined, extraAdded = () => undefined) => {
+export const addExtra = async (extraName, extraPrice, extraPhoto, clientId, restaurantId, loadingSetter = () => undefined, errorSetter = () => undefined, extraAdded = () => undefined) => {
     loadingSetter(true);
     cwaxios.post(`${clientId}/restaurant/${restaurantId}/add-extra`, {
         extraName: extraName,
-        extraPrice: extraPrice
+        extraPrice: extraPrice,
+        extraPhoto: extraPhoto
     }).then((res) => {
         errorSetter({message: res?.data?.message, isError: false})
     }).catch((error) => {
@@ -330,11 +331,12 @@ export const addExtra = async (extraName, extraPrice, clientId, restaurantId, lo
     })
 }
 
-export const updateExtra = async (extraName, extraPrice, clientId, restaurantId, extraId, loadingSetter = () => undefined, errorSetter = () => undefined, extraUpdated = () => undefined) => {
+export const updateExtra = async (extraName, extraPrice, extraPhoto, clientId, restaurantId, extraId, loadingSetter = () => undefined, errorSetter = () => undefined, extraUpdated = () => undefined) => {
     loadingSetter(true);
     cwaxios.patch(`${clientId}/restaurant/${restaurantId}/extras/${extraId}/update-extra`, {
         extraName: extraName,
-        extraPrice: extraPrice
+        extraPrice: extraPrice,
+        extraPhoto: extraPhoto
     }).then((res) => {
         errorSetter({message: res?.data?.message, isError: false})
     }).catch((error) => {
