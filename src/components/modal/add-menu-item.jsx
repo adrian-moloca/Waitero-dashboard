@@ -101,8 +101,8 @@ const AddMenuItem = ({isModalOpen, setIsModalOpen, setItem, clientId, restaurant
                                     </Grid>
                                 </Grid>
                             </Box>
-                            <Paper style={{height: 200, width: 200, backgroundImage: tempItem.platePhoto || PlatePlaceHolder}} />
-                            <Box display="flex" mt={3}>
+                            <Paper style={{marginTop: 20, height: 200, width: 200, backgroundImage: `url(${tempItem?.platePhoto || PlatePlaceHolder})`, backgroundSize: 'cover', backgroundPosition: 'center'}} />
+                            <Box display="flex">
                                 <ChangePhotoButton name={tempItem?.plateName?.replace(' ', '')} setPhoto={(photo) => setTempItem({...tempItem, platePhoto: photo})}/>
                             </Box>
                             <Box display="flex" mt={3}>

@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Modal, Fade, Grid, InputAdornment, IconButton, CircularProgress } from '@material-ui/core';
+import { Box, Modal, Fade, Grid, InputAdornment, IconButton, CircularProgress, Paper } from '@material-ui/core';
 import useStyles from './modal-style';
 import WaiteroTextField from '../text-field/waitero-text-field';
 import { Add, Close, Delete, SaveAlt } from '@material-ui/icons';
 import { updatePlate } from '../../api/api-client/client-requests';
 import WaiteroAlert from '../alert/alert';
+import ChangePhotoButton from '../buttons/changePhoto/changePhotoButton';
+import PlatePlaceHolder from '../../assets/images/placeholder_food.png';
 
 const EditMenuItem = ({isModalOpen, setIsModalOpen, item, setItem, clientId, restaurantId, menuId, categoryId, plateId }) => {
     
@@ -42,7 +44,7 @@ const EditMenuItem = ({isModalOpen, setIsModalOpen, item, setItem, clientId, res
     }
 
     const updateItem = () => {
-        updatePlate(tempItem.plateName, parseFloat(tempItem.platePrice), newIngredient.length > 0 ? tempItem.plateIngredients.concat([newIngredient]) : tempItem.plateIngredients, clientId, restaurantId, menuId, categoryId, plateId, setLoading, setError, saveItem )
+        updatePlate(tempItem.plateName, parseFloat(tempItem.platePrice), newIngredient.length > 0 ? tempItem.plateIngredients.concat([newIngredient]) : tempItem.plateIngredients, tempItem?.platePhoto, clientId, restaurantId, menuId, categoryId, plateId, setLoading, setError, saveItem )
     }
 
     useEffect(() => {
@@ -96,6 +98,10 @@ const EditMenuItem = ({isModalOpen, setIsModalOpen, item, setItem, clientId, res
                                 }} onKeyDown={(event)=>event.key === 'Enter' ? addIngredient() : null} fullWidth/>
                                 </Grid>
                             </Grid>
+                        </Box>
+                        <Paper style={{marginTop: 20, height: 200, width: 200, backgroundImage: `url(${tempItem?.platePhoto || PlatePlaceHolder})`, backgroundSize: 'cover', backgroundPosition: 'center'}} />
+                        <Box display="flex">
+                            <ChangePhotoButton name={tempItem?.plateName?.replace(' ', '')} setPhoto={(photo) => setTempItem({...tempItem, platePhoto: photo})}/>
                         </Box>
                         <Box display="flex" mt={3}>
                             <Box ml={2}>

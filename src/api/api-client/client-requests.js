@@ -204,12 +204,13 @@ export const addPlate = async (plateName, platePrice, plateIngredients, platePho
     })
 }
 
-export const updatePlate = async (plateName, platePrice, plateIngredients, clientId, restaurantId, menuId, categoryId, plateId, loadingSetter = () => undefined, errorSetter = () => undefined, closeModalEdit = () => undefined) => {
+export const updatePlate = async (plateName, platePrice, plateIngredients, platePhoto, clientId, restaurantId, menuId, categoryId, plateId, loadingSetter = () => undefined, errorSetter = () => undefined, closeModalEdit = () => undefined) => {
     loadingSetter(true);
     cwaxios.patch(`${clientId}/restaurant/${restaurantId}/menu/${menuId}/category/${categoryId}/plate/${plateId}/update-plate`, {
         plateName: plateName,
         platePrice: platePrice,
-        plateIngredients: plateIngredients
+        plateIngredients: plateIngredients,
+        platePhoto: platePhoto
     }).then((res) => {
         errorSetter({message: res?.data?.message, isError: false})
     }).catch((error) => {
@@ -256,12 +257,13 @@ export const getDrinks = (clientId, restaurantId, loadingSetter = () => undefine
     }
 }
 
-export const addDrink = async (drinkName, drinkPrice, drinkCategory, clientId, restaurantId, loadingSetter = () => undefined, errorSetter = () => undefined, closeModalAdd = () => undefined) => {
+export const addDrink = async (drinkName, drinkPrice, drinkCategory, drinkPhoto, clientId, restaurantId, loadingSetter = () => undefined, errorSetter = () => undefined, closeModalAdd = () => undefined) => {
     loadingSetter(true);
     cwaxios.post(`${clientId}/restaurant/${restaurantId}/add-drink`, {
         drinkName: drinkName,
         drinkPrice: drinkPrice,
-        drinkCategory: drinkCategory
+        drinkCategory: drinkCategory,
+        drinkPhoto: drinkPhoto
     }).then((res) => {
         errorSetter({message: res?.data?.message, isError: false})
     }).catch((error) => {
@@ -272,12 +274,13 @@ export const addDrink = async (drinkName, drinkPrice, drinkCategory, clientId, r
     })
 }
 
-export const updateDrink = async (drinkName, drinkPrice, drinkCategory, clientId, restaurantId, drinkId, loadingSetter = () => undefined, errorSetter = () => undefined, closeModalAdd = () => undefined) => {
+export const updateDrink = async (drinkName, drinkPrice, drinkCategory, drinkPhoto, clientId, restaurantId, drinkId, loadingSetter = () => undefined, errorSetter = () => undefined, closeModalAdd = () => undefined) => {
     loadingSetter(true);
     cwaxios.patch(`${clientId}/restaurant/${restaurantId}/drink/${drinkId}/update-drink`, {
         drinkName: drinkName,
         drinkPrice: drinkPrice,
-        drinkCategory: drinkCategory
+        drinkCategory: drinkCategory,
+        drinkPhoto: drinkPhoto
     }).then((res) => {
         errorSetter({message: res?.data?.message, isError: false})
     }).catch((error) => {

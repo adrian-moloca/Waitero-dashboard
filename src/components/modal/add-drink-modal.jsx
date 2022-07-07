@@ -5,6 +5,7 @@ import {
     Fade,
     IconButton,
     CircularProgress,
+    Paper,
 } from '@material-ui/core';
 import WaiteroTextField from '../text-field/waitero-text-field';
 import useStyles from './modal-style';
@@ -14,6 +15,8 @@ import WaiteroAlert from '../alert/alert';
 import { drink_categories } from '../../utils/costants/constants';
 import { ToggleButton } from '@material-ui/lab';
 import { numberValidator } from '../../utils/functions/input-validators';
+import ChangePhotoButton from '../buttons/changePhoto/changePhotoButton';
+import DrinkPlaceHolder from '../../assets/images/placeholder_drinks.png';
 
 const AddDrinkModal = ({
     isOpen,
@@ -26,6 +29,7 @@ const AddDrinkModal = ({
     const [name, setName] = useState('');
     const [price, setPrice] = useState('');
     const [drinkCategory, setDrinkCateory] = useState('');
+    const [drinkPhoto, setDrinkPhoto] = useState('');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState({ message: '', isError: false });
 
@@ -34,6 +38,7 @@ const AddDrinkModal = ({
         setName('');
         setPrice('');
         setDrinkCateory('');
+        setDrinkPhoto('');
     }
 
     const closeModal = () => {
@@ -42,10 +47,11 @@ const AddDrinkModal = ({
     }
 
     function createDrinkTypeAction() {
-        addDrink(name, parseFloat(price), drinkCategory, clientId, restaurantId, setLoading, setError, closeModal)
+        addDrink(name, parseFloat(price), drinkCategory, drinkPhoto, clientId, restaurantId, setLoading, setError, closeModal)
         setName('');
         setPrice('');
         setDrinkCateory('');
+        setDrinkPhoto('');
     }
 
     const onCategoryClick = (category) => {
@@ -108,6 +114,12 @@ const AddDrinkModal = ({
                                                     </ToggleButton>
                                                 })}
                                             </Box>
+                                        </Box>
+                                    </Box>
+                                    <Box style={{display: 'flex', flexDirection: 'column'}}>
+                                        <Paper style={{marginTop: 20, height: 200, width: 200, backgroundImage: `url(${drinkPhoto || DrinkPlaceHolder})`, backgroundSize: 'cover', backgroundPosition: 'center'}} />
+                                        <Box display="flex">
+                                            <ChangePhotoButton name={name?.replace(' ', '')} setPhoto={(photo) => setDrinkPhoto(photo)}/>
                                         </Box>
                                     </Box>
                                     <Box ml={2}>
