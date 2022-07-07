@@ -66,7 +66,7 @@ const TableCardCheckout = ({title, arr}) => {
             <Modal open={open} onClose={() => setOpen(false)}>
             <Fade in={open} timeout={600}>
                 <Box display="flex"  justifyContent={'space-between'} style={{padding: '40px 100px'}} className={classes.paper}>
-                    <Box flexDirection="column" width={'50%'} justifyContent="center" alignItems="flex-start">
+                    <Box flexDirection="column" width={'50%'} justifyContent="center" alignItems="flex-start" flexWrap={'wrap'} overflow={'auto'}>
                 {arr.map((item, index)=>{return (<Fragment key={item._id}>
                 <Box style={{paddingTop: 10}} fontWeight={500} fontSize={20} color={'#00000080'}>Client {index + 1}</Box>
                 <Box display={'flex'} flexDirection={'column'} alignItems={'flex-start'} justifyContent={'center'} width={'50%'} fontSize={15} paddingTop={'4px'} fontWeight={'400'} > {item.myCart.plates?.map((plate, index)=>{return (

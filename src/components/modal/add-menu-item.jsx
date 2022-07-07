@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { Box, Modal, Fade, Grid, InputAdornment, IconButton, CircularProgress } from '@material-ui/core';
+import { Box, Modal, Fade, Grid, InputAdornment, IconButton, CircularProgress, Paper } from '@material-ui/core';
 import useStyles from './modal-style';
 import WaiteroTextField from '../text-field/waitero-text-field';
 import { Add, Close, Delete, SaveAlt } from '@material-ui/icons';
 import { addPlate } from '../../api/api-client/client-requests';
 import WaiteroAlert from '../alert/alert';
 import { numberValidator } from '../../utils/functions/input-validators';
+import ChangePhotoButton from '../buttons/changePhoto/changePhotoButton';
+import PlatePlaceHolder from '../../assets/images/placeholder_food.png';
 
 const AddMenuItem = ({isModalOpen, setIsModalOpen, setItem, clientId, restaurantId, menuId, categoryId}) => {
     
@@ -14,7 +16,8 @@ const AddMenuItem = ({isModalOpen, setIsModalOpen, setItem, clientId, restaurant
     const initialItem = {
         plateName: '',
         plateIngredients: [],
-        platePrice: ''
+        platePrice: '',
+        platePhoto: ''
     }
 
     const [tempItem, setTempItem] = useState(initialItem);
@@ -50,7 +53,7 @@ const AddMenuItem = ({isModalOpen, setIsModalOpen, setItem, clientId, restaurant
     }
 
     function saveItem() {
-        addPlate(tempItem.plateName, parseFloat(tempItem.platePrice), newIngredient.length > 0 ? tempItem.plateIngredients.concat([newIngredient]) : tempItem.plateIngredients, clientId, restaurantId, menuId, categoryId, setLoading, setError, closeModal)
+        addPlate(tempItem.plateName, parseFloat(tempItem.platePrice), newIngredient.length > 0 ? tempItem.plateIngredients.concat([newIngredient]) : tempItem.plateIngredients, tempItem.platePhoto, clientId, restaurantId, menuId, categoryId, setLoading, setError, closeModal)
         setTempItem(initialItem);
     }
 
@@ -97,6 +100,10 @@ const AddMenuItem = ({isModalOpen, setIsModalOpen, setItem, clientId, restaurant
                                         }} onKeyDown={(event) => event.key === 'Enter' ? addItem() : null} placeholder='Adauga ingredient' fullWidth />
                                     </Grid>
                                 </Grid>
+                            </Box>
+                            <Paper style={{height: 200, width: 200, backgroundImage: tempItem.platePhoto || PlatePlaceHolder}} />
+                            <Box display="flex" mt={3}>
+                                <ChangePhotoButton name={tempItem?.plateName?.replace(' ', '')} setPhoto={(photo) => setTempItem({...tempItem, platePhoto: photo})}/>
                             </Box>
                             <Box display="flex" mt={3}>
                                 <Box ml={2}>

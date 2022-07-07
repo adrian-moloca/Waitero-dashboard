@@ -19,15 +19,9 @@ const Checkout = ({ restaurants, checkouts, clientData, restaurantReducer, getCh
   const [restaurantSelected, setRestaurantSelected] = useState(restaurants?.length ? restaurants[0]._id : ''); 
 
   const [error, setError] = useState({ message: '', isError: false });
-  const [onAddItem, setOnAddItem] = useState(false);
 
   const goBackMenuSelection = () => {
     setRestaurantSelected('')
-  }
-
-  const downloadCode = async (base64, table) => {
-    const file = await dataURLtoFile(base64, 'qrcode'+table.toString())
-    saveAs(file)
   }
 
   useEffect(() => {
@@ -70,7 +64,6 @@ const Checkout = ({ restaurants, checkouts, clientData, restaurantReducer, getCh
             </Box>
           </Box>
         </>)}
-      <AddTableModal isOpen={onAddItem} setIsOpen={setOnAddItem} clientId={clientData?._id} restaurantId={restaurantSelected} tableAdded={()=>getTables(clientData?._id, restaurantSelected) } />
       <WaiteroAlert isError={restaurantReducer.hasErrors} message={restaurantReducer.message} cleanError={() => cleanErrorMessage()} />
       <WaiteroAlert isError={error.isError} message={error.message} cleanError={() => setError({ message: '', isError: false })} />
     </PageContainer>

@@ -7,6 +7,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 0,
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
+    overflowY:'auto'
   },
 }));
 

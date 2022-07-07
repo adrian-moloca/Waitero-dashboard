@@ -187,12 +187,13 @@ export const getPlates = (clientId, restaurantId, menuId, categoryId, loadingSet
     }
 }
 
-export const addPlate = async (plateName, platePrice, plateIngredients, clientId, restaurantId, menuId, categoryId, loadingSetter = () => undefined, errorSetter = () => undefined, closeModalAdd = () => undefined) => {
+export const addPlate = async (plateName, platePrice, plateIngredients, platePhoto, clientId, restaurantId, menuId, categoryId, loadingSetter = () => undefined, errorSetter = () => undefined, closeModalAdd = () => undefined) => {
     loadingSetter(true);
     cwaxios.post(`${clientId}/restaurant/${restaurantId}/menu/${menuId}/category/${categoryId}/add-plate`, {
         plateName: plateName,
         platePrice: platePrice,
-        plateIngredients: plateIngredients
+        plateIngredients: plateIngredients,
+        platePhoto: platePhoto
     }).then((res) => {
         errorSetter({message: res?.data?.message, isError: false})
     }).catch((error) => {
