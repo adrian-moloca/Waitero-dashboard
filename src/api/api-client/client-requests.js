@@ -425,7 +425,7 @@ export const getOrders = (clientId, restaurantId, loadingSetter = () => undefine
 
 export const updateOrderItemStatus = (clientId, restaurantId, userId, orderId, itemId, itemType, loadingSetter, errorSetter, itemUpdated) => {
     loadingSetter(true);
-    const route = itemType === 'plate' ? `${clientId}/restaurant/${restaurantId}/user/${userId}/order/${orderId}/productPlate/${itemId}/is-served-user-order-plate` : itemType === 'drink' ? `${clientId}/restaurant/${restaurantId}/user/${userId}/order/${orderId}/productDrink/${itemId}/is-served-user-order-drink` : itemType === 'extra' ? `${clientId}/restaurant/${restaurantId}/user/${userId}/order/${orderId}/productExtra/${itemId}/is-served-user-order-extra` : ''   
+    const route = itemType === 'plate' ? `${clientId}/restaurant/${restaurantId}/user/${userId}/order/${orderId}/productPlate/${itemId}/update-user-order-plate` : itemType === 'drink' ? `${clientId}/restaurant/${restaurantId}/user/${userId}/order/${orderId}/productDrink/${itemId}/update-user-order-drink` : itemType === 'extra' ? `${clientId}/restaurant/${restaurantId}/user/${userId}/order/${orderId}/productExtra/${itemId}/update-user-order-extra` : ''   
     cwaxios.patch(route, {
         isServed: true
     }).then((res) => {
@@ -480,15 +480,17 @@ export const getCheckouts = (clientId, restaurantId, loadingSetter = () => undef
 }
 
 
-export const updateCheckoutsStatus = (clientId, restaurantId, orderId, plateId, loadingSetter, errorSetter, itemUpdated) => {
+export const updateCheckoutItemStatus = (clientId, restaurantId, userId, orderId, itemId, itemType, loadingSetter, errorSetter, itemUpdated) => {
     loadingSetter(true);
-    cwaxios.patch(`${clientId}/restaurant/${restaurantId}/order/${orderId}/plate/${plateId}`, {
+    const route = itemType === 'plate' ? `${clientId}/restaurant/${restaurantId}/user/${userId}/order/${orderId}/productPlate/${itemId}/update-user-order-plate` : itemType === 'drink' ? `${clientId}/restaurant/${restaurantId}/user/${userId}/order/${orderId}/productDrink/${itemId}/update-user-order-drink` : itemType === 'extra' ? `${clientId}/restaurant/${restaurantId}/user/${userId}/order/${orderId}/productExtra/${itemId}/update-user-order-extra` : ''   
+    cwaxios.patch(route, {
+        isPaid: true
     }).then((res) => {
+        itemUpdated();
         errorSetter({message: res?.data?.message, isError: false})
     }).catch((error) => {
         errorSetter({message: error?.response?.data?.message || 'cannot update',  isError: true})
     }).finally(() => {
         loadingSetter(false);
-        itemUpdated();
     })  
 }

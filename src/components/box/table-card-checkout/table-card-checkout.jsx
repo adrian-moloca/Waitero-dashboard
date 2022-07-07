@@ -6,7 +6,7 @@ import WaiteroCheckbox from "../../checkbox/waitero-checkbox";
 import PrimaryButton from "../../buttons/primaryButton/primaryButton";
 import SecondaryButton from "../../buttons/secondaryButton/secondaryButton";
 
-const TableCardCheckout = ({title, arr}) => {
+const TableCardCheckout = ({title, arr, paymentOptions}) => {
 
     const [elevation, setElevation] = useState(4);
     const [open, setOpen] = useState(false)
@@ -39,6 +39,10 @@ const TableCardCheckout = ({title, arr}) => {
             }
         }
         return totalC
+    }
+
+    const cashPayment = async () =>{
+        setOpen(false);
     }
 
     const calculateTotalSelected = () => {
@@ -103,8 +107,8 @@ const TableCardCheckout = ({title, arr}) => {
                     </Box>
                     <Box display={'flex'} flexDirection="column" width={'50%'} justifyContent={"flex-end"} alignItems={"flex-end"}>
                         <Box width={'100%'} textAlign={'right'} fontSize={35}>Total selectat {calculateTotalSelected()}</Box>
-                        <Box width={300} textAlign={'right'} fontSize={35}><SecondaryButton variant="contained" fullWidth  size="large">PLATA CASH <Money style={{marginLeft: 5}}/> </SecondaryButton></Box>
-                        <Box width={300} textAlign={'right'} fontSize={35}><SecondaryButton variant="contained" fullWidth size="large">PLATA CARD <CreditCard style={{marginLeft: 5}}/> </SecondaryButton></Box>
+                        <Box width={300} textAlign={'right'} fontSize={35}><SecondaryButton variant="contained" fullWidth  onClick={cashPayment} size="large">PLATA CASH <Money style={{marginLeft: 5}}/> </SecondaryButton></Box>
+                        {paymentOptions?.includes('Card') && <Box width={300} textAlign={'right'} fontSize={35}><SecondaryButton variant="contained" fullWidth size="large">PLATA CARD <CreditCard style={{marginLeft: 5}}/> </SecondaryButton></Box>}
                     </Box>
                 </Box>
             </Fade>
