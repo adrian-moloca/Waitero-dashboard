@@ -150,16 +150,16 @@ const Overview = ({ restaurants, clientData, getRestaurants, loading }) => {
           <Box height={200} width={'100%'} marginTop={4}>
             <Grid container justifyContent='space-between' width='100%'>
               <Grid container item xs={3} justifyContent={'center'}>
-                <GeneralStatisticsBox title={'Mancare'} content={rat.food.toFixed(1)} subInfo={ <Rating readOnly defaultValue={rat.food} precision={0.1} size='small' /> } rating/>
+                <GeneralStatisticsBox title={'Mancare'} content={rat?.food?.toFixed(1)} subInfo={ <Rating readOnly defaultValue={rat?.food} precision={0.1} size='small' /> } rating/>
               </Grid>
               <Grid container item xs={3} justifyContent={'center'}>
-                <GeneralStatisticsBox title={'Servire'} content={rat.service.toFixed(1)} subInfo={ <Rating readOnly defaultValue={rat.service} precision={0.1} size='small' /> } rating/>
+                <GeneralStatisticsBox title={'Servire'} content={rat?.service?.toFixed(1)} subInfo={ <Rating readOnly defaultValue={rat?.service} precision={0.1} size='small' /> } rating/>
               </Grid>
               <Grid container item xs={3} justifyContent={'center'}>
-                <GeneralStatisticsBox title={'Locul'} content={rat.ambience.toFixed(1)} subInfo={ <Rating readOnly defaultValue={rat.ambience} precision={0.1} size='small'/> } rating/>
+                <GeneralStatisticsBox title={'Locul'} content={rat?.ambience?.toFixed(1)} subInfo={ <Rating readOnly defaultValue={rat?.ambience} precision={0.1} size='small'/> } rating/>
               </Grid>
               <Grid container item xs={3} justifyContent={'center'}>
-                <GeneralStatisticsBox title={'Experienta'} content={rat.experience.toFixed(1)} subInfo={ <Rating readOnly defaultValue={rat.experience} precision={0.1} size='small'/> } rating/>
+                <GeneralStatisticsBox title={'Experienta'} content={rat?.experience?.toFixed(1)} subInfo={ <Rating readOnly defaultValue={rat?.experience} precision={0.1} size='small'/> } rating/>
               </Grid>
             </Grid>
           </Box>

@@ -114,13 +114,13 @@ const ClientsTable = ({ clients, searched }) => {
                             .map((row, index) => {
                                 return (
                                     <TableRow key={row.phone+index.toString()}>
-                                        {columns.map((column) => {
+                                        {columns.map((column, index2) => {
                                             const value = row[column.id];
                                             return (
                                                 <TableCell
                                                     size="small"
                                                     width={column.minWidth}
-                                                    key={column.id}
+                                                    key={column.id+index2}
                                                     align={column.align}
                                                 >
                                                     {column.format &&
@@ -133,7 +133,7 @@ const ClientsTable = ({ clients, searched }) => {
                                         <TableCell
                                             size="small"
                                             width={20}
-                                            key={'actions'}
+                                            key={'active'+row.id}
                                             align={'center'}
                                         >
                                             <LockModalSwitch isBlocked={row.isBlocked}  clientId ={row.id}/>
@@ -141,7 +141,7 @@ const ClientsTable = ({ clients, searched }) => {
                                         <TableCell
                                             size="small"
                                             width={20}
-                                            key={'actions'}
+                                            key={'actions'+row.id}
                                             align={'center'}
                                         >
                                             <DeleteModalWithIcon type={'client'} message={'Sunteti sigur de stergerea acestui client?'} clientId ={row.id}/>
