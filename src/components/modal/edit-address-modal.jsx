@@ -54,19 +54,19 @@ const EditAddressModal = ({addressObject, setAddressObject = () => undefined, cl
             <Box display="flex"  mt={3}>
                 <Grid container spacing={2} justifyContent={'flex-end'} alignItems={'center'}>
               <Grid container item xs ={5}>
-                <WaiteroTextField value={country} onChange={(e) => setCountry(e.target.value)} fullWidth placeholder='Tara' />
+                <WaiteroTextField value={country} onChange={(e) => setCountry(e.target.value)} fullWidth placeholder='Tara (ex. Romania)' />
               </Grid>
               <Grid container item xs ={5}>
-                <WaiteroTextField value={city} onChange={(e) => setCity(e.target.value)} fullWidth  placeholder='Oras' />
+                <WaiteroTextField value={city} onChange={(e) => setCity(e.target.value)} fullWidth  placeholder='Oras (ex. Cluj-Napoca)' />
               </Grid>
               <Grid container item xs ={5}>
-                <WaiteroTextField value={street} onChange={(e) => setStreet(e.target.value)} fullWidth placeholder='Strada' />
+                <WaiteroTextField value={street} onChange={(e) => setStreet(e.target.value)} fullWidth placeholder='Strada (ex. Galati)' />
               </Grid>
               <Grid container item xs ={2}>
-                <WaiteroTextField value={number} onChange={(e) => setNumber(e.target.value)} fullWidth placeholder='Nr' />
+                <WaiteroTextField value={number} onChange={(e) => setNumber(e.target.value)} fullWidth placeholder='Nr (ex. 8)' />
               </Grid>.
               <Grid container item xs ={2}>
-                <WaiteroTextField value={postalCode} onChange={(e) => setPostalCode(e.target.value)} fullWidth placeholder='Cod postal' />
+                <WaiteroTextField value={postalCode} onChange={(e) => setPostalCode(e.target.value)} fullWidth placeholder='Cod postal (ex. 123456)' />
               </Grid>
               </Grid>
               <Box ml={2}>

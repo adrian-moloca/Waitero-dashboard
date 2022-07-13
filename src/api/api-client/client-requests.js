@@ -440,9 +440,9 @@ export const updateOrderItemStatus = (clientId, restaurantId, userId, orderId, i
 
 export const updateOrderStatus = (clientId, restaurantId, userId, orderId, loadingSetter, errorSetter, orderUpdated) => {
     loadingSetter(true);
-    const route = `${clientId}/restaurant/${restaurantId}/user/${userId}/order/${orderId}/is-served-user-order`   
+    const route = `${clientId}/restaurant/${restaurantId}/user/${userId}/order/${orderId}/update-user-order`   
     cwaxios.patch(route, {
-        isServedOrder: true
+        isServed: true
     }).then((res) => {
         orderUpdated();
         errorSetter({message: res?.data?.message, isError: false})
