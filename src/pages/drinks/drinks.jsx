@@ -73,7 +73,7 @@ const Drinks = ({ restaurants, drinks, clientData, restaurantReducer, getDrinks,
               BAUTURI
             </Box>
             <Box width={'100%'} /* display={'flex'}  */ marginTop={'2%'} flexWrap='wrap'>
-              <Box marginRight={3} marginTop={3} marginBottom={3} onClick={() => setModalAddDrinkType(true)}>
+                <Box marginRight={3} marginTop={3} marginBottom={3} width={280} onClick={() => setModalAddDrinkType(true)}>
                 <MenuCard title={<AddContent title={'Adauga bautura'} />} />
               </Box>
               {restaurantReducer.loading ? <CircularProgress /> : (<>

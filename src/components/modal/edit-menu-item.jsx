@@ -73,7 +73,7 @@ const EditMenuItem = ({isModalOpen, setIsModalOpen, item, setItem, clientId, res
                                 {tempItem?.plateIngredients?.map((ing, index) => {
                                     return (
                                         <Grid key={ing} container item xs={5}>
-                                            <WaiteroTextField fullWidth defaultValue={ing} onChange={(t) => updateIngredient(t.target.value, index)}
+                                            <WaiteroTextField fullWidth defaultValue={ing} onBlur={(t) => updateIngredient(t.target.value, index)}
                                                             InputProps={{
                                                                 endAdornment: (
                                                                     <InputAdornment position={"start"}>

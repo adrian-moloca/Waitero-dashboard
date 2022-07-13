@@ -91,7 +91,7 @@ const Login = ({ loginAdmin, loginClient, rememberMeToggleAdmin, rememberMeToggl
                 </Link>
               </Grid>
               <Grid container item xl={12} lg={12} md={12} >
-                  <PrimaryButton variant='contained' onClick={() => loginHandler()} fullWidth>{loading ? <CircularProgress style={{color: '#fff'}} size={26}/> : 'AUTENTIFICARE'}</PrimaryButton>
+                  <PrimaryButton variant='contained' disabled={!email.length || mailValidator(email) || !password.length || passwordValidator(password)} onClick={() => loginHandler()} fullWidth>{loading ? <CircularProgress style={{color: '#fff'}} size={26}/> : 'AUTENTIFICARE'}</PrimaryButton>
               </Grid>
           <Grid container item xl={12} lg={12} md={12} justifyContent={'center'} >
             <Link to='/register' style={{color:'rgba(255, 90, 95, 1)', fontSize: '14px', textAlign: 'center'}}>

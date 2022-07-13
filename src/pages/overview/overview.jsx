@@ -19,6 +19,7 @@ import WaiteroAlert from '../../components/alert/alert.jsx';
 import { getBase64Image } from '../../utils/functions/base64Image.js';
 import EditAddressModal from '../../components/modal/edit-address-modal.jsx';
 import EditContactModal from '../../components/modal/edit-contact-modal.jsx';
+import CoverImagePlaceholder from '../../assets/images/placeholder_cover_image.png';
 
 const Overview = ({ restaurants, clientData, getRestaurants, loading }) => { 
 
@@ -108,7 +109,7 @@ const Overview = ({ restaurants, clientData, getRestaurants, loading }) => {
           <EditLabelModal labelName={'restaurantName'} label={restaurantName} setLabel={(label) => setRestaurantName(label)} clientId={clientData?._id} restaurantId={selectedRestaurant} />
           </Box>
           <Box paddingTop='8%'>
-              <BoxWithShadow name = {'cover-photo'} source={coverPhoto} setSource={ createCoverPhoto }
+              <BoxWithShadow name = {'cover-photo'} source={coverPhoto || CoverImagePlaceholder} setSource={ createCoverPhoto }
                   overlayText={'EDITEAZA COPERTA'} height={250} width={'92%'} isButton />
               <Box onMouseEnter={() => setShowEditResAddress(true)} onMouseLeave={(e) => e.relatedTarget.lastChild ? setShowEditResAddress(false) : null}
                   style={{ fontSize: 25, fontWeight: '-moz-initial', paddingTop: '20px', width: 426, fontStyle: 'oblique' }}><Room size={25} color={'inherit'} style={{marginRight: 3}}/>

@@ -480,11 +480,14 @@ export const getCheckouts = (clientId, restaurantId, loadingSetter = () => undef
 }
 
 
-export const updateCheckoutItemStatus = (clientId, restaurantId, userId, orderId, itemId, itemType, loadingSetter, errorSetter, itemUpdated) => {
+export const updateCheckoutItemStatus = (clientId, restaurantId, userId, orderId, platesArray, drinksArray, extrasArray, loadingSetter, errorSetter, itemUpdated) => {
     loadingSetter(true);
-    const route = itemType === 'plate' ? `${clientId}/restaurant/${restaurantId}/user/${userId}/order/${orderId}/productPlate/${itemId}/update-user-order-plate` : itemType === 'drink' ? `${clientId}/restaurant/${restaurantId}/user/${userId}/order/${orderId}/productDrink/${itemId}/update-user-order-drink` : itemType === 'extra' ? `${clientId}/restaurant/${restaurantId}/user/${userId}/order/${orderId}/productExtra/${itemId}/update-user-order-extra` : ''   
+    const route = `${clientId}/restaurant/${restaurantId}/user/${userId}/order/${orderId}/update-products-payment`
     cwaxios.patch(route, {
-        isPaid: true
+        isPaid: true,
+        platesIdArr: platesArray,
+        drinksIdArr: drinksArray,
+        extrasIdArr: extrasArray
     }).then((res) => {
         itemUpdated();
         errorSetter({message: res?.data?.message, isError: false})

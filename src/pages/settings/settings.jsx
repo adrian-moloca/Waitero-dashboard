@@ -28,7 +28,7 @@ const Settings = ({ client, restaurants }) => {
                 })}
             </Box>      
         </Box>
-        <ResetPasswordModal open={current === 1} setOpen={ setCurrent } clientId={ client.id }/>
+        <ResetPasswordModal open={current === 1} setOpen={ setCurrent } clientId={ client._id }/>
     </PageContainer>
   )
 }

@@ -5,23 +5,48 @@ import useStyles from "../../modal/modal-style";
 import WaiteroCheckbox from "../../checkbox/waitero-checkbox";
 import PrimaryButton from "../../buttons/primaryButton/primaryButton";
 import SecondaryButton from "../../buttons/secondaryButton/secondaryButton";
+import { updateCheckoutItemStatus } from "../../../api/api-client/client-requests";
 
-const TableCardCheckout = ({title, arr, paymentOptions}) => {
+const TableCardCheckout = ({title, arr, paymentOptions, clientId, restaurantId, userId, orderId, }) => {
 
     const [elevation, setElevation] = useState(4);
     const [open, setOpen] = useState(false)
-    const [itemsSeletedForPayment, setItemsSeletedForPayment] = useState([]);
+    const [itemsSeletedForPayment, setItemsSeletedForPayment] = useState({plates: [], drinks: [], extras: []});
 
     const classes = useStyles()
 
-    const toggleItemForPayment = (item) => {
-        const temp =[...itemsSeletedForPayment];
-        if(itemsSeletedForPayment.includes(item)){
-            const ind = temp.indexOf(item)
-            temp.splice(ind, 1)
+    const toggleItemForPayment = (item, type) => {
+        const temp = { ...itemsSeletedForPayment };
+        switch (type){
+            case 'plate': {
+                if(itemsSeletedForPayment.plates.includes(item)){
+                    const ind = temp.plates.indexOf(item)
+                    temp.plates.splice(ind, 1)
+                }
+                else 
+                    temp.plates.push(item)
+                break;
+            }
+            case 'drink': {
+                if(itemsSeletedForPayment.drinks.includes(item)){
+                    const ind = temp.drinks.indexOf(item)
+                    temp.drinks.splice(ind, 1)
+                }
+                else 
+                    temp.drinks.push(item)
+                break;
+            }
+            case 'extra': {
+                if(itemsSeletedForPayment.extras.includes(item)){
+                    const ind = temp.extras.indexOf(item)
+                    temp.extras.splice(ind, 1)
+                }
+                else 
+                    temp.extras.push(item)
+                break;
+            }
+            default: console.log('undefined type')
         }
-        else 
-            temp.push(item)
         setItemsSeletedForPayment(temp)
     }
 
@@ -41,14 +66,20 @@ const TableCardCheckout = ({title, arr, paymentOptions}) => {
         return totalC
     }
 
-    const cashPayment = async () =>{
-        setOpen(false);
+    const cashPayment = async () => {
+        updateCheckoutItemStatus(clientId, restaurantId, userId, orderId, itemsSeletedForPayment.plates, itemsSeletedForPayment.drinks, itemsSeletedForPayment.extras, ()=>undefined, ()=>undefined, ()=>setOpen(false))
     }
 
     const calculateTotalSelected = () => {
         let totalC = 0;
-        for(let i = 0; i<itemsSeletedForPayment?.length; i++){
-                totalC += (itemsSeletedForPayment[i]?.platePrice || itemsSeletedForPayment[i]?.drinkPrice || itemsSeletedForPayment[i]?.extraPrice)
+        for(let i = 0; i<itemsSeletedForPayment.plates?.length; i++){
+                totalC += (itemsSeletedForPayment.plates[i]?.platePrice)
+        }
+        for(let i = 0; i<itemsSeletedForPayment.drinks?.length; i++){
+            totalC += (itemsSeletedForPayment.drinks[i]?.drinkPrice)
+        }
+        for(let i = 0; i<itemsSeletedForPayment.extras?.length; i++){
+            totalC += (itemsSeletedForPayment.extras[i]?.drinkPrice)
         }
         return totalC
     }
@@ -76,7 +107,7 @@ const TableCardCheckout = ({title, arr, paymentOptions}) => {
                 <Box display={'flex'} flexDirection={'column'} alignItems={'flex-start'} justifyContent={'center'} width={'50%'} fontSize={15} paddingTop={'4px'} fontWeight={'400'} > {item.myCart.plates?.map((plate, index)=>{return (
                     <Fragment key={plate._id}>
                         <Box display={'flex'} justifyContent={'center'} fontWeight={500} fontStyle={'italic'} fontSize={18} color={'#000000'}>
-                            <WaiteroCheckbox checked={itemsSeletedForPayment.includes(plate)} onChange={()=> toggleItemForPayment(plate)} style={{padding: 0, paddingRight: 5}}/> {plate.plateName} <Box color={'#00000090'} style={{ padding: '0 4px'}} fontSize={18} marginLeft={1} fontStyle={'normal'} >lei {plate.platePrice}</Box>
+                            <WaiteroCheckbox checked={itemsSeletedForPayment.plates?.includes(plate)} onChange={()=> toggleItemForPayment(plate, 'plate')} style={{padding: 0, paddingRight: 5}}/> {plate.plateName} <Box color={'#00000090'} style={{ padding: '0 4px'}} fontSize={18} marginLeft={1} fontStyle={'normal'} >lei {plate.platePrice}</Box>
                         </Box>
                         <Box display={'flex'} justifyContent={'center'} paddingLeft={3} fontSize={15}>
                             {plate.suplimentaryDescription}
@@ -86,7 +117,7 @@ const TableCardCheckout = ({title, arr, paymentOptions}) => {
                 <Box display={'flex'} flexDirection={'column'} alignItems={'flex-start'} justifyContent={'center'}  width={'100%'} fontSize={15}  paddingTop={'4px'} fontWeight={'400'} > {item.myCart.drinks?.map((drink, index)=>{return (
                     <Fragment key={drink._id}>
                         <Box display={'flex'} justifyContent={'center'} fontWeight={500} fontStyle={'italic'} fontSize={18} color={'#000000'}>
-                        <WaiteroCheckbox checked={itemsSeletedForPayment.includes(drink)} onChange={()=> toggleItemForPayment(drink)} style={{padding: 0, paddingRight: 5}}/>{drink.drinkName} <Box color={'#00000090'} style={{ padding: '0 4px'}} fontSize={18} marginLeft={1} fontStyle={'normal'} >lei {drink.drinkPrice}</Box>
+                        <WaiteroCheckbox checked={itemsSeletedForPayment.drinks?.includes(drink)} onChange={()=> toggleItemForPayment(drink, 'drink')} style={{padding: 0, paddingRight: 5}}/>{drink.drinkName} <Box color={'#00000090'} style={{ padding: '0 4px'}} fontSize={18} marginLeft={1} fontStyle={'normal'} >lei {drink.drinkPrice}</Box>
                         </Box>
                         <Box display={'flex'} justifyContent={'center'} paddingLeft={3} fontSize={15} >
                             {drink.suplimentaryDescription}
@@ -96,7 +127,7 @@ const TableCardCheckout = ({title, arr, paymentOptions}) => {
                 <Box display={'flex'} flexDirection={'column'} alignItems={'flex-start'} justifyContent={'center'} width={'100%'}  fontSize={15}  paddingTop={'4px'} fontWeight={'400'} > {item.myCart.extras?.map((extra, index)=>{return (
                     <Fragment key={extra._id}>
                         <Box display={'flex'} justifyContent={'center'}  fontWeight={500} fontStyle={'italic'} fontSize={18} color={'#000000'}>
-                        <WaiteroCheckbox checked={itemsSeletedForPayment.includes(extra)} onChange={()=> toggleItemForPayment(extra)} style={{padding: 0, paddingRight: 5}}/>{extra.extraName} <Box color={'#00000090'} style={{ padding: '0 4px'}} fontSize={18} marginLeft={1} fontStyle={'normal'} >lei {extra.extraPrice}</Box>
+                        <WaiteroCheckbox checked={itemsSeletedForPayment.extras?.includes(extra)} onChange={()=> toggleItemForPayment(extra, 'extra')} style={{padding: 0, paddingRight: 5}}/>{extra.extraName} <Box color={'#00000090'} style={{ padding: '0 4px'}} fontSize={18} marginLeft={1} fontStyle={'normal'} >lei {extra.extraPrice}</Box>
                         </Box>
                         <Box display={'flex'} justifyContent={'center'} paddingLeft={3} fontSize={15}  >
                             {extra.suplimentaryDescription}
