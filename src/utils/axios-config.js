@@ -8,6 +8,7 @@ const awaxios = axios.create({
 
 awaxios.interceptors.request.use(function(config){
     config.headers.Authorization = `Bearer ${store.getState().adminReducer?.token}`;
+    config.headers.contentType = 'application/json'
     return config;
 })
 
@@ -16,7 +17,8 @@ const cwaxios = axios.create({
 })
 
 cwaxios.interceptors.request.use(function(config){
-    config.headers.Authorization = `Bearer ${store.getState().clientReducer?.token}`
+    config.headers.Authorization = `Bearer ${store.getState().clientReducer?.token}`;
+    config.headers.contentType = 'application/json'
     return config;
 })
 

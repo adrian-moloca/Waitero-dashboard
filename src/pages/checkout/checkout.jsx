@@ -59,7 +59,7 @@ const Checkout = ({ restaurants, checkouts, clientData, restaurantReducer, getCh
                 {restaurantReducer.loading ? <CircularProgress /> :
                   checkouts && Object.keys(checkouts)?.map((key) => {
                       return (
-                        <TableCardCheckout key={key} title={key} arr={checkouts[key]} paymentOptions={restaurants[0]?.paymentOptions} clientId={restaurants[0]?.clientId} restaurantId={restaurants[0]?._id} /* orderId={ } userId *//>
+                        <TableCardCheckout key={key} title={key} arr={checkouts[key]} paymentOptions={restaurants[0]?.paymentOptions} clientId={restaurants[0]?.clientId} restaurantId={restaurants[0]?._id} getCheckouts={()=>getCheckouts(clientData?._id, restaurantSelected)} />
                       )})}
             </Box>
           </Box>

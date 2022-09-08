@@ -7,7 +7,7 @@ import PrimaryButton from "../../buttons/primaryButton/primaryButton";
 import SecondaryButton from "../../buttons/secondaryButton/secondaryButton";
 import { updateCheckoutItemStatus } from "../../../api/api-client/client-requests";
 
-const TableCardCheckout = ({title, arr, paymentOptions, clientId, restaurantId, userId, orderId, }) => {
+const TableCardCheckout = ({title, arr, paymentOptions, clientId, restaurantId, getCheckouts = () => undefined }) => {
 
     const [elevation, setElevation] = useState(4);
     const [open, setOpen] = useState(false)
@@ -66,8 +66,13 @@ const TableCardCheckout = ({title, arr, paymentOptions, clientId, restaurantId, 
         return totalC
     }
 
+    const closeCheckoutModal = () => {
+        getCheckouts();
+        setOpen(false);
+    }
+
     const cashPayment = async () => {
-        updateCheckoutItemStatus(clientId, restaurantId, userId, orderId, itemsSeletedForPayment.plates, itemsSeletedForPayment.drinks, itemsSeletedForPayment.extras, ()=>undefined, ()=>undefined, ()=>setOpen(false))
+        updateCheckoutItemStatus(clientId, restaurantId,  itemsSeletedForPayment.plates.map(({_id})=> _id), itemsSeletedForPayment.drinks.map(({_id})=> _id), itemsSeletedForPayment.extras.map(({_id})=> _id), title, ()=>undefined, ()=>undefined, closeCheckoutModal)
     }
 
     const calculateTotalSelected = () => {
@@ -79,7 +84,7 @@ const TableCardCheckout = ({title, arr, paymentOptions, clientId, restaurantId, 
             totalC += (itemsSeletedForPayment.drinks[i]?.drinkPrice)
         }
         for(let i = 0; i<itemsSeletedForPayment.extras?.length; i++){
-            totalC += (itemsSeletedForPayment.extras[i]?.drinkPrice)
+            totalC += (itemsSeletedForPayment.extras[i]?.extraPrice)
         }
         return totalC
     }

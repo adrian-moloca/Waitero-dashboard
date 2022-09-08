@@ -75,7 +75,7 @@ const DeleteModalWithIcon = ({ type, message, clientId=undefined, userId= undefi
     } else if (type === 'client'){
         deleteClient(clientId, setLoading, setError, closeModalOnClientDelete)
     } else if (type === 'user'){
-      deleteUser(userId, setLoading, setError, closeModalOnUserDelete)
+      deleteUser(userId,(x)=> setLoading(x), setError, closeModalOnUserDelete)
     } else if (type === 'table'){
       deleteTable(clientId, restaurantId, tableId, setLoading, setError, closeModalOnTableDelete)
     }

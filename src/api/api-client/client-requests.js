@@ -480,11 +480,12 @@ export const getCheckouts = (clientId, restaurantId, loadingSetter = () => undef
 }
 
 
-export const updateCheckoutItemStatus = (clientId, restaurantId, userId, orderId, platesArray, drinksArray, extrasArray, loadingSetter, errorSetter, itemUpdated) => {
+export const updateCheckoutItemStatus = (clientId, restaurantId, platesArray, drinksArray, extrasArray, tableNumber, loadingSetter, errorSetter, itemUpdated) => {
     loadingSetter(true);
-    const route = `${clientId}/restaurant/${restaurantId}/user/${userId}/order/${orderId}/update-products-payment`
+    const route = `${clientId}/restaurant/${restaurantId}/pay-table-order`
     cwaxios.patch(route, {
         isPaid: true,
+        tableNumber: tableNumber,
         platesIdArr: platesArray,
         drinksIdArr: drinksArray,
         extrasIdArr: extrasArray
