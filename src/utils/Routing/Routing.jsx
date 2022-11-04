@@ -1,5 +1,5 @@
 import React from 'react';
-import {BrowserRouter, Route, Switch} from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import ProtectedRoute from '../protected-route/protected-route';
 import Login from '../../pages/login/login';
 import ForgotPassword from '../../pages/login/forgot-password/forgot-password';
@@ -25,7 +25,7 @@ import './Routing.css';
 
 const Routes = ({ user }) => {
 
-    return(
+    return (
         <BrowserRouter>
             <Switch >
                 <Route exact path='/' component={Login} />
@@ -44,7 +44,7 @@ const Routes = ({ user }) => {
                 <ProtectedRoute exact path="/extra" component={Extra} user={user} />
                 <ProtectedRoute exact path="/tables" component={Tables} user={user} />
                 <ProtectedRoute exact path="/orders" component={Orders} user={user} />
-                <ProtectedRoute exact path="/settings" component={Settings}  user={user} />
+                <ProtectedRoute exact path="/settings" component={Settings} user={user} />
                 <ProtectedRoute exact path="/on-boarding" component={OnBoarding} user={user} />
                 <ProtectedRoute exact path="/checkout" component={Checkout} user={user} />
                 <ProtectedRoute path="*" component={user?.role === 'admin' ? HomePage : Overview} />
@@ -56,5 +56,5 @@ const Routes = ({ user }) => {
 const mapStateToProps = (state) => ({
     user: state.adminReducer?.admin?.loggedIn ? state.adminReducer?.admin : state?.clientReducer?.client
 })
-                                            
+
 export default connect(mapStateToProps, null)(Routes);
