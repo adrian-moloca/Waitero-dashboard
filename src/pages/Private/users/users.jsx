@@ -1,4 +1,4 @@
-import React, {useRef, useState, useEffect} from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { Box } from "@material-ui/core";
 import PageContainer from "../../../components/container/page-container/page-container.jsx";
 import WaiteroTextField from "../../../components/text-field/waitero-text-field.jsx";
@@ -15,15 +15,17 @@ const UsersPage = ({ adminReducer, cleanErrorMessage, getUsers }) => {
 
   const isScreenMounted = useRef(true)
 
+  // eslint-disable-next-line
   const [searched, setSearched] = useState('')
-  
+
   useEffect(() => {
     if (!isScreenMounted.current) return;
     else {
-        getUsers()
+      getUsers()
     }
     return () => isScreenMounted.current = false;
-}, [])
+    // eslint-disable-next-line
+  }, [])
   return (
     <PageContainer>
       <Box
@@ -45,19 +47,19 @@ const UsersPage = ({ adminReducer, cleanErrorMessage, getUsers }) => {
       >
         <Box textAlign="left" fontSize="35px">
           <WaiteroTextField variant="outlined" label="Cauta un utilizator" fullWidth
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <SearchIcon/>
-              </InputAdornment>
-            ),
-          }} />
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <SearchIcon />
+                </InputAdornment>
+              ),
+            }} />
         </Box>
       </Box>
       <Box width="90%" display="flex" flexDirection="column" justifyContent="center" paddingTop="2%" >
-            <UsersTable searched={searched} />
-        </Box>
-        <WaiteroAlert isError={adminReducer.hasErrors} message={adminReducer.message} cleanError={() => cleanErrorMessage()} />
+        <UsersTable searched={searched} />
+      </Box>
+      <WaiteroAlert isError={adminReducer.hasErrors} message={adminReducer.message} cleanError={() => cleanErrorMessage()} />
     </PageContainer>
   );
 };

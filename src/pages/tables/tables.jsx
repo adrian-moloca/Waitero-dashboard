@@ -16,7 +16,7 @@ import { dataURLtoFile } from '../../utils/functions/base64Image.js';
 
 const Tables = ({ restaurants, tables, clientData, restaurantReducer, getTables, cleanErrorMessage }) => {
 
-  const [restaurantSelected, setRestaurantSelected] = useState(restaurants?.length ? restaurants[0]._id : ''); 
+  const [restaurantSelected, setRestaurantSelected] = useState(restaurants?.length ? restaurants[0]._id : '');
 
   const [error, setError] = useState({ message: '', isError: false });
   const [onAddItem, setOnAddItem] = useState(false);
@@ -26,14 +26,15 @@ const Tables = ({ restaurants, tables, clientData, restaurantReducer, getTables,
   }
 
   const downloadCode = async (base64, table) => {
-    const file = await dataURLtoFile(base64, 'qrcode'+table.toString())
+    const file = await dataURLtoFile(base64, 'qrcode' + table.toString())
     saveAs(file)
   }
 
   useEffect(() => {
     if (restaurantSelected?.length > 0)
       getTables(clientData?._id, restaurantSelected)
-  }, [restaurantSelected])
+    // eslint-disable-next-line
+  }, [restaurantSelected, clientData?._id])
 
   return (
     <PageContainer>
@@ -62,27 +63,28 @@ const Tables = ({ restaurants, tables, clientData, restaurantReducer, getTables,
               QR MESE
             </Box>
             <Box width={'100%'} display={'flex'} marginTop={'2%'} alignItems={'center'} flexWrap='wrap'>
-                {restaurantReducer.loading ? <CircularProgress /> : (<>
-                  <Box marginRight={5} marginTop={6}>
-                    <IconButton  onClick={() => setOnAddItem(true)}> <AddCircleTwoTone  style={{fontSize: '100px'}}/></IconButton>
-                  </Box>
-                  {tables?.map((item) => {
-                      return (
-                          <Box key={item?._id}>
-                            <Box display={'flex'}>
-                              <DeleteModalIcon type={'table'} clientId={clientData?._id} message={'Confirmati stergerea acestei mese?'} restaurantId={restaurantSelected} tableId={item?._id}/>
-                             </Box>
-                            <Box key={item?._id} marginRight={4} marginBottom={3} onClick={() => downloadCode(item.qrCode, item.tableNumber)}>
-                            <TableCard title={item.tableNumber} qrcode={item.qrCode} />
-                            </Box>
-                        </Box>
-                      )})}
-                  </>
-                )}
+              {restaurantReducer.loading ? <CircularProgress /> : (<>
+                <Box marginRight={5} marginTop={6}>
+                  <IconButton onClick={() => setOnAddItem(true)}> <AddCircleTwoTone style={{ fontSize: '100px' }} /></IconButton>
+                </Box>
+                {tables?.map((item) => {
+                  return (
+                    <Box key={item?._id}>
+                      <Box display={'flex'}>
+                        <DeleteModalIcon type={'table'} clientId={clientData?._id} message={'Confirmati stergerea acestei mese?'} restaurantId={restaurantSelected} tableId={item?._id} />
+                      </Box>
+                      <Box key={item?._id} marginRight={4} marginBottom={3} onClick={() => downloadCode(item.qrCode, item.tableNumber)}>
+                        <TableCard title={item.tableNumber} qrcode={item.qrCode} />
+                      </Box>
+                    </Box>
+                  )
+                })}
+              </>
+              )}
             </Box>
           </Box>
         </>)}
-      <AddTableModal isOpen={onAddItem} setIsOpen={setOnAddItem} clientId={clientData?._id} restaurantId={restaurantSelected} tableAdded={()=>getTables(clientData?._id, restaurantSelected) } />
+      <AddTableModal isOpen={onAddItem} setIsOpen={setOnAddItem} clientId={clientData?._id} restaurantId={restaurantSelected} tableAdded={() => getTables(clientData?._id, restaurantSelected)} />
       <WaiteroAlert isError={restaurantReducer.hasErrors} message={restaurantReducer.message} cleanError={() => cleanErrorMessage()} />
       <WaiteroAlert isError={error.isError} message={error.message} cleanError={() => setError({ message: '', isError: false })} />
     </PageContainer>

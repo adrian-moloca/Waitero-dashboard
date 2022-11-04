@@ -25,6 +25,7 @@ const Clients = ({ adminReducer, cleanErrorMessage, getClients }) => {
             getClients()
         }
         return () => isScreenMounted.current = false;
+        // eslint-disable-next-line
     }, [])
 
     return (
@@ -34,11 +35,11 @@ const Clients = ({ adminReducer, cleanErrorMessage, getClients }) => {
                     <Box textAlign="left" fontSize="35px">
                         Clienti
                     </Box>
-                    <AddClientModal/>
+                    <AddClientModal />
                 </Box>
                 <Box width="90%" display="flex" flexDirection="column" justifyContent="center" >
                     <Box textAlign="left" fontSize="35px">
-                        <WaiteroTextField variant="outlined" value={searched} onChange={(e)=> setSearched(e.target.value) }  label="Cauta un client" fullWidth
+                        <WaiteroTextField variant="outlined" value={searched} onChange={(e) => setSearched(e.target.value)} label="Cauta un client" fullWidth
                             InputProps={{
                                 endAdornment: (
                                     <InputAdornment position="end">
