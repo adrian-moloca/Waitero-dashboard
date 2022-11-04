@@ -24,7 +24,7 @@ const Menus = ({ restaurants, menus, categories, plates, clientData, restaurantR
   const [plateSelected, setPlateSelected] = useState('');
   const [modalAddMenuType, setModalAddMenuType] = useState(false);
   const [modalAddMenuItem, setModalAddMenuItem] = useState(false);
-  const [modalEditMenuType, setModalEditMenuType] = useState({name: '', id: ''}); 
+  const [modalEditMenuType, setModalEditMenuType] = useState({ name: '', id: '' });
 
   const getTitle = () => {
     if (menuType?.length === 0)
@@ -51,16 +51,19 @@ const Menus = ({ restaurants, menus, categories, plates, clientData, restaurantR
   useEffect(() => {
     if (restaurantSelected?.length > 0)
       getMenus(clientData._id, restaurantSelected)
-  }, [restaurantSelected])
+    // eslint-disable-next-line
+  }, [restaurantSelected, clientData._id])
 
   useEffect(() => {
     if (menuType?.length > 0)
       getCategories(clientData._id, restaurantSelected, menuType)
+    // eslint-disable-next-line
   }, [menuType])
 
   useEffect(() => {
     if (onCategory?.length > 0)
       getPlates(clientData._id, restaurantSelected, menuType, onCategory)
+    // eslint-disable-next-line
   }, [onCategory])
 
   return (
@@ -98,8 +101,8 @@ const Menus = ({ restaurants, menus, categories, plates, clientData, restaurantR
                         return (
                           <Box key={item._id}>
                             <Box display={'flex'}>
-                              <DeleteModalIcon type={'menu'} clientId={clientData._id} message={'Confirmati stergerea acestui meniu?'} restaurantId={restaurantSelected} menuId={item._id}/>
-                              <IconButton onClick={() => setModalEditMenuType({name: item.menuName, id: item._id})}><Edit /></IconButton>
+                              <DeleteModalIcon type={'menu'} clientId={clientData._id} message={'Confirmati stergerea acestui meniu?'} restaurantId={restaurantSelected} menuId={item._id} />
+                              <IconButton onClick={() => setModalEditMenuType({ name: item.menuName, id: item._id })}><Edit /></IconButton>
                             </Box>
                             <Box key={item._id} marginRight={3} marginBottom={3} onClick={() => setMenuType(item._id)}>
                               <MenuCard title={item.menuName} />
@@ -107,7 +110,7 @@ const Menus = ({ restaurants, menus, categories, plates, clientData, restaurantR
                           </Box>
                         )
                       })}
-                      <Box marginRight={3} marginTop={6} onClick={() => setModalAddMenuType(true)}>
+                    <Box marginRight={3} marginTop={6} onClick={() => setModalAddMenuType(true)}>
                       <MenuCard title={<AddContent title={'Adauga meniu'} />} />
                     </Box>
                   </>
@@ -118,8 +121,8 @@ const Menus = ({ restaurants, menus, categories, plates, clientData, restaurantR
                       return (
                         <Box key={item._id}>
                           <Box display={'flex'}>
-                            <DeleteModalIcon type={'category'} clientId={clientData._id} message={'Confirmati stergerea acestei categorii?'} restaurantId={restaurantSelected} menuId={menuType} categoryId={item._id}/>
-                            <IconButton onClick={() => setModalEditMenuType({name: item.categoryName, id: item._id})}><Edit /></IconButton>
+                            <DeleteModalIcon type={'category'} clientId={clientData._id} message={'Confirmati stergerea acestei categorii?'} restaurantId={restaurantSelected} menuId={menuType} categoryId={item._id} />
+                            <IconButton onClick={() => setModalEditMenuType({ name: item.categoryName, id: item._id })}><Edit /></IconButton>
                           </Box>
                           <Box key={item._id} marginRight={3} marginBottom={3} onClick={() => setOnCategory(item._id)}>
                             <MenuCard title={item.categoryName} />
@@ -138,11 +141,11 @@ const Menus = ({ restaurants, menus, categories, plates, clientData, restaurantR
                       return (
                         <Box key={item._id}>
                           <Box display={'flex'}>
-                            <DeleteModalIcon  type={'plate'} clientId={clientData._id} message={'Confirmati stergerea acestui preparat?'} restaurantId={restaurantSelected} menuId={menuType} categoryId={onCategory} plateId={item._id}/>
+                            <DeleteModalIcon type={'plate'} clientId={clientData._id} message={'Confirmati stergerea acestui preparat?'} restaurantId={restaurantSelected} menuId={menuType} categoryId={onCategory} plateId={item._id} />
                           </Box>
                           <Box marginRight={3} marginBottom={3} onClick={() => setPlateSelected(item._id)}>
                             <MenuCard image={item?.platePhoto} title={<Box><Box width={'100%'}>{item.plateName}</Box><Box width={'100%'}>{item.platePrice} RON</Box></Box>} />
-                        </Box>
+                          </Box>
                         </Box>
                       )
                     })}
@@ -155,9 +158,9 @@ const Menus = ({ restaurants, menus, categories, plates, clientData, restaurantR
             </Box>
           </Box>
           <AddMenuModal isOpen={modalAddMenuType} setIsOpen={() => setModalAddMenuType(false)} clientId={clientData._id} restaurantId={restaurantSelected} menuId={menuType} createMenuType={() => menuType?.length > 0 ? getCategories(clientData._id, restaurantSelected, menuType) : getMenus(clientData._id, restaurantSelected)} />
-          <EditMenuModal isOpen={modalEditMenuType.id?.length > 0} setIsOpen={() => setModalEditMenuType({name: '', id: ''})} menuName={modalEditMenuType.name} clientId={clientData._id} restaurantId={restaurantSelected} menuId={modalEditMenuType.id} categoryId={menuType?.length > 0 ? modalEditMenuType.id : ''} updateMenuType={() => menuType?.length > 0 ? getCategories(clientData._id, restaurantSelected, menuType) : getMenus(clientData._id, restaurantSelected)} />
+          <EditMenuModal isOpen={modalEditMenuType.id?.length > 0} setIsOpen={() => setModalEditMenuType({ name: '', id: '' })} menuName={modalEditMenuType.name} clientId={clientData._id} restaurantId={restaurantSelected} menuId={modalEditMenuType.id} categoryId={menuType?.length > 0 ? modalEditMenuType.id : ''} updateMenuType={() => menuType?.length > 0 ? getCategories(clientData._id, restaurantSelected, menuType) : getMenus(clientData._id, restaurantSelected)} />
           <AddMenuItem isModalOpen={modalAddMenuItem} setIsModalOpen={() => setModalAddMenuItem(false)} setItem={() => { getPlates(clientData._id, restaurantSelected, menuType, onCategory) }} clientId={clientData._id} restaurantId={restaurantSelected} menuId={menuType} categoryId={onCategory} />
-          <EditMenuItem isModalOpen={plateSelected?.length > 0} setIsModalOpen={() => setPlateSelected('')} item={plates?.find(el=>el._id===plateSelected)} setItem={() => { getPlates(clientData._id, restaurantSelected, menuType, onCategory) }} clientId={clientData._id} restaurantId={restaurantSelected} menuId={menuType} categoryId={onCategory}  plateId={plateSelected}/>
+          <EditMenuItem isModalOpen={plateSelected?.length > 0} setIsModalOpen={() => setPlateSelected('')} item={plates?.find(el => el._id === plateSelected)} setItem={() => { getPlates(clientData._id, restaurantSelected, menuType, onCategory) }} clientId={clientData._id} restaurantId={restaurantSelected} menuId={menuType} categoryId={onCategory} plateId={plateSelected} />
         </>)}
       <WaiteroAlert isError={restaurantReducer.hasErrors} message={restaurantReducer.message} cleanError={() => cleanErrorMessage()} />
     </PageContainer>

@@ -66,6 +66,7 @@ const Extra = ({ restaurants, extra, clientData, restaurantReducer, getExtra, cl
   useEffect(() => {
     if (restaurantSelected?.length > 0)
       getExtra(clientData?._id, restaurantSelected)
+    // eslint-disable-next-line
   }, [restaurantSelected])
 
   return (

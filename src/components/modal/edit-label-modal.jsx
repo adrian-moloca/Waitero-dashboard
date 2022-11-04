@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Modal, withStyles, Fade, IconButton } from '@material-ui/core';
+import { Box, Modal, Fade, IconButton } from '@material-ui/core';
 import WaiteroTextField from '../text-field/waitero-text-field';
 import useStyles from './modal-style';
 import { Close, Edit, SaveAlt } from '@material-ui/icons';
@@ -10,8 +10,9 @@ import { connect } from 'react-redux';
 const EditLabelModal = ({ labelName, label, setLabel = () => undefined, clientId, restaurantId }) => {
 
   const [open, setOpen] = useState(false);
+  // eslint-disable-next-line
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState({message: '', isError: false});
+  const [error, setError] = useState({ message: '', isError: false });
   const [field, setField] = useState(label);
   const classes = useStyles();
 
@@ -25,8 +26,8 @@ const EditLabelModal = ({ labelName, label, setLabel = () => undefined, clientId
 
   return (
     <>
-      <IconButton onClick={(e) =>{ setOpen(true); e.stopPropagation()}} size={'small'} style={{ marginLeft: 15 }}><Edit size={14} /></IconButton>
-      <WaiteroAlert isError={error.isError} message={error.message} cleanError={() => setError({message: '', isError: false})} />
+      <IconButton onClick={(e) => { setOpen(true); e.stopPropagation() }} size={'small'} style={{ marginLeft: 15 }}><Edit size={14} /></IconButton>
+      <WaiteroAlert isError={error.isError} message={error.message} cleanError={() => setError({ message: '', isError: false })} />
       <Modal open={open} onClose={() => setOpen(false)}>
         <Fade in={open} timeout={600}>
           <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center" className={classes.paper}>

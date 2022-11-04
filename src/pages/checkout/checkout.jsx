@@ -2,21 +2,17 @@ import React, { useEffect, useState } from 'react';
 import { Box, CircularProgress, IconButton } from '@material-ui/core';
 import PageContainer from '../../components/container/page-container/page-container.jsx';
 import { withRouter } from 'react-router-dom';
-import { AddCircleTwoTone, ArrowBack } from '@material-ui/icons';
+import { ArrowBack } from '@material-ui/icons';
 import { connect } from 'react-redux';
 import PrimaryButton from '../../components/buttons/primaryButton/primaryButton.jsx';
-import { getCheckouts, getTables } from '../../api/api-client/client-requests.js';
+import { getCheckouts } from '../../api/api-client/client-requests.js';
 import { cleanErrorMessageRestaurant } from '../../redux/types/RestaurantTypes.js';
 import WaiteroAlert from '../../components/alert/alert.jsx';
-import DeleteModalIcon from '../../components/modal/delete-modal-icon.jsx';
-import AddTableModal from '../../components/modal/add-table-modal.jsx';
-import { saveAs } from 'file-saver';
-import { dataURLtoFile } from '../../utils/functions/base64Image.js';
 import TableCardCheckout from '../../components/box/table-card-checkout/table-card-checkout.jsx';
 
 const Checkout = ({ restaurants, checkouts, clientData, restaurantReducer, getCheckouts, cleanErrorMessage }) => {
 
-  const [restaurantSelected, setRestaurantSelected] = useState(restaurants?.length ? restaurants[0]._id : ''); 
+  const [restaurantSelected, setRestaurantSelected] = useState(restaurants?.length ? restaurants[0]._id : '');
 
   const [error, setError] = useState({ message: '', isError: false });
 
@@ -27,7 +23,8 @@ const Checkout = ({ restaurants, checkouts, clientData, restaurantReducer, getCh
   useEffect(() => {
     if (restaurantSelected?.length > 0)
       getCheckouts(clientData?._id, restaurantSelected)
-  }, [restaurantSelected])
+    // eslint-disable-next-line
+  }, [restaurantSelected, clientData?._id])
 
   return (
     <PageContainer>
@@ -56,11 +53,12 @@ const Checkout = ({ restaurants, checkouts, clientData, restaurantReducer, getCh
               CHECKOUT
             </Box>
             <Box width={'100%'} display={'flex'} marginTop={'2%'} alignItems={'center'} flexWrap='wrap'>
-                {restaurantReducer.loading ? <CircularProgress /> :
-                  checkouts && Object.keys(checkouts)?.map((key) => {
-                      return (
-                        <TableCardCheckout key={key} title={key} arr={checkouts[key]} paymentOptions={restaurants[0]?.paymentOptions} clientId={restaurants[0]?.clientId} restaurantId={restaurants[0]?._id} getCheckouts={()=>getCheckouts(clientData?._id, restaurantSelected)} />
-                      )})}
+              {restaurantReducer.loading ? <CircularProgress /> :
+                checkouts && Object.keys(checkouts)?.map((key) => {
+                  return (
+                    <TableCardCheckout key={key} title={key} arr={checkouts[key]} paymentOptions={restaurants[0]?.paymentOptions} clientId={restaurants[0]?.clientId} restaurantId={restaurants[0]?._id} getCheckouts={() => getCheckouts(clientData?._id, restaurantSelected)} />
+                  )
+                })}
             </Box>
           </Box>
         </>)}

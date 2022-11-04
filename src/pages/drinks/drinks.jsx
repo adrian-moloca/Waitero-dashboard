@@ -44,6 +44,7 @@ const Drinks = ({ restaurants, drinks, clientData, restaurantReducer, getDrinks,
   useEffect(() => {
     if (restaurantSelected?.length > 0)
       getDrinks(clientData?._id, restaurantSelected)
+    // eslint-disable-next-line
   }, [restaurantSelected])
 
   return (
@@ -73,13 +74,13 @@ const Drinks = ({ restaurants, drinks, clientData, restaurantReducer, getDrinks,
               BAUTURI
             </Box>
             <Box width={'100%'} /* display={'flex'}  */ marginTop={'2%'} flexWrap='wrap'>
-                <Box marginRight={3} marginTop={3} marginBottom={3} width={280} onClick={() => setModalAddDrinkType(true)}>
+              <Box marginRight={3} marginTop={3} marginBottom={3} width={280} onClick={() => setModalAddDrinkType(true)}>
                 <MenuCard title={<AddContent title={'Adauga bautura'} />} />
               </Box>
               {restaurantReducer.loading ? <CircularProgress /> : (<>
                 {Object.keys(groupedByCategory)?.map((key) => {
                   return <Fragment key={key}>
-                    <Box  fontSize={30} borderBottom={1}>
+                    <Box fontSize={30} borderBottom={1}>
                       {key}
                     </Box>
                     <Box display={'flex'} flexWrap={'wrap'}>

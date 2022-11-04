@@ -2,7 +2,6 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import {
-    IconButton,
     Paper,
     Table,
     TableBody,
@@ -47,7 +46,7 @@ const ClientsTable = ({ clients, searched }) => {
     };
 
     const getRows = (clientsData) => {
-        const newdata = clientsData.filter((el)=> el.name.includes(searched) || el.email.includes(searched) || el.phone.includes(searched) ).map((client) => {
+        const newdata = clientsData.filter((el) => el.name.includes(searched) || el.email.includes(searched) || el.phone.includes(searched)).map((client) => {
             const { name, email, phone, restaurants, isBlocked, _id } = client;
             return {
                 name: name,
@@ -113,18 +112,18 @@ const ClientsTable = ({ clients, searched }) => {
                             )
                             .map((row, index) => {
                                 return (
-                                    <TableRow key={row.phone+index.toString()}>
+                                    <TableRow key={row.phone + index.toString()}>
                                         {columns.map((column, index2) => {
                                             const value = row[column.id];
                                             return (
                                                 <TableCell
                                                     size="small"
                                                     width={column.minWidth}
-                                                    key={column.id+index2}
+                                                    key={column.id + index2}
                                                     align={column.align}
                                                 >
                                                     {column.format &&
-                                                    typeof value === 'number'
+                                                        typeof value === 'number'
                                                         ? column.format(value)
                                                         : value}
                                                 </TableCell>
@@ -133,18 +132,18 @@ const ClientsTable = ({ clients, searched }) => {
                                         <TableCell
                                             size="small"
                                             width={20}
-                                            key={'active'+row.id}
+                                            key={'active' + row.id}
                                             align={'center'}
                                         >
-                                            <LockModalSwitch isBlocked={row.isBlocked}  clientId ={row.id}/>
+                                            <LockModalSwitch isBlocked={row.isBlocked} clientId={row.id} />
                                         </TableCell>
                                         <TableCell
                                             size="small"
                                             width={20}
-                                            key={'actions'+row.id}
+                                            key={'actions' + row.id}
                                             align={'center'}
                                         >
-                                            <DeleteModalWithIcon type={'client'} message={'Sunteti sigur de stergerea acestui client?'} clientId ={row.id}/>
+                                            <DeleteModalWithIcon type={'client'} message={'Sunteti sigur de stergerea acestui client?'} clientId={row.id} />
                                         </TableCell>
                                     </TableRow>
                                 );

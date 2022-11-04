@@ -9,7 +9,7 @@ import UsersPage from '../../pages/Private/users/users';
 import ResetPassword from '../../pages/reset-password/reset-password';
 import Overview from '../../pages/overview/overview';
 import Clients from '../../pages/Private/clients/clients';
-import WorkStaff from '../../pages/work-staff/work-staff';
+// import WorkStaff from '../../pages/work-staff/work-staff';
 import Menus from '../../pages/menus/menus';
 import Drinks from '../../pages/drinks/drinks';
 import Extra from '../../pages/extra/extra';

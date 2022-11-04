@@ -2,7 +2,6 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import {
-    IconButton,
     Paper,
     Table,
     TableBody,
@@ -12,7 +11,6 @@ import {
     TablePagination,
     TableRow,
 } from '@material-ui/core';
-import Edit from '@material-ui/icons/Edit';
 import DeleteModalWithIcon from '../modal/delete-modal-icon.jsx'
 
 const columns = [
@@ -46,7 +44,7 @@ const UsersTable = ({ users, searched }) => {
     };
 
     const getRows = (usersData) => {
-        const newdata = usersData?.filter((el)=> el.name.includes(searched) || el.email.includes(searched) || el.phone.includes(searched) ).map((user) => {
+        const newdata = usersData?.filter((el) => el.name.includes(searched) || el.email.includes(searched) || el.phone.includes(searched)).map((user) => {
             const { name, email, phone, createdAt, _id } = user;
             return {
                 name: name,
@@ -99,7 +97,7 @@ const UsersTable = ({ users, searched }) => {
                             )
                             .map((row, index) => {
                                 return (
-                                    <TableRow key={row.phone+index.toString()}>
+                                    <TableRow key={row.phone + index.toString()}>
                                         {columns.map((column) => {
                                             const value = row[column.id];
                                             return (
@@ -110,7 +108,7 @@ const UsersTable = ({ users, searched }) => {
                                                     align={column.align}
                                                 >
                                                     {column.format &&
-                                                    typeof value === 'number'
+                                                        typeof value === 'number'
                                                         ? column.format(value)
                                                         : value}
                                                 </TableCell>
@@ -122,7 +120,7 @@ const UsersTable = ({ users, searched }) => {
                                             key={'actions'}
                                             align={'center'}
                                         >
-                                            <DeleteModalWithIcon type={'user'} message={'Sunteti sigur de stergerea acestui user?'} userId ={row.id}/>
+                                            <DeleteModalWithIcon type={'user'} message={'Sunteti sigur de stergerea acestui user?'} userId={row.id} />
                                         </TableCell>
                                     </TableRow>
                                 );
